@@ -28,12 +28,12 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={() => { onNavigate('landing'); setMobileMenuOpen(false); }}
           className="flex items-center gap-3 text-left group focus:outline-hidden focus:ring-2 focus:ring-[#4F46E5] rounded-lg p-1"
-          aria-label="PromptLas Home"
+          aria-label="PromptLaz Home"
         >
           <div className="w-10 h-10 rounded-xl overflow-hidden shadow-xs border border-slate-200 dark:border-slate-700 bg-[#070e28] flex items-center justify-center p-0.5 group-hover:scale-105 transition-transform duration-200">
             <img 
               src="/brand-mark-512x512.png" 
-              alt="PromptLas Mark" 
+              alt="PromptLaz Mark" 
               className="w-full h-full object-contain rounded-lg"
               onError={(e) => {
                 // Fallback if image fails to load
@@ -43,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-display font-bold text-xl text-[#172033] dark:text-[#F1F5F9] tracking-tight">PromptLas</span>
+              <span className="font-display font-bold text-xl text-[#172033] dark:text-[#F1F5F9] tracking-tight">PromptLaz</span>
               <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-[#EEF2FF] dark:bg-[#1E1B4B] text-[#4F46E5] dark:text-[#A5B4FC] border border-[#C7D2FE] dark:border-[#3730A3]">Atlas + Studio</span>
             </div>
             <p className="text-xs text-[#596579] dark:text-[#94A3B8] font-medium hidden sm:block">Know what to ask. Build better prompts.</p>

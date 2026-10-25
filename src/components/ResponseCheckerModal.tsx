@@ -167,7 +167,7 @@ export const ResponseCheckerModal: React.FC<ResponseCheckerModalProps> = ({
 
         {/* Footer */}
         <div className="p-4 bg-[#F7F8FC] dark:bg-[#0F172A] border-t border-[#D9DFEA] dark:border-[#334155] flex items-center justify-between text-xs text-[#596579] dark:text-[#94A3B8]">
-          <span>PromptLas Response Verification Engine</span>
+          <span>PromptLaz Response Verification Engine</span>
           <button
             onClick={onClose}
             className="px-4 py-1.5 rounded-lg border border-[#D9DFEA] dark:border-[#334155] hover:bg-white dark:hover:bg-[#1E293B] text-[#172033] dark:text-[#F1F5F9] text-xs font-medium"

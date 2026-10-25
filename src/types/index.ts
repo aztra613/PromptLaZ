@@ -1,5 +1,5 @@
 /**
- * PromptLas Prompt Studio - TypeScript Data Models & Schemas
+ * PromptLaz Prompt Studio - TypeScript Data Models & Schemas
  * PRD v1.5 Compliant
  */
 

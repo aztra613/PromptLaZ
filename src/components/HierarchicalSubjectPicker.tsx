@@ -494,7 +494,7 @@ export const HierarchicalSubjectPicker: React.FC<HierarchicalSubjectPickerProps>
           </div>
 
           <p className="text-[11px] text-slate-600 dark:text-slate-300">
-            You don't need to guess academic terminology. Each situation maps directly into PromptLas prompts:
+            You don't need to guess academic terminology. Each situation maps directly into PromptLaz prompts:
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">

@@ -67,18 +67,18 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
   const faqs = [
     {
       q: 'Do I need to know prompt engineering or special syntax?',
-      a: 'No. PromptLas is designed for people who have a task but do not know prompt-engineering vocabulary. You answer everyday plain-language questions, and PromptLas structures the instructions, constraints, and verification checks automatically.'
+      a: 'No. PromptLaz is designed for people who have a task but do not know prompt-engineering vocabulary. You answer everyday plain-language questions, and PromptLaz structures the instructions, constraints, and verification checks automatically.'
     },
     {
-      q: 'Does PromptLas generate the image or execute the code itself?',
-      a: 'No, and we are completely transparent about this boundary. PromptLas prepares the structured prompt with quality and safety checks. Execution happens in your designated tool (ChatGPT, Claude, Gemini, Midjourney, Cursor, etc.).'
+      q: 'Does PromptLaz generate the image or execute the code itself?',
+      a: 'No, and we are completely transparent about this boundary. PromptLaz prepares the structured prompt with quality and safety checks. Execution happens in your designated tool (ChatGPT, Claude, Gemini, Midjourney, Cursor, etc.).'
     },
     {
       q: 'What if I do not know a technical answer or contract code?',
-      a: 'Every specialized field has a safe "I do not know" or "Help me choose" option. When critical data is missing (like soil layer tests), PromptLas safely converts the output into an investigation checklist rather than inventing fictitious numbers.'
+      a: 'Every specialized field has a safe "I do not know" or "Help me choose" option. When critical data is missing (like soil layer tests), PromptLaz safely converts the output into an investigation checklist rather than inventing fictitious numbers.'
     },
     {
-      q: 'Can I use PromptLas without signing in?',
+      q: 'Can I use PromptLaz without signing in?',
       a: 'Yes. The entire core prompt studio operates 100% in your browser with no login, no accounts, and no cookies required.'
     },
     {
@@ -87,10 +87,10 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
     },
     {
       q: 'Can I edit the assembled prompt before copying?',
-      a: 'Yes. You can edit the prompt text directly in the Studio workspace. If you later change form fields, PromptLas gives you the choice to keep your manual edits or rebuild from the form, so your edits are never silently overwritten.'
+      a: 'Yes. You can edit the prompt text directly in the Studio workspace. If you later change form fields, PromptLaz gives you the choice to keep your manual edits or rebuild from the form, so your edits are never silently overwritten.'
     },
     {
-      q: 'Are my uploaded reference photos sent to PromptLas servers?',
+      q: 'Are my uploaded reference photos sent to PromptLaz servers?',
       a: 'Never. In prompt-only mode, reference images are previewed locally in your browser memory via temporary object URLs (blob:). Zero image bytes are uploaded to remote servers.'
     }
   ];
@@ -523,7 +523,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
       <section className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-[#172033] dark:text-[#F1F5F9] mb-2">
-            How PromptLas Works
+            How PromptLaz Works
           </h2>
           <p className="text-xs sm:text-sm text-[#596579] dark:text-[#94A3B8]">
             A transparent four-step intake designed to anticipate what AI tools need.
@@ -582,7 +582,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
 
         {/* Explicit Boundary Notice Box */}
         <div className="mt-6 p-4 rounded-xl bg-[#F7F8FC] dark:bg-[#0F172A] border border-[#D9DFEA] dark:border-[#334155] text-center text-xs text-[#596579] dark:text-[#94A3B8]">
-          <strong className="text-[#172033] dark:text-[#F1F5F9]">Important Boundary:</strong> PromptLas builds and structures the prompt; your selected external AI tool executes it.
+          <strong className="text-[#172033] dark:text-[#F1F5F9]">Important Boundary:</strong> PromptLaz builds and structures the prompt; your selected external AI tool executes it.
         </div>
       </section>
 
@@ -622,10 +622,10 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
               </p>
             </div>
 
-            {/* PromptLas Structured */}
+            {/* PromptLaz Structured */}
             <div className="p-5 rounded-2xl bg-[#ECFDF5] dark:bg-[#064E3B]/20 border border-[#A7F3D0] dark:border-[#059669]/40 space-y-2">
               <div className="flex items-center justify-between text-xs font-bold text-[#059669] dark:text-[#6EE7B7]">
-                <span>STRUCTURED WITH PROMPTLAS</span>
+                <span>STRUCTURED WITH PromptLaz</span>
                 <span className="text-[10px] uppercase font-mono">Predictable result</span>
               </div>
               <div className="p-3 bg-white dark:bg-[#0F172A] rounded-xl border border-[#A7F3D0] dark:border-[#059669]/40 font-mono text-xs text-[#065F46] dark:text-[#A7F3D0] leading-relaxed">
@@ -639,7 +639,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
         </div>
       </section>
 
-      {/* 6. WHAT MAKES PROMPTLAS DIFFERENT */}
+      {/* 6. WHAT MAKES PromptLaz DIFFERENT */}
       <section className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 rounded-2xl bg-white dark:bg-[#1E293B] border border-[#D9DFEA] dark:border-[#334155] space-y-2">
@@ -665,7 +665,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
               3. Check the gaps
             </h3>
             <p className="text-xs text-[#596579] dark:text-[#94A3B8] leading-relaxed">
-              If critical values are missing, PromptLas flags them and adapts the prompt into an investigation checklist rather than quietly fabricating data.
+              If critical values are missing, PromptLaz flags them and adapts the prompt into an investigation checklist rather than quietly fabricating data.
             </p>
           </div>
         </div>
@@ -678,7 +678,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
             Frequently Asked Questions
           </h2>
           <p className="text-xs sm:text-sm text-[#596579] dark:text-[#94A3B8]">
-            Everything you need to know about PromptLas, data handling, and model boundaries.
+            Everything you need to know about PromptLaz, data handling, and model boundaries.
           </p>
         </div>
 

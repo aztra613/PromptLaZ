@@ -28,7 +28,7 @@ export const PolicyModal: React.FC<PolicyModalProps> = ({
         <div className="p-5 border-b border-[#D9DFEA] dark:border-[#334155] flex items-center justify-between bg-[#F7F8FC] dark:bg-[#0F172A]">
           <div>
             <h2 id="policy-modal-title" className="font-display font-bold text-base text-[#172033] dark:text-[#F1F5F9]">
-              PromptLas Governance & Policies
+              PromptLaz Governance & Policies
             </h2>
             <p className="text-xs text-[#596579] dark:text-[#94A3B8]">
               PRD v1.5 Standards, Trust and Operating Boundaries
@@ -119,7 +119,7 @@ export const PolicyModal: React.FC<PolicyModalProps> = ({
                   Strictly Blocked Topics (R4 Policy - Section 15.2)
                 </h3>
                 <p className="text-[#596579] dark:text-[#94A3B8] mb-2">
-                  PromptLas never publishes workflows intended to facilitate:
+                  PromptLaz never publishes workflows intended to facilitate:
                 </p>
                 <ul className="list-disc pl-5 space-y-1 text-[#596579] dark:text-[#94A3B8]">
                   <li>Weapons, explosives, chemical or radiological harm</li>
@@ -139,7 +139,7 @@ export const PolicyModal: React.FC<PolicyModalProps> = ({
                   Zero Server Storage by Default (PRD Section 11.6)
                 </h3>
                 <p className="text-[#596579] dark:text-[#94A3B8] mb-3">
-                  PromptLas is a browser-first, client-side application designed with maximum privacy:
+                  PromptLaz is a browser-first, client-side application designed with maximum privacy:
                 </p>
 
                 <div className="space-y-2">
@@ -155,7 +155,7 @@ export const PolicyModal: React.FC<PolicyModalProps> = ({
                     <CheckCircle2 className="w-4 h-4 text-[#0F9D91] dark:text-[#2DD4BF] shrink-0 mt-0.5" />
                     <div>
                       <span className="font-semibold text-[#172033] dark:text-[#F1F5F9] block">In-Memory Reference Image Preview</span>
-                      When using image edit workflows, reference images are loaded via local temporary object URLs (`blob:`). No photo bytes are ever uploaded to PromptLas servers.
+                      When using image edit workflows, reference images are loaded via local temporary object URLs (`blob:`). No photo bytes are ever uploaded to PromptLaz servers.
                     </div>
                   </div>
 
@@ -178,7 +178,7 @@ export const PolicyModal: React.FC<PolicyModalProps> = ({
                   Honest Product Boundaries (PRD Section 3.2 & 0.2)
                 </h3>
                 <p className="text-[#596579] dark:text-[#94A3B8] mb-3">
-                  To prevent misunderstanding, PromptLas clearly separates prompt assembly from task execution:
+                  To prevent misunderstanding, PromptLaz clearly separates prompt assembly from task execution:
                 </p>
 
                 <div className="space-y-2">
@@ -194,7 +194,7 @@ export const PolicyModal: React.FC<PolicyModalProps> = ({
 
                   <div className="p-3 rounded-xl border border-[#D9DFEA] dark:border-[#334155] bg-white dark:bg-[#0F172A]">
                     <span className="font-semibold text-[#172033] dark:text-[#F1F5F9] block mb-0.5">No Financial Advice or Trading</span>
-                    Equity and valuation frameworks provide educational methodologies. PromptLas does not fetch live stock tickers, execute trades, or provide personalized financial recommendations.
+                    Equity and valuation frameworks provide educational methodologies. PromptLaz does not fetch live stock tickers, execute trades, or provide personalized financial recommendations.
                   </div>
                 </div>
               </div>
@@ -204,7 +204,7 @@ export const PolicyModal: React.FC<PolicyModalProps> = ({
 
         {/* Footer */}
         <div className="p-4 bg-[#F7F8FC] dark:bg-[#0F172A] border-t border-[#D9DFEA] dark:border-[#334155] flex items-center justify-between text-xs text-[#596579] dark:text-[#94A3B8]">
-          <span>PromptLas Trust & Governance Baseline v1.5</span>
+          <span>PromptLaz Trust & Governance Baseline v1.5</span>
           <button
             onClick={onClose}
             className="px-4 py-1.5 rounded-lg bg-[#182742] hover:bg-[#172033] dark:bg-[#4F46E5] dark:hover:bg-[#4338CA] text-white text-xs font-semibold transition-colors"

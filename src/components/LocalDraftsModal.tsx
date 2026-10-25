@@ -48,7 +48,7 @@ export const LocalDraftsModal: React.FC<LocalDraftsModalProps> = ({
 
   const handleExportJson = (draft: LocalDraft) => {
     downloadFile(
-      `promptlas_config_${draft.workflowId}.json`,
+      `PromptLaz_config_${draft.workflowId}.json`,
       JSON.stringify(draft, null, 2),
       'application/json'
     );

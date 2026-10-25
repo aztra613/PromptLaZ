@@ -122,12 +122,12 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
 
   // Download Markdown
   const handleDownloadMd = () => {
-    downloadFile(`promptlas_${workflow.id}.md`, displayedPromptText, 'text/markdown');
+    downloadFile(`PromptLaz_${workflow.id}.md`, displayedPromptText, 'text/markdown');
   };
 
   // Download Plain text
   const handleDownloadTxt = () => {
-    downloadFile(`promptlas_${workflow.id}.txt`, displayedPromptText, 'text/plain');
+    downloadFile(`PromptLaz_${workflow.id}.txt`, displayedPromptText, 'text/plain');
   };
 
   // Export JSON configuration
@@ -139,7 +139,7 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
       targetTool,
       answers
     };
-    downloadFile(`promptlas_${workflow.id}_config.json`, JSON.stringify(config, null, 2), 'application/json');
+    downloadFile(`PromptLaz_${workflow.id}_config.json`, JSON.stringify(config, null, 2), 'application/json');
   };
 
   // Save local draft

@@ -148,7 +148,12 @@ export function buildPrompt(
       } else if (typeof val === 'boolean') {
         suppliedLines.push(`- **${field.label}**: ${val ? 'Yes' : 'No'}`);
       } else {
-        suppliedLines.push(`- **${field.label}**: ${val}`);
+        let displayVal = val;
+        if (field.options && field.options.length > 0) {
+          const opt = field.options.find(o => o.value === val);
+          if (opt) displayVal = opt.label;
+        }
+        suppliedLines.push(`- **${field.label}**: ${displayVal}`);
       }
     }
   }
@@ -261,8 +266,8 @@ export function buildPrompt(
 /**
  * Local Draft Storage Helpers
  */
-const DRAFTS_STORAGE_KEY = 'promptlas_local_drafts_v1';
-const DRAFTS_ENABLED_KEY = 'promptlas_drafts_opt_in';
+const DRAFTS_STORAGE_KEY = 'PromptLaz_local_drafts_v1';
+const DRAFTS_ENABLED_KEY = 'PromptLaz_drafts_opt_in';
 
 export function isLocalDraftsEnabled(): boolean {
   if (typeof window === 'undefined') return false;

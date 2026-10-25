@@ -17,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPolicy }) => {
               <Lock className="w-4 h-4 text-[#0F9D91] shrink-0 mt-0.5" />
               <div>
                 <span className="font-semibold text-white block mb-0.5">100% Browser-First Privacy</span>
-                Prompts and reference images are processed in your local browser session. No prompt text or photo data is sent to PromptLas servers.
+                Prompts and reference images are processed in your local browser session. No prompt text or photo data is sent to PromptLaz servers.
               </div>
             </div>
 
@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPolicy }) => {
               <AlertTriangle className="w-4 h-4 text-[#F4B544] shrink-0 mt-0.5" />
               <div>
                 <span className="font-semibold text-white block mb-0.5">Execution Boundary Disclosed</span>
-                PromptLas prepares and structures instructions. Image rendering, code execution, or financial analysis happens inside your external AI tool.
+                PromptLaz prepares and structures instructions. Image rendering, code execution, or financial analysis happens inside your external AI tool.
               </div>
             </div>
 
@@ -48,9 +48,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPolicy }) => {
           <div className="space-y-4">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg overflow-hidden bg-[#070e28] border border-slate-700 p-0.5 flex items-center justify-center">
-                <img src="/brand-mark-512x512.png" alt="PromptLas Mark" className="w-full h-full object-contain rounded-md" />
+                <img src="/brand-mark-512x512.png" alt="PromptLaz Mark" className="w-full h-full object-contain rounded-md" />
               </div>
-              <span className="font-display font-bold text-lg text-white">PromptLas</span>
+              <span className="font-display font-bold text-lg text-white">PromptLaz</span>
             </div>
             <p className="text-xs text-[#94A3B8] leading-relaxed">
               The cross-disciplinary Atlas of subjects and Studio of guided prompt forms. Know what to ask. Build better prompts.
@@ -151,7 +151,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPolicy }) => {
         {/* Bottom Legal Notice */}
         <div className="mt-12 pt-6 border-t border-[#233554] flex flex-col sm:flex-row items-center justify-between text-xs text-[#64748B] gap-4">
           <p>
-            PromptLas helps you prepare better prompts. It does not guarantee the output of external AI tools or replace certified professional engineering, financial, or legal judgment.
+            PromptLaz helps you prepare better prompts. It does not guarantee the output of external AI tools or replace certified professional engineering, financial, or legal judgment.
           </p>
           <div className="shrink-0 text-[#94A3B8]">
             No login · Browser-local · Free to use

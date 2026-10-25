@@ -7,4 +7,4 @@ Disallow: /scratch/
 Disallow: /api/drafts/
 
 # Sitemaps
-Sitemap: https://promptlas.com/sitemap.xml
+Sitemap: https://promptlaz.com/sitemap.xml

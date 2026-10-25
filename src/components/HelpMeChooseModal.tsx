@@ -203,7 +203,7 @@ export const HelpMeChooseModal: React.FC<HelpMeChooseModalProps> = ({
                     No exact match found for "{searchQuery}"
                   </p>
                   <p className="text-xs text-slate-500 mb-4">
-                    PromptLas covers 39 domain families! You can build a custom prompt for any topic using the Universal Builder.
+                    PromptLaz covers 39 domain families! You can build a custom prompt for any topic using the Universal Builder.
                   </p>
                   <button
                     onClick={handleSelectUniversal}

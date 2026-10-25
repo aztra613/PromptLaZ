@@ -124,7 +124,7 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
           <span>A–Z Directory</span>
         </div>
         <h1 className="font-display font-extrabold text-3xl sm:text-4xl text-[#172033] dark:text-[#F1F5F9] tracking-tight mb-3">
-          Explore the PromptLas Atlas
+          Explore the PromptLaz Atlas
         </h1>
         <p className="text-sm sm:text-base text-[#596579] dark:text-[#94A3B8] max-w-3xl leading-relaxed">
           The connected directory of 39 domain families and {totalSubdisciplines} subdisciplines. Every major field has a canonical node, question bank, and an honest status. Select any published workflow or launch a guided starter.

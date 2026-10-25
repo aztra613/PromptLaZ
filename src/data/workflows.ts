@@ -69,12 +69,19 @@ export const WORKFLOWS: WorkflowSchema[] = [
         label: 'How is the soil described or classified?',
         technicalTerm: 'Visual-Manual & USCS Classification',
         eli5: 'Knowing whether it is sandy, silty, or high-plasticity clay determines compaction curve shape and permeability.',
-        example: 'Stiff red silty clay with sand traces (CL)',
-        type: 'text',
+        example: 'Lean Clay with sand (CL - medium plasticity, typical cohesive fill)',
+        type: 'select',
         step: 'start',
         required: true,
-        placeholder: 'e.g., Lean clay (CL), Silty Sand (SM), or dark brown organic silt',
-        promptImpact: 'Provides the physical soil matrix characteristics for parameter sanity checking.'
+        promptImpact: 'Provides the physical soil matrix characteristics for parameter sanity checking.',
+        options: [
+          { label: 'Lean Clay with sand (CL — medium plasticity, standard cohesive fill)', value: 'cl_lean_clay', isDefault: true },
+          { label: 'Fat / High-Plasticity Clay (CH — expansive soil prone to swelling & shrinkage)', value: 'ch_fat_clay' },
+          { label: 'Well-Graded Sand with gravel (SW — excellent free-draining granular structural fill)', value: 'sw_well_graded_sand' },
+          { label: 'Silty Sand / Sandy Silt (SM/ML — moisture-sensitive road subgrade)', value: 'sm_silty_sand' },
+          { label: 'Crushed Base Aggregate (GW/GP — high bearing capacity road base)', value: 'gw_crushed_base' },
+          { label: 'Organic Silt / Peat (OL/OH/Pt — highly compressible, unsuitable for structural fill)', value: 'pt_organic_peat' }
+        ]
       },
       {
         id: 'unit_system',
@@ -126,13 +133,18 @@ export const WORKFLOWS: WorkflowSchema[] = [
         label: 'Is groundwater present near the tested layer?',
         technicalTerm: 'Phreatic Surface & Effective Stress Context',
         eli5: 'A high water table reduces effective stress and causes liquefaction or pumping during compaction.',
-        example: 'Water table observed at 1.8 m below finished ground level',
-        type: 'text',
+        example: 'Deep water table (> 5m depth, completely dry excavation)',
+        type: 'select',
         step: 'finetune',
         required: false,
         isAdvanced: true,
-        placeholder: 'e.g., Water table at 2.5 m depth, or dry excavation pit',
-        promptImpact: 'Inserts buoyancy, effective stress, and dewatering considerations.'
+        promptImpact: 'Inserts buoyancy, effective stress, and dewatering considerations.',
+        options: [
+          { label: 'Deep water table (> 5m depth — completely dry excavation)', value: 'deep_dry_table', isDefault: true },
+          { label: 'Shallow water table (Near foundation base — buoyant uplift active)', value: 'shallow_submerged' },
+          { label: 'Seasonal fluctuating table (Capillary rise & softening risk)', value: 'seasonal_fluctuation' },
+          { label: 'Perched water lens / seepage requiring active sump dewatering', value: 'perched_seepage' }
+        ]
       },
       {
         id: 'required_deliverable',
@@ -231,12 +243,19 @@ export const WORKFLOWS: WorkflowSchema[] = [
         label: 'What material grades are specified?',
         technicalTerm: 'Characteristic Compressive / Yield Strengths',
         eli5: 'Specify concrete compressive strength (f\'c or fck) and reinforcing steel yield strength (fy).',
-        example: 'Concrete f\'c = 30 MPa (4350 psi); Steel fy = 420 MPa (Grade 60 / Fe500)',
-        type: 'text',
+        example: 'C25/30 Concrete + Fe 500 Rebar (Standard building construction)',
+        type: 'select',
         step: 'start',
         required: true,
-        placeholder: 'e.g., C30/37 concrete, fyk = 500 MPa rebar, or ASTM A992 Gr 50 steel',
-        promptImpact: 'Provides baseline constitutive material constants for capacity calculations.'
+        promptImpact: 'Provides baseline constitutive material constants for capacity calculations.',
+        options: [
+          { label: 'C25/30 Concrete + Fe 500 / Gr 60 Rebar (Standard commercial & residential)', value: 'c25_30_fe500', isDefault: true },
+          { label: 'C30/37 Concrete + Fe 500 / Gr 60 Rebar (High-rise columns & transfer slabs)', value: 'c30_37_fe500' },
+          { label: 'C20/25 Concrete + Fe 415 Rebar (Low-rise residential / light loads)', value: 'c20_25_fe415' },
+          { label: 'C40/50 High-Strength Concrete + Fe 550D Rebar (Seismic & marine infrastructure)', value: 'c40_50_fe550' },
+          { label: 'Structural Steel S355 / ASTM A572 Gr 50 (Standard structural steel framing)', value: 'steel_s355_a572' },
+          { label: 'Structural Steel S275 / ASTM A36 (Light commercial steel)', value: 'steel_s275_a36' }
+        ]
       },
       {
         id: 'geometry_spans',
@@ -267,13 +286,19 @@ export const WORKFLOWS: WorkflowSchema[] = [
         label: 'Are there specific detailing or serviceability checks needed?',
         technicalTerm: 'Serviceability Limit States (SLS) & Detailing Rules',
         eli5: 'Check minimum cover for durability, crack width limit (e.g. 0.3 mm), or long-term creep deflection.',
-        example: 'Verify span/depth ratio for deflection limit L/250 and clear bar spacing for aggregate size',
-        type: 'text',
+        example: 'Standard SLS: Deflection L/250, crack width ≤ 0.3mm, 25mm nominal cover',
+        type: 'select',
         step: 'finetune',
         required: false,
         isAdvanced: true,
-        placeholder: 'e.g., Severe marine exposure (50 mm cover), seismic ductile detailing required',
-        promptImpact: 'Adds explicit serviceability limit state requirements to the verification.'
+        promptImpact: 'Adds explicit serviceability limit state requirements to the verification.',
+        options: [
+          { label: 'Standard SLS: Deflection limit L/250, crack width ≤ 0.3 mm, 25 mm cover', value: 'standard_sls_deflection', isDefault: true },
+          { label: 'Severe Marine Exposure: 50 mm cover, crack width ≤ 0.2 mm, sulfate resistance', value: 'severe_marine_cover' },
+          { label: 'High Seismic Ductility: Special moment frame confinement, d/4 stirrup spacing', value: 'seismic_ductile_detailing' },
+          { label: '2-Hour Fire Rating: Minimum 35 mm cover and minimum 200 mm web thickness', value: 'fire_rating_2hr' },
+          { label: 'Slender Member Buckling: Second-order (P-Delta) slenderness effects', value: 'slender_buckling_pdelta' }
+        ]
       }
     ],
     relatedWorkflows: [
@@ -350,38 +375,72 @@ export const WORKFLOWS: WorkflowSchema[] = [
       {
         id: 'workload_type',
         label: 'What kind of application is this?',
-        technicalTerm: 'Application Architecture & Statefulness',
+        technicalTerm: 'Application Architecture & Workload Pattern',
         eli5: 'Stateless web apps use Deployments; background processors or databases need StatefulSets or Jobs.',
-        example: 'Stateless Node.js/Next.js API server listening on port 3000',
-        type: 'text',
+        example: 'Stateless REST / GraphQL Microservice API (Node.js, Go, Python)',
+        type: 'select',
         step: 'start',
         required: true,
-        placeholder: 'e.g., FastAPI Python REST service, Go worker queue consumer, or Next.js SSR',
-        promptImpact: 'Determines replica count, graceful termination period, and port exposures.'
+        promptImpact: 'Determines replica count, graceful termination period, and port exposures.',
+        options: [
+          { label: 'Stateless REST / GraphQL Microservice (Node.js, Go, Python, Spring Boot)', value: 'stateless_microservice', isDefault: true },
+          { label: 'Async Event Worker / Queue Consumer (Kafka, RabbitMQ, Celery, SQS)', value: 'event_worker_queue' },
+          { label: 'Next.js / React SSR Full-Stack Web Frontend', value: 'nextjs_ssr_frontend' },
+          { label: 'StatefulSet Database / Cache Cluster (PostgreSQL, Redis, RabbitMQ)', value: 'statefulset_db_cache' },
+          { label: 'CronJob Batch Processing Task (Scheduled ETL / Nightly cleanups)', value: 'cronjob_batch_etl' }
+        ]
       },
       {
         id: 'resource_limits',
         label: 'Do you have CPU/Memory requests and limits defined?',
-        technicalTerm: 'Cgroup Resource Requests & Limits',
+        technicalTerm: 'Cgroup Resource Requests & Limits Profile',
         eli5: 'Requests guarantee scheduling on nodes; limits prevent a runaway pod from taking down neighbors (OOMKilled).',
-        example: 'requests: cpu: 250m, memory: 512Mi | limits: cpu: 1000m, memory: 1Gi',
-        type: 'text',
+        example: 'Standard Microservice: requests 250m CPU / 512Mi RAM, limits 1000m CPU / 1Gi RAM',
+        type: 'select',
         step: 'fit',
         required: false,
-        placeholder: 'e.g., requests: 250m/512Mi, limits: 1000m/1Gi (or "Help me estimate")',
-        promptImpact: 'Adds security-compliant resources blocks preventing cluster noisy-neighbor issues.'
+        promptImpact: 'Adds security-compliant resources blocks preventing cluster noisy-neighbor issues.',
+        options: [
+          { label: 'Standard Microservice: requests 250m CPU / 512Mi RAM, limits 1000m CPU / 1Gi RAM', value: 'std_microservice_limits', isDefault: true },
+          { label: 'Lightweight Web/API: requests 100m CPU / 256Mi RAM, limits 500m CPU / 512Mi RAM', value: 'light_api_limits' },
+          { label: 'Heavy JVM / Data Service: requests 1000m CPU / 2Gi RAM, limits 2000m CPU / 4Gi RAM', value: 'heavy_jvm_limits' },
+          { label: 'GPU / AI Inference Workload: 2 vCPU, 8Gi RAM, 1x NVIDIA GPU', value: 'gpu_ai_limits' },
+          { label: 'Conservative Burst: low requests 50m / 128Mi, high limits 1000m / 1Gi', value: 'burst_limits' }
+        ]
       },
       {
         id: 'health_probes',
         label: 'How should Kubernetes test if your app is alive and ready?',
-        technicalTerm: 'Liveness, Readiness & Startup Probes',
+        technicalTerm: 'Liveness, Readiness & Startup Probes Configuration',
         eli5: 'Readiness prevents traffic before DB connection is ready; liveness restarts frozen containers.',
-        example: 'GET /healthz on port 3000, initialDelaySeconds: 15, periodSeconds: 10',
-        type: 'text',
+        example: 'HTTP GET /healthz (Readiness & Liveness with 15s initial delay & 10s period)',
+        type: 'select',
         step: 'fit',
         required: false,
-        placeholder: 'e.g., HTTP GET /healthz or TCP socket check',
-        promptImpact: 'Generates robust readinessProbe and livenessProbe blocks with appropriate timeout margins.'
+        promptImpact: 'Generates robust readinessProbe and livenessProbe blocks with appropriate timeout margins.',
+        options: [
+          { label: 'HTTP GET /healthz (Readiness & Liveness with 15s initial delay & 10s period)', value: 'http_get_standard', isDefault: true },
+          { label: 'Startup Probe (slow booting JVM/Next.js) + HTTP Liveness (Prevents premature restart)', value: 'startup_and_liveness' },
+          { label: 'TCP Socket Probe on container port (For non-HTTP services / workers)', value: 'tcp_socket_probe' },
+          { label: 'Exec command probe (Container internal script exit code check)', value: 'exec_command_probe' }
+        ]
+      },
+      {
+        id: 'ingress_networking',
+        label: 'How should external web traffic reach this service?',
+        technicalTerm: 'Ingress Controller & TLS Termination',
+        eli5: 'Choose how users or APIs connect: standard Nginx ingress with free SSL, AWS ALB, or zero-trust Cloudflare.',
+        example: 'Nginx Ingress Controller with cert-manager automated Let\'s Encrypt TLS',
+        type: 'select',
+        step: 'fit',
+        required: false,
+        promptImpact: 'Generates valid networking.k8s.io/v1 Ingress and TLS annotation blocks.',
+        options: [
+          { label: 'Nginx Ingress Controller with cert-manager automated Let\'s Encrypt TLS', value: 'nginx_certmanager', isDefault: true },
+          { label: 'AWS ALB Ingress Controller (Internet-facing with ACM Certificate)', value: 'aws_alb_ingress' },
+          { label: 'Cloudflare Tunnel Zero-Trust (No public IP / Direct secure origin)', value: 'cloudflare_tunnel' },
+          { label: 'Internal ClusterIP only (Internal service-to-service communication within VPC)', value: 'internal_clusterip' }
+        ]
       },
       {
         id: 'secrets_management',
@@ -515,6 +574,42 @@ export const WORKFLOWS: WorkflowSchema[] = [
         ]
       },
       {
+        id: 'feature_pattern_preset',
+        label: 'What common software feature pattern are you testing?',
+        technicalTerm: 'Feature Archetype & Acceptance Specification',
+        eli5: 'Choose the standard pattern or describe a custom flow in the next field.',
+        example: 'User Authentication & Session Management (OAuth 2.0, JWT, 2FA, session refresh)',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Seeds industry-standard happy paths, error boundaries, and state transitions.',
+        options: [
+          { label: 'User Authentication & Auth Session (OAuth 2.0, JWT, 2FA, session refresh)', value: 'auth_jwt_session', isDefault: true },
+          { label: 'E-Commerce Checkout & Payment Flow (Stripe, inventory lock, webhooks)', value: 'checkout_payments' },
+          { label: 'CRUD Data Grid with Filter, Pagination, Search & Bulk Export', value: 'crud_data_table' },
+          { label: 'File Upload & Document Processing (Multipart, S3 pre-signed, MIME checks)', value: 'file_upload_s3' },
+          { label: 'Real-time WebSockets / Push Notifications (Chat, presence, event sync)', value: 'websockets_realtime' },
+          { label: 'Custom User Story (Described in detail below)', value: 'custom_story' }
+        ]
+      },
+      {
+        id: 'mocking_strategy',
+        label: 'How should downstream dependencies and external APIs be handled?',
+        technicalTerm: 'Test Isolation & Mocking Strategy',
+        eli5: 'Do you want to mock external credit card and email APIs, use real test databases in Docker, or test against staging?',
+        example: 'Mock external 3rd-party HTTP APIs with MSW (Mock Service Worker) / WireMock',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Defines test fixture setup, network interception, and isolation guarantees.',
+        options: [
+          { label: 'Mock external 3rd-party APIs with MSW (Mock Service Worker) / WireMock', value: 'mock_msw_wiremock', isDefault: true },
+          { label: 'In-memory test containers (Real ephemeral Postgres / Redis in Docker)', value: 'testcontainers_docker' },
+          { label: 'Zero mocks: Run against live staging test environment', value: 'zero_mocks_staging' },
+          { label: 'Unit mocks: Mock all database and HTTP network clients', value: 'unit_mocks_in_memory' }
+        ]
+      },
+      {
         id: 'core_functionality',
         label: 'Describe the feature requirements or user stories',
         technicalTerm: 'User Story & Acceptance Criteria',
@@ -531,12 +626,18 @@ export const WORKFLOWS: WorkflowSchema[] = [
         label: 'What specific failure scenarios or security concerns worry you?',
         technicalTerm: 'Non-Functional & Boundary Test Vectors',
         eli5: 'Do you need concurrency checks, rate limiting tests, null/empty edge cases, or network failure recovery?',
-        example: 'Double-clicking submit button (race conditions), SQL injection payloads, and 500 error from downstream payment API',
-        type: 'text',
+        example: 'Comprehensive Resilience: Concurrency, Token Expiry, and Injection attacks',
+        type: 'select',
         step: 'finetune',
         required: false,
-        placeholder: 'e.g., Network timeout handling, SQL injection in input fields, rapid concurrent clicks',
-        promptImpact: 'Generates specialized negative test cases targeting these specific hazards.'
+        promptImpact: 'Generates specialized negative test cases targeting these specific hazards.',
+        options: [
+          { label: 'Comprehensive Resilience: Concurrency, Token Expiry, and Injection attacks', value: 'comprehensive_resilience', isDefault: true },
+          { label: 'Concurrency & Race Conditions: Double-clicks, rapid clicks, parallel transactions', value: 'concurrency_race_conditions' },
+          { label: 'Authentication & Session Expiry: Token expiration during active form fill', value: 'auth_session_expiry' },
+          { label: 'Input Boundary & Security: SQLi, XSS, unicode emoji, payload size limits', value: 'security_input_boundary' },
+          { label: 'Network Jitter & Idempotency: 504 timeouts, retry duplicate submission prevention', value: 'network_jitter_idempotency' }
+        ]
       }
     ],
     relatedWorkflows: [
@@ -753,7 +854,7 @@ export const WORKFLOWS: WorkflowSchema[] = [
       { type: 'next_step', workflowId: 'business_startup_prd', title: 'E-commerce Landing Page Spec', description: 'Integrate product imagery into high-converting storefront layout.' }
     ],
     verificationChecks: [
-      { id: 'vc_boundary', title: 'Execution Boundary Notice', description: 'PromptLas creates the visual direction prompt; execution occurs in your designated image model or studio setup.', category: 'limitations' },
+      { id: 'vc_boundary', title: 'Execution Boundary Notice', description: 'PromptLaz creates the visual direction prompt; execution occurs in your designated image model or studio setup.', category: 'limitations' },
       { id: 'vc_branding', title: 'Trademark Independence', description: 'Verify that proprietary brand logos are not requested unless the user owns the brand.', category: 'standards' }
     ]
   },
@@ -780,7 +881,7 @@ export const WORKFLOWS: WorkflowSchema[] = [
     lastReviewedDate: '2026-03-11',
     missingInputRules: {
       criticalFields: ['what_to_change', 'what_to_preserve'],
-      fallbackGuidance: 'If either the change list or preserve list is empty, PromptLas requires clarifying boundaries to prevent accidental destruction of the reference image.'
+      fallbackGuidance: 'If either the change list or preserve list is empty, PromptLaz requires clarifying boundaries to prevent accidental destruction of the reference image.'
     },
     fields: [
       {
@@ -940,10 +1041,44 @@ export const WORKFLOWS: WorkflowSchema[] = [
         ]
       },
       {
+        id: 'target_audience_segment',
+        label: 'What is your primary customer segment & buyer profile?',
+        technicalTerm: 'Ideal Customer Profile (ICP) Segment',
+        eli5: 'Choose whether you are selling to large companies, small businesses, everyday consumers, or developers.',
+        example: 'B2B SMB / Self-Employed (Fast self-serve sign-up, ROI under 30 days)',
+        type: 'select',
+        step: 'start',
+        required: true,
+        promptImpact: 'Grounds value proposition and sales cycle assumptions in the PRD.',
+        options: [
+          { label: 'B2B SMB / Self-Employed (Fast self-serve sign-up, ROI under 30 days)', value: 'b2b_smb', isDefault: true },
+          { label: 'B2B Enterprise Decision Makers (VP / Director, security & compliance review)', value: 'b2b_enterprise' },
+          { label: 'B2C Everyday Consumers (Frictionless mobile UI, viral referral loops)', value: 'b2c_consumers' },
+          { label: 'Technical Developers / SRE Teams (API-first, CLI/SDK, docs-driven)', value: 'developers_tech' }
+        ]
+      },
+      {
+        id: 'monetization_model',
+        label: 'How will this product generate revenue?',
+        technicalTerm: 'Business & Pricing Model Archetype',
+        eli5: 'Choose how customers pay: subscription, usage metering, transaction fee, or free trial.',
+        example: 'B2B SaaS Tiered Monthly / Annual Subscription',
+        type: 'select',
+        step: 'start',
+        required: true,
+        promptImpact: 'Defines billing logic, paywall boundaries, and customer lifetime value framing.',
+        options: [
+          { label: 'B2B SaaS Tiered Monthly / Annual Subscription ($29 - $199/mo)', value: 'tiered_saas', isDefault: true },
+          { label: 'Usage-Based Metering (Pay per API credit, token, or GB processed)', value: 'usage_metering' },
+          { label: 'Two-Sided Marketplace (Take-rate percentage on transactions)', value: 'marketplace_take_rate' },
+          { label: 'Freemium Self-Serve with Premium Paywall', value: 'freemium_paywall' }
+        ]
+      },
+      {
         id: 'target_user',
-        label: 'Who is the specific target user or customer?',
-        technicalTerm: 'Customer Segment & ICP',
-        eli5: 'Avoid "everyone". Name their specific role, company size, or life situation.',
+        label: 'Who is the specific target user or customer persona?',
+        technicalTerm: 'Customer Persona & Role Context',
+        eli5: 'Name their specific role, daily routine, or immediate workplace context.',
         example: 'Solo freelance web designers managing 3-8 active client projects simultaneously',
         type: 'text',
         step: 'start',
@@ -976,6 +1111,22 @@ export const WORKFLOWS: WorkflowSchema[] = [
         promptImpact: 'Defines the solution overview and core user journeys.'
       },
       {
+        id: 'mvp_scoping_rule',
+        label: 'What is your MVP scoping rule for launch?',
+        technicalTerm: 'MVP Boundary & Feature Prioritization Rule',
+        eli5: 'Ruthless 4-week scope ensures you launch and learn before burning cash on unnecessary features.',
+        example: 'Ruthless 4-Week Core Loop (Single killer feature, no auxiliary fluff)',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Enforces non-negotiable scope cuts in the engineering sprint plan.',
+        options: [
+          { label: 'Ruthless 4-Week Core Loop (Single killer feature, no auxiliary fluff)', value: 'ruthless_4_week', isDefault: true },
+          { label: 'Balanced 8-Week MVP (Core workflow + basic auth + export / share)', value: 'balanced_8_week' },
+          { label: 'Concierge / Manual MVP (Human-in-the-loop validation before coding)', value: 'concierge_manual' }
+        ]
+      },
+      {
         id: 'out_of_scope_cuts',
         label: 'What is strictly OUT OF SCOPE for v1 (to avoid bloat)?',
         technicalTerm: 'Non-Goals & MVP Feature Boundary',
@@ -991,13 +1142,18 @@ export const WORKFLOWS: WorkflowSchema[] = [
         id: 'primary_metric',
         label: 'What single metric proves this product is working?',
         technicalTerm: 'North Star Metric & Acceptance Threshold',
-        eli5: 'Is it weekly active users, time saved per task, or conversion rate?',
-        example: 'Percentage of invites where client leaves feedback within 24 hours (target > 70%)',
-        type: 'text',
+        eli5: 'Is it task completion, user retention, or time-to-value acceleration?',
+        example: 'Task Completion Conversion Rate (User finishes the main action > 60%)',
+        type: 'select',
         step: 'finetune',
         required: false,
-        placeholder: 'e.g., Completed prompt export per session (target > 60%)',
-        promptImpact: 'Sets the quantifiable success criteria in the executive summary.'
+        promptImpact: 'Sets the quantifiable success criteria in the executive summary.',
+        options: [
+          { label: 'Task Completion Conversion Rate (User finishes the main action > 60%)', value: 'task_completion_rate', isDefault: true },
+          { label: 'Time-to-Value Acceleration (User achieves initial "aha" moment under 5 minutes)', value: 'time_to_value' },
+          { label: '30-Day Retention / Repeat Usage (User returns within 4 weeks > 40%)', value: 'retention_30d' },
+          { label: 'CAC Payback Period (Customer Acquisition Cost recovered under 6 months)', value: 'cac_payback' }
+        ]
       }
     ],
     relatedWorkflows: [
@@ -1076,6 +1232,23 @@ export const WORKFLOWS: WorkflowSchema[] = [
         promptImpact: 'Identifies the business entity and primary reporting currency.'
       },
       {
+        id: 'company_lifecycle_profile',
+        label: 'What is the company profile and lifecycle stage?',
+        technicalTerm: 'Corporate Maturity & Cash Flow Profile',
+        eli5: 'Mature companies are valued on stable free cash flow; high-growth startups are valued on market share & gross margins.',
+        example: 'Mature Cash-Cow Enterprise (Steady single-digit revenue growth, strong predictable free cash flow)',
+        type: 'select',
+        step: 'start',
+        required: true,
+        promptImpact: 'Configures appropriate margin expansion trajectories and terminal reinvestment assumptions.',
+        options: [
+          { label: 'Mature Cash-Cow Enterprise (Steady single-digit growth, predictable free cash flow)', value: 'mature_cash_cow', isDefault: true },
+          { label: 'High-Growth Tech / SaaS (20%+ revenue CAGR, reinvesting cash flow, Rule of 40)', value: 'high_growth_saas' },
+          { label: 'Cyclical Industrial / Commodity (Peaks & troughs, normalized mid-cycle earnings)', value: 'cyclical_industrial' },
+          { label: 'Financial Institution / Bank (P/B and ROE focus, dividend discount model)', value: 'bank_financial' }
+        ]
+      },
+      {
         id: 'valuation_horizon',
         label: 'What is your forecast time horizon?',
         technicalTerm: 'Forecast Projection Period',
@@ -1092,28 +1265,66 @@ export const WORKFLOWS: WorkflowSchema[] = [
         ]
       },
       {
+        id: 'wacc_discount_rate',
+        label: 'What discount rate (WACC / Hurdle Rate) should be used?',
+        technicalTerm: 'Weighted Average Cost of Capital (WACC)',
+        eli5: 'The return demanded by investors: higher risk companies require a higher discount rate.',
+        example: '8.0% - 9.0% (Standard US Large-Cap Equity Hurdle Rate)',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Forms the baseline discount factor for cash flow present value calculation.',
+        options: [
+          { label: '8.0% - 9.0% (Standard US Large-Cap Equity Hurdle Rate)', value: 'wacc_8_9', isDefault: true },
+          { label: '9.5% - 11.0% (Mid-Cap / Moderate Risk Tech & Growth)', value: 'wacc_9_11' },
+          { label: '12.0% - 15.0% (Emerging Market or High-Risk Speculative Equity)', value: 'wacc_12_15' },
+          { label: '6.5% - 7.5% (Regulated Utility / Infrastructure Safe Haven)', value: 'wacc_6_7' }
+        ]
+      },
+      {
+        id: 'terminal_value_method',
+        label: 'How should Terminal Value at the end of the projection be calculated?',
+        technicalTerm: 'Terminal Value Formulation (Gordon Growth vs Exit Multiple)',
+        eli5: 'Most of a company\'s value comes after year 5. Use conservative perpetual GDP growth or peer exit multiple.',
+        example: 'Gordon Growth Model (2.5% perpetual inflation rate)',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Applies Gordon Growth or Exit Multiple equations in the terminal year.',
+        options: [
+          { label: 'Gordon Growth Model (2.5% perpetual inflation rate)', value: 'gordon_growth_2_5', isDefault: true },
+          { label: 'Exit Multiple (12x EV/EBITDA peer exit benchmark)', value: 'exit_multiple_12x' },
+          { label: 'Dual Method (Cross-check Gordon Growth vs Exit Multiple side-by-side)', value: 'dual_terminal_check' }
+        ]
+      },
+      {
         id: 'key_assumptions',
-        label: 'What key assumptions or known data points do you have?',
-        technicalTerm: 'WACC, Revenue CAGR, and Operating Margin Inputs',
-        eli5: 'Enter cost of capital (WACC), expected growth rate, or operating margins. If unknown, state "Provide sensible sensitivity table".',
+        label: 'What additional revenue or margin assumptions do you have? (Optional)',
+        technicalTerm: 'Revenue CAGR and Operating Margin Guidance',
+        eli5: 'Enter any specific margin numbers or leave blank for standard industry benchmark modeling.',
         example: 'WACC = 8.5%, Revenue CAGR = 12%, Terminal growth = 2.5%, Operating margin = 28%',
         type: 'textarea',
         step: 'fit',
         required: false,
-        placeholder: 'e.g., WACC estimated at 9.0%, revenue growth slowing from 15% to 6%, CapEx at 5% of sales',
+        placeholder: 'e.g., Operating margin expanding from 22% to 28%, CapEx at 5% of sales...',
         promptImpact: 'Injected into the financial calculation assumptions table.'
       },
       {
         id: 'downside_risks',
-        label: 'What specific business or macro risks should be tested?',
+        label: 'What specific business or macro risks should be stress-tested?',
         technicalTerm: 'Downside Stress-Testing Scenarios',
-        eli5: 'What could break the thesis? Regulatory changes, interest rate hikes, margin compression, or customer loss?',
-        example: 'Supply chain disruption in overseas fab facilities and regulatory scrutiny of App Store take-rate',
-        type: 'text',
+        eli5: 'What could break the investment thesis? Competitor pricing pressure, tariffs, rate hikes, or regulation?',
+        example: 'Margin Compression & Pricing Pressure (Competitors, input cost inflation)',
+        type: 'select',
         step: 'finetune',
         required: false,
-        placeholder: 'e.g., Currency volatility, debt refinancing at higher rates, new market entrant pricing pressure',
-        promptImpact: 'Requires a dedicated Bear-case downside stress test section in the report.'
+        promptImpact: 'Requires a dedicated Bear-case downside stress test section in the report.',
+        options: [
+          { label: 'Margin Compression & Pricing Pressure (Competitors, input cost inflation)', value: 'margin_compression', isDefault: true },
+          { label: 'Regulatory & Antitrust Scrutiny (Platform take-rate, compliance mandates)', value: 'regulatory_scrutiny' },
+          { label: 'Supply Chain & Geopolitical Disruption (Overseas fabrication, tariffs)', value: 'supply_chain_tariffs' },
+          { label: 'Macro Interest Rate Shock (Higher debt refinancing costs & lower multiples)', value: 'rate_shock' }
+        ]
       }
     ],
     relatedWorkflows: [
@@ -1209,6 +1420,23 @@ export const WORKFLOWS: WorkflowSchema[] = [
         promptImpact: 'Tells the AI to generate targeted diagnostic traps addressing this specific hurdle.'
       },
       {
+        id: 'question_frequency_mode',
+        label: 'What format of learning drill do you want?',
+        technicalTerm: 'Assessment Diagnostic Modality',
+        eli5: 'Choose whether you want trap questions to test misconceptions, rapid flashcards, or step-by-step problem derivations.',
+        example: 'Socratic Trap Questions (Uncover subtle conceptual misconceptions)',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Formats question presentation and sets cognitive challenge depth.',
+        options: [
+          { label: 'Socratic Trap Questions (Uncover subtle conceptual misconceptions)', value: 'trap_questions', isDefault: true },
+          { label: 'Spaced Retrieval Drill (10 rapid-fire active recall questions)', value: 'spaced_retrieval' },
+          { label: 'Step-by-Step Derivation Breakdown (Guided formula application)', value: 'derivation_breakdown' },
+          { label: 'High-Yield Exam Strategy (Pattern recognition for repeated test questions)', value: 'high_yield_patterns' }
+        ]
+      },
+      {
         id: 'tone_style',
         label: 'What tutoring style works best for you?',
         technicalTerm: 'Feedback Temperament & Tone',
@@ -1252,11 +1480,11 @@ export const WORKFLOWS: WorkflowSchema[] = [
     modality: 'text',
     primaryIntent: 'Create / design',
     aliases: ['universal', 'general prompt', 'any task', 'beginner builder', 'custom prompt', 'help me build a prompt'],
-    reviewerRole: 'PromptLas Core Systems Architect',
+    reviewerRole: 'PromptLaz Core Systems Architect',
     lastReviewedDate: '2026-03-15',
     missingInputRules: {
       criticalFields: ['user_goal', 'desired_output'],
-      fallbackGuidance: 'If the goal is brief, PromptLas structures the prompt to ask clarifying questions before completing work.'
+      fallbackGuidance: 'If the goal is brief, PromptLaz structures the prompt to ask clarifying questions before completing work.'
     },
     fields: [
       {
@@ -1269,6 +1497,25 @@ export const WORKFLOWS: WorkflowSchema[] = [
         step: 'start',
         required: false,
         promptImpact: 'Grounds your request in domain standards and industry conventions.'
+      },
+      {
+        id: 'common_task_archetype',
+        label: 'What kind of task are you starting?',
+        technicalTerm: 'Task Archetype & Analytical Framing',
+        eli5: 'Pick an archetype to get pre-framed structure, or select custom to write your own.',
+        example: 'Decision Matrix & Trade-Off Comparison',
+        type: 'select',
+        step: 'start',
+        required: true,
+        promptImpact: 'Tunes the reasoning strategy, tone, and framing of the assembled prompt.',
+        options: [
+          { label: 'General / Custom Purpose (Describe below in your own words)', value: 'custom_goal', isDefault: true },
+          { label: 'Decision Matrix & Trade-Off Comparison (Pros, cons, criteria)', value: 'decision_matrix' },
+          { label: 'Professional Business Correspondence / Sensitive Email', value: 'business_correspondence' },
+          { label: 'Technical Architecture & Code Review Checklist', value: 'tech_architecture_review' },
+          { label: 'Step-by-Step Educational Tutorial with Real-World Analogies', value: 'educational_tutorial' },
+          { label: 'Incident Troubleshooting & Diagnostic Root-Cause Tree', value: 'troubleshooting_rca' }
+        ]
       },
       {
         id: 'user_goal',

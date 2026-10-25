@@ -138,7 +138,7 @@ export const TaxonomyVisualization: React.FC<TaxonomyVisualizationProps> = ({
 
     return {
       id: 'root',
-      name: 'PromptLas Atlas',
+      name: 'PromptLaz Atlas',
       type: 'root',
       children: groupNodes
     };
