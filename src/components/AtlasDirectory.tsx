@@ -33,13 +33,15 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
   const [selectedGroup, setSelectedGroup] = useState<'All' | DomainGroup>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterState, setFilterState] = useState<'all' | 'published_only'>('all');
-  const [directoryViewMode, setDirectoryViewMode] = useState<'visualizer' | 'cards' | 'both'>('both');
+  const [directoryViewMode, setDirectoryViewMode] = useState<'cards' | 'visualizer'>('cards');
 
   // Filtered domains with situation phrase matching
   const filteredDomains = useMemo(() => {
+    const hasSearch = searchQuery.trim().length > 0;
+
     return DOMAIN_FAMILIES.filter((domain) => {
-      // Group filter
-      if (selectedGroup !== 'All' && domain.group !== selectedGroup) {
+      // Group filter: Only filter by group if there is no global search query active
+      if (!hasSearch && selectedGroup !== 'All' && domain.group !== selectedGroup) {
         return false;
       }
 
@@ -137,8 +139,13 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search disciplines, tasks, aliases, or standards (e.g. 'soil settlement', 'kubernetes', 'proctor', 'dcf', 'playwright')..."
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                if (e.target.value.trim() && selectedGroup !== 'All') {
+                  setSelectedGroup('All');
+                }
+              }}
+              placeholder="Search disciplines, tasks, aliases, or standards (e.g. 'photography', 'soil settlement', 'kubernetes', 'proctor', 'dcf')..."
               className="w-full h-12 pl-12 pr-4 rounded-xl border border-[#D9DFEA] dark:border-[#334155] bg-white dark:bg-[#0F172A] focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20 focus:outline-hidden text-sm text-[#172033] dark:text-[#F1F5F9] placeholder-[#94A3B8] dark:placeholder-[#64748B]"
             />
             {searchQuery && (
@@ -164,7 +171,7 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
         {/* Quick Suggestion Chips */}
         <div className="flex items-center gap-1.5 overflow-x-auto text-[11px] text-slate-500 pb-0.5 custom-scrollbar">
           <span className="font-semibold text-slate-400 shrink-0">Try searching:</span>
-          {['soil settlement', 'cracking beam', 'kubernetes crash', 'DCF valuation', 'tenant problem', 'tax prep', 'photo lighting', 'food safety'].map((chip) => (
+          {['photography', 'soil settlement', 'cracking beam', 'kubernetes crash', 'DCF valuation', 'tenant problem', 'tax prep', 'photo lighting', 'food safety'].map((chip) => (
             <button
               key={chip}
               type="button"
@@ -200,43 +207,23 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-[#596579] dark:text-[#94A3B8] pt-2 border-t border-[#F1F4F9] dark:border-[#334155] gap-3">
           <span>
             Showing <strong className="text-[#172033] dark:text-[#F1F5F9]">{filteredDomains.length}</strong> of 39 domain families
+            {searchQuery && <span className="ml-1 text-indigo-600 dark:text-indigo-400">(Global search active)</span>}
           </span>
           <div className="flex items-center gap-2.5 flex-wrap">
-            {/* View Mode Switcher */}
-            <div className="bg-[#F1F4F9] dark:bg-[#0F172A] p-0.5 rounded-lg flex items-center border border-[#D9DFEA] dark:border-[#334155]">
-              <button
-                onClick={() => setDirectoryViewMode('visualizer')}
-                className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                  directoryViewMode === 'visualizer'
-                    ? 'bg-white dark:bg-[#1E293B] text-[#4F46E5] dark:text-[#818CF8] shadow-xs'
-                    : 'text-[#596579] dark:text-[#94A3B8] hover:text-[#172033] dark:hover:text-white'
-                }`}
-              >
-                <Eye className="w-3.5 h-3.5" />
-                D3 Visualizer
-              </button>
-              <button
-                onClick={() => setDirectoryViewMode('cards')}
-                className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                  directoryViewMode === 'cards'
-                    ? 'bg-white dark:bg-[#1E293B] text-[#4F46E5] dark:text-[#818CF8] shadow-xs'
-                    : 'text-[#596579] dark:text-[#94A3B8] hover:text-[#172033] dark:hover:text-white'
-                }`}
-              >
-                <LayoutGrid className="w-3.5 h-3.5" />
-                Cards Grid
-              </button>
-              <button
-                onClick={() => setDirectoryViewMode('both')}
-                className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-all ${
-                  directoryViewMode === 'both'
-                    ? 'bg-white dark:bg-[#1E293B] text-[#172033] dark:text-[#F1F5F9] shadow-xs'
-                    : 'text-[#596579] dark:text-[#94A3B8] hover:text-[#172033] dark:hover:text-white'
-                }`}
-              >
-                Both
-              </button>
-            </div>
+            {/* Optional D3 Tree toggle */}
+            <button
+              type="button"
+              onClick={() => setDirectoryViewMode(directoryViewMode === 'cards' ? 'visualizer' : 'cards')}
+              className={`px-3 py-1 rounded-lg text-xs font-semibold border transition-all flex items-center gap-1.5 ${
+                directoryViewMode === 'visualizer'
+                  ? 'bg-[#EEF2FF] dark:bg-[#312E81] text-[#4F46E5] dark:text-[#C7D2FE] border-[#C7D2FE] dark:border-[#4F46E5]'
+                  : 'bg-white dark:bg-[#1E293B] text-[#596579] dark:text-[#94A3B8] border-[#D9DFEA] dark:border-[#334155] hover:text-[#172033]'
+              }`}
+              title="Toggle interactive D3 taxonomy tree (experimental)"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>{directoryViewMode === 'visualizer' ? 'Hide D3 Graph' : 'Optional D3 Graph'}</span>
+            </button>
 
             <button
               onClick={() => setFilterState(filterState === 'all' ? 'published_only' : 'all')}
@@ -252,19 +239,20 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
         </div>
       </div>
 
-      {/* Interactive D3 Visualization (Treemap / Sunburst) */}
-      {(directoryViewMode === 'visualizer' || directoryViewMode === 'both') && (
-        <TaxonomyVisualization
-          onSelectWorkflow={onSelectWorkflow}
-          onOpenUniversal={onOpenUniversal}
-          activeFilterGroup={selectedGroup}
-          searchFilter={searchQuery}
-        />
+      {/* Interactive D3 Visualization (Optional, hidden by default) */}
+      {directoryViewMode === 'visualizer' && (
+        <div className="mb-8">
+          <TaxonomyVisualization
+            onSelectWorkflow={onSelectWorkflow}
+            onOpenUniversal={onOpenUniversal}
+            activeFilterGroup={selectedGroup}
+            searchFilter={searchQuery}
+          />
+        </div>
       )}
 
-      {/* Domain Cards Grid */}
-      {(directoryViewMode === 'cards' || directoryViewMode === 'both') && (
-        <div className="space-y-6">
+      {/* Domain Cards Grid (Primary View) */}
+      <div className="space-y-6">
         {filteredDomains.map((domain) => {
           // Find matching published workflows for this domain
           const domainWorkflows = WORKFLOWS.filter(w => w.domainId === domain.id);
@@ -375,7 +363,6 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
           );
         })}
       </div>
-      )}
     </div>
   );
 };

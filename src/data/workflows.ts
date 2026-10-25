@@ -614,6 +614,75 @@ export const WORKFLOWS: WorkflowSchema[] = [
         promptImpact: 'Defines the foreground, tabletop, and surrounding spatial environment.'
       },
       {
+        id: 'camera_gear',
+        label: 'What camera gear or sensor format do you want to simulate?',
+        technicalTerm: 'Camera Body & Sensor Format',
+        eli5: 'Medium format gives maximum commercial detail; 35mm full-frame is standard commercial; analog film adds warmth and grain.',
+        example: 'Medium Format Hasselblad H6D-100c for ultra-detailed commercial look',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Simulates camera sensor characteristics, dynamic range, and resolution fidelity.',
+        options: [
+          { label: 'Medium Format Commercial Camera (Hasselblad / Phase One - Ultra-clean, extreme resolution)', value: 'medium_format', isDefault: true },
+          { label: '35mm Full-Frame Professional (Sony A7R V / Canon R5 - Sharp, modern realism)', value: '35mm_fullframe' },
+          { label: 'Vintage 35mm Analog Film (Kodak Portra 400 - Warm tones, organic grain, subtle nostalgia)', value: 'kodak_portra' },
+          { label: 'Cinematic Cinema Camera (ARRI Alexa 65 - Rich shadows, organic highlight roll-off)', value: 'arri_alexa' }
+        ]
+      },
+      {
+        id: 'lens_focal_length',
+        label: 'What lens focal length should frame the shot?',
+        technicalTerm: 'Lens Focal Length & Optical Compression',
+        eli5: '85mm compresses backgrounds and flatters products; 50mm feels natural to the eye; 100mm macro reveals tiny textures.',
+        example: '85mm f/1.4 prime lens for elegant compression',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Sets perspective compression, field of view, and optical perspective distortion.',
+        options: [
+          { label: '85mm Prime (Flattering portrait & product compression, creamiest background blur)', value: '85mm_prime', isDefault: true },
+          { label: '50mm Standard (Natural human eye perspective, classic product realism)', value: '50mm_standard' },
+          { label: '100mm Macro (Extreme micro-texture detail on jewelry, liquids, textures)', value: '100mm_macro' },
+          { label: '35mm Wide-Standard (Environmental lifestyle context, shows surroundings)', value: '35mm_editorial' },
+          { label: '24mm Wide Angle (Spacious table architecture, dramatic perspective)', value: '24mm_wide' }
+        ]
+      },
+      {
+        id: 'aperture_depth',
+        label: 'What aperture (f-stop) and depth of field should be set?',
+        technicalTerm: 'Aperture (f-stop) & Depth of Field (DoF)',
+        eli5: 'A wide aperture like f/1.4 produces creamy background blur (bokeh) that isolates the subject; f/8 keeps the whole scene in crisp focus.',
+        example: 'f/2.0 aperture for soft commercial subject isolation',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Controls physical circle of confusion, bokeh quality, and depth of field.',
+        options: [
+          { label: 'f/1.4 – f/1.8 (Ultra shallow DoF, creamy bokeh blur, strong subject pop)', value: 'f1_4_bokeh', isDefault: true },
+          { label: 'f/2.8 – f/4.0 (Balanced commercial studio soft blur, readable backdrop)', value: 'f2_8_studio' },
+          { label: 'f/5.6 – f/8.0 (Moderate sharpness, environment clearly visible)', value: 'f8_moderate' },
+          { label: 'f/11 – f/16 (Deep focus, razor-sharp from foreground to background)', value: 'f11_deep' }
+        ]
+      },
+      {
+        id: 'focus_placement',
+        label: 'Where should the camera focus be locked?',
+        technicalTerm: 'Focal Plane & Critical Sharpness Target',
+        eli5: 'Pinpoint focus draws the viewer’s eye directly to the brand name, product edge, or face.',
+        example: 'Critical razor sharpness on the central brand logo on the front face',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Instructs the model on where critical optical sharpness must be concentrated.',
+        options: [
+          { label: 'Pin-sharp on hero product label / logo (surroundings softly fall off)', value: 'focus_label', isDefault: true },
+          { label: 'Pin-sharp on product front leading edge / texture', value: 'focus_front_edge' },
+          { label: 'Full infinity focus (entire scene and backdrop simultaneously sharp)', value: 'focus_infinity' },
+          { label: 'Selective focus on liquid pour / dynamic droplet splash', value: 'focus_droplets' }
+        ]
+      },
+      {
         id: 'lighting_style',
         label: 'What kind of lighting should illuminate the scene?',
         technicalTerm: 'Key & Fill Lighting Topology',
@@ -624,10 +693,11 @@ export const WORKFLOWS: WorkflowSchema[] = [
         required: true,
         promptImpact: 'Guides contrast, shadow hardness, and specular reflection highlights.',
         options: [
-          { label: 'Soft Natural Daylight (Morning window with gentle diffusion)', value: 'natural_daylight', isDefault: true },
-          { label: 'High-End Studio Softbox (Even, clean, commercial catalog lighting)', value: 'studio_softbox' },
-          { label: 'Dramatic Dark & Moody (Chiaroscuro, rim light, deep shadows)', value: 'dramatic_rim' },
-          { label: 'Hard Direct Sunlight (Crisp architectural graphic shadows)', value: 'direct_sun' }
+          { label: 'Soft 3-Point Studio Softbox (Clean, even, commercial catalog lighting)', value: 'studio_softbox', isDefault: true },
+          { label: 'Warm Golden Hour Window Light (Morning sunlight with gentle natural diffusion)', value: 'natural_daylight' },
+          { label: 'Dramatic Dark & Moody Chiaroscuro (Rim light, deep contrast, luxury aesthetic)', value: 'dramatic_rim' },
+          { label: 'Crisp Direct Overhead Sunlight (Hard architectural graphic shadows)', value: 'direct_sun' },
+          { label: 'Neon Cyberpunk / Bi-Color Rim (Vibrant contrasting gels, modern tech look)', value: 'neon_gel' }
         ]
       },
       {
@@ -641,27 +711,11 @@ export const WORKFLOWS: WorkflowSchema[] = [
         required: true,
         promptImpact: 'Dictates focal perspective and visual hierarchy of elements.',
         options: [
-          { label: 'Eye-level commercial hero shot (Product straight on)', value: 'eye_level', isDefault: true },
+          { label: 'Eye-level commercial hero shot (Product straight on at eye level)', value: 'eye_level', isDefault: true },
           { label: 'Slight high-angle (30 to 45 degree tabletop perspective)', value: 'tabletop_45' },
           { label: 'Flat-lay / Top-down 90 degree bird-eye view', value: 'flat_lay' },
+          { label: 'Low-angle looking up (Heroic, grand, imposing presence)', value: 'low_angle_hero' },
           { label: 'Macro close-up detail shot (Focus on texture & finish)', value: 'macro_detail' }
-        ]
-      },
-      {
-        id: 'background_blur',
-        label: 'How blurry should the background be?',
-        technicalTerm: 'Depth of Field (Aperture / f-stop equivalent)',
-        eli5: 'A blurry background makes the product pop; a sharp background keeps the whole scene in focus.',
-        example: 'Moderately soft background (f/2.8 equivalent)',
-        type: 'select',
-        step: 'fit',
-        required: true,
-        promptImpact: 'Sets depth-of-field and aperture cues.',
-        options: [
-          { label: 'Soft & Blurry background (f/1.8 - f/2.8, strong subject isolation)', value: 'shallow_dof', isDefault: true },
-          { label: 'Moderately soft (f/4.0 - f/5.6, readable environment)', value: 'medium_dof' },
-          { label: 'Sharp front-to-back (f/8 - f/11, whole scene in crisp focus)', value: 'deep_dof' },
-          { label: 'I do not know — choose the best look for this product', value: 'auto_dof' }
         ]
       },
       {
@@ -730,14 +784,66 @@ export const WORKFLOWS: WorkflowSchema[] = [
     },
     fields: [
       {
-        id: 'what_to_change',
-        label: 'What EXACTLY needs to be changed or added?',
-        technicalTerm: 'Modification Delta Scope',
-        eli5: 'Be specific about what changes: background, lighting, clothing color, season, or an object removal.',
-        example: 'Replace the busy office background with a serene modern minimalist bookshelf with soft bokeh; adjust lighting to warm golden hour',
-        type: 'textarea',
+        id: 'edit_goal_preset',
+        label: 'What is your primary editing goal for this photo?',
+        technicalTerm: 'Transformation Intent Preset',
+        eli5: 'Choose what you want the AI to do with your uploaded reference photo.',
+        example: 'Replace background only while keeping person/product 100% identical',
+        type: 'select',
         step: 'start',
         required: true,
+        promptImpact: 'Establishes the primary transformation rule in the image prompt.',
+        options: [
+          { label: 'Replace background only (Keep subject / person 100% identical)', value: 'replace_bg_keep_subject', isDefault: true },
+          { label: 'Change lighting & mood (Golden hour sunset, moody studio, or soft daylight)', value: 'change_lighting' },
+          { label: 'Clean up & remove unwanted background objects / clutter', value: 'remove_objects' },
+          { label: 'Color correction & styling (Clothing color, product finish)', value: 'color_restyling' },
+          { label: 'Upscale & enhance micro-details without shifting facial geometry', value: 'enhance_clarity' }
+        ]
+      },
+      {
+        id: 'background_preset',
+        label: 'What should the new background look like?',
+        technicalTerm: 'Target Backdrop & Environmental Context',
+        eli5: 'Select a professional studio backdrop or realistic lifestyle setting for your subject.',
+        example: 'Clean high-end neutral studio with soft natural light and subtle gradient',
+        type: 'select',
+        step: 'start',
+        required: true,
+        promptImpact: 'Defines the replacement environmental setting.',
+        options: [
+          { label: 'Minimalist Studio Backdrop (Clean off-white / light grey with soft gradient)', value: 'studio_neutral', isDefault: true },
+          { label: 'Honed Travertine / Marble Pedestal (Warm architectural stone surface)', value: 'travertine_stone' },
+          { label: 'Modern Luxury Interior (Warm Scandinavian oak countertop & soft greenery)', value: 'scandinavian_interior' },
+          { label: 'Lush Outdoor Nature (Soft green foliage with warm golden hour bokeh)', value: 'outdoor_nature' },
+          { label: 'Vibrant Urban Cityscape (Blurred architectural evening lights)', value: 'urban_city' }
+        ]
+      },
+      {
+        id: 'camera_depth_match',
+        label: 'How should the camera focus and background blur look?',
+        technicalTerm: 'Depth of Field & Lens Aperture Match',
+        eli5: 'Blurring the new background makes your original subject pop as if shot with an f/1.8 portrait lens.',
+        example: 'Soft f/2.0 portrait blur behind the subject',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Instructs the image generator on depth map layering and bokeh fall-off.',
+        options: [
+          { label: 'Soft blurred bokeh (f/1.8 - f/2.8 lens look, high subject separation)', value: 'bokeh_blur', isDefault: true },
+          { label: 'Match original photo focus depth exactly', value: 'match_original' },
+          { label: 'Sharp front-to-back (both subject and new background in crisp focus)', value: 'sharp_throughout' }
+        ]
+      },
+      {
+        id: 'what_to_change',
+        label: 'Additional specific details to CHANGE or ADD (Optional)',
+        technicalTerm: 'Modification Delta Scope',
+        eli5: 'Any specific extra details like clothing color or removing a phone from a table.',
+        example: 'Replace the background with chosen studio setting, change sweater from grey to navy',
+        type: 'textarea',
+        step: 'start',
+        required: false,
         placeholder: 'e.g., Replace background with an airy Scandinavian kitchen, change sweater color to deep navy',
         promptImpact: 'Forms the core instruction delta in the modification prompt.'
       },

@@ -183,6 +183,52 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
 
   return (
     <div className="max-w-[1240px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      {/* Quick Domain Switcher Presets */}
+      <div className="mb-6 bg-white dark:bg-[#1E293B] p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xs">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+            <span className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider">
+              Quick Domain Presets (Guided Dropdowns):
+            </span>
+          </div>
+          <span className="text-[11px] text-slate-500 hidden sm:inline">
+            Click to switch workflow
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar">
+          {[
+            { id: 'creative_product_photography', label: '📸 Photography (Aperture, Lens, Lighting)' },
+            { id: 'creative_image_edit', label: '🎨 Photo Retouch & Edit' },
+            { id: 'civil_soil_mechanics', label: '🏗️ Civil & Soil (Proctor, MDD)' },
+            { id: 'civil_structural_review', label: '🧱 Concrete & Steel Codes' },
+            { id: 'computing_kubernetes_ops', label: '☸️ DevOps & K8s Pods' },
+            { id: 'computing_qa_testing', label: '💻 Software Testing QA' },
+            { id: 'finance_equity_valuation', label: '📈 Finance & DCF Valuation' },
+            { id: 'business_startup_prd', label: '🚀 Startup & MVP PRD' },
+            { id: 'education_exam_tutor', label: '🎓 Exam Socratic Tutor' },
+            { id: 'universal_builder', label: '🌐 Universal Custom Topic' },
+          ].map((preset) => {
+            const isActive = workflow.id === preset.id;
+            return (
+              <button
+                key={preset.id}
+                type="button"
+                onClick={() => onNavigateToWorkflow(preset.id)}
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                  isActive
+                    ? 'bg-indigo-600 text-white shadow-xs ring-2 ring-indigo-500/30'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                }`}
+              >
+                <span>{preset.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Workspace Top Row: Breadcrumbs & Header Meta */}
       <div className="mb-6">
         <div className="flex items-center gap-2 text-xs font-medium text-[#596579] dark:text-[#94A3B8] mb-2 flex-wrap">
