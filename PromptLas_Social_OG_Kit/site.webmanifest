@@ -1,0 +1,11 @@
+{
+  "name": "PromptLas",
+  "short_name": "PromptLas",
+  "icons": [
+    {"src": "/pwa-icon-192x192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "/brand-mark-512x512.png", "sizes": "512x512", "type": "image/png"}
+  ],
+  "theme_color": "#070e28",
+  "background_color": "#070e28",
+  "display": "standalone"
+}

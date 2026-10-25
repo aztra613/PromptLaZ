@@ -1,0 +1,6 @@
+{
+  "name": "PromptLas Prompt Studio",
+  "description": "Know what to ask. Build better prompts with domain-aware guided forms, live prompt assembly, and missing-input checks.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

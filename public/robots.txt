@@ -1,0 +1,10 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Prevent indexing of draft local storage export files if any
+Disallow: /scratch/
+Disallow: /api/drafts/
+
+# Sitemaps
+Sitemap: https://promptlas.com/sitemap.xml

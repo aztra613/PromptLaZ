@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --sh-ink: #172033;
+    --sh-navy: #182742;
+    --sh-indigo: #4F46E5;
+    --sh-indigo-hover: #4338CA;
+    --sh-teal: #0F9D91;
+    --sh-amber: #F4B544;
+    --sh-canvas: #F7F8FC;
+    --sh-surface: #FFFFFF;
+    --sh-border: #D9DFEA;
+    --sh-muted: #596579;
+    --sh-success: #18794E;
+    --sh-warning: #9A5B00;
+    --sh-error: #B42318;
+    --sh-focus: #4F46E5;
+  }
+
+  .dark {
+    --sh-ink: #F1F5F9;
+    --sh-navy: #0F172A;
+    --sh-indigo: #6366F1;
+    --sh-indigo-hover: #4F46E5;
+    --sh-teal: #14B8A6;
+    --sh-amber: #FBBF24;
+    --sh-canvas: #0B1120;
+    --sh-surface: #1E293B;
+    --sh-border: #334155;
+    --sh-muted: #94A3B8;
+    --sh-success: #22C55E;
+    --sh-warning: #F59E0B;
+    --sh-error: #EF4444;
+    --sh-focus: #6366F1;
+  }
+
+  body {
+    background-color: var(--sh-canvas);
+    color: var(--sh-ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  }
+}
+
+/* Custom scrollbars for prompt preview */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f4f9;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
