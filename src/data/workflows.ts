@@ -26,6 +26,56 @@ export const WORKFLOWS: WorkflowSchema[] = [
       criticalFields: ['test_type', 'soil_description', 'measured_values'],
       fallbackGuidance: 'When measured lab values or soil profile data are unknown, the prompt is safely converted into a Geotechnical Investigation & Data-Gathering Scope Checklist rather than guessing fictitious soil values.'
     },
+    recipes: [
+      {
+        id: 'highway_subgrade_98',
+        title: '🛣️ Highway Subgrade 98% Modified Proctor',
+        description: 'High-energy compaction check for highway pavement subgrade under ASTM D1557.',
+        badge: 'Highway & Pavement',
+        presetAnswers: {
+          task_focus: 'proctor_compaction',
+          test_type: 'modified_proctor',
+          soil_description: 'gw_crushed_base',
+          unit_system: 'si_metric',
+          measured_values: 'mdd_high_density',
+          compaction_spec: '98_percent_heavy',
+          groundwater_context: 'deep_dry_table',
+          required_deliverable: 'formal_memo'
+        }
+      },
+      {
+        id: 'clay_settlement_consolidation',
+        title: '📉 Stiff Clay 1D Consolidation Settlement',
+        description: 'Estimate long-term primary consolidation settlement under structural footing.',
+        badge: 'Foundation Settlement',
+        presetAnswers: {
+          task_focus: 'consolidation_settlement',
+          test_type: 'oedometer_consolidation',
+          soil_description: 'ch_fat_clay',
+          unit_system: 'si_metric',
+          measured_values: 'mdd_expansive_clay',
+          compaction_spec: '95_percent_std',
+          groundwater_context: 'shallow_submerged',
+          required_deliverable: 'calculation_brief'
+        }
+      },
+      {
+        id: 'footing_bearing_silty_sand',
+        title: '🧱 Shallow Footing Bearing Capacity on Silty Sand',
+        description: 'Bearing capacity verification and allowable stress check for building foundation.',
+        badge: 'Building Footing',
+        presetAnswers: {
+          task_focus: 'bearing_capacity',
+          test_type: 'shear_testing',
+          soil_description: 'sm_silty_sand',
+          unit_system: 'si_metric',
+          measured_values: 'mdd_standard_lab',
+          compaction_spec: '95_percent_std',
+          groundwater_context: 'seasonal_fluctuation',
+          required_deliverable: 'formal_memo'
+        }
+      }
+    ],
     fields: [
       {
         id: 'task_focus',
@@ -101,14 +151,19 @@ export const WORKFLOWS: WorkflowSchema[] = [
       {
         id: 'measured_values',
         label: 'What numbers or test points do you have?',
-        technicalTerm: 'Empirical Laboratory Data Points',
-        eli5: 'Enter known values like Maximum Dry Density (MDD), Optimum Moisture Content (OMC), liquid limit, or field moisture. If unknown, state "None available".',
-        example: 'MDD = 18.4 kN/m³, OMC = 13.5%, In-situ dry density = 17.6 kN/m³, Field moisture = 14.2%',
-        type: 'textarea',
+        technicalTerm: 'Empirical Laboratory Data Points Profile',
+        eli5: 'Pick standard test point benchmarks or enter custom lab measurements.',
+        example: 'Standard Lab Results: MDD = 18.4 kN/m³, OMC = 13.5%, In-situ dry density = 17.6 kN/m³, Field moisture = 14.2%',
+        type: 'select',
         step: 'fit',
-        required: false,
-        placeholder: 'e.g., MDD = 1.82 g/cm³, OMC = 14.1%, liquid limit = 38%, plastic limit = 19%',
-        promptImpact: 'Injected directly into the input data section. If omitted, triggers missing-data safeguards.'
+        required: true,
+        promptImpact: 'Injected directly into the input data section. If omitted, triggers missing-data safeguards.',
+        options: [
+          { label: 'Standard Cohesive Fill: MDD = 18.4 kN/m³, OMC = 13.5%, In-situ dry density = 17.6 kN/m³, Field moisture = 14.2%', value: 'mdd_standard_lab', isDefault: true },
+          { label: 'High-Density Crushed Base: MDD = 21.2 kN/m³, OMC = 8.5%, In-situ = 20.8 kN/m³, Field moisture = 8.8%', value: 'mdd_high_density' },
+          { label: 'Expansive Fat Clay: MDD = 15.8 kN/m³, OMC = 21.0%, LL = 62%, PL = 28%, in-situ moisture = 22.4%', value: 'mdd_expansive_clay' },
+          { label: 'I do not have test numbers yet (Generate borehole sampling & lab test plan)', value: 'mdd_untested_plan' }
+        ]
       },
       {
         id: 'compaction_spec',
@@ -201,6 +256,50 @@ export const WORKFLOWS: WorkflowSchema[] = [
       criticalFields: ['member_type', 'material_specification', 'governing_code'],
       fallbackGuidance: 'If exact dimensions and factored loads are missing, the prompt generates an independent Design Basis & Load Verification Checklist rather than calculating hypothetical capacities.'
     },
+    recipes: [
+      {
+        id: 'rc_beam_continuous',
+        title: '🏢 6m Commercial Continuous RC Beam Check (ACI 318)',
+        description: 'Standard commercial building floor beam capacity and bar spacing check.',
+        badge: 'Beam Flexure & Shear',
+        presetAnswers: {
+          member_type: 'rc_beam',
+          governing_code: 'aci_318_19',
+          material_specification: 'c25_30_fe500',
+          geometry_spans: 'beam_300_600_6m',
+          applied_loads: 'office_commercial_loads',
+          detailing_concerns: 'standard_sls_deflection'
+        }
+      },
+      {
+        id: 'rc_column_highrise',
+        title: '🏗️ High-Rise Transfer Column Biaxial Bending (Eurocode 2)',
+        description: 'Axial compression and moment interaction check under EN 1992-1-1.',
+        badge: 'Column Compression',
+        presetAnswers: {
+          member_type: 'rc_column',
+          governing_code: 'eurocode_2',
+          material_specification: 'c30_37_fe500',
+          geometry_spans: 'column_400_400_3m6',
+          applied_loads: 'heavy_retail_loads',
+          detailing_concerns: 'seismic_ductile_detailing'
+        }
+      },
+      {
+        id: 'steel_portal_rafter',
+        title: '🏭 Industrial Portal Frame Steel Member (AISC 360)',
+        description: 'Lateral torsional buckling and slenderness evaluation under AISC 360-22.',
+        badge: 'Steel Framing',
+        presetAnswers: {
+          member_type: 'steel_column',
+          governing_code: 'aisc_360_22',
+          material_specification: 'steel_s355_a572',
+          geometry_spans: 'steel_w14_90_4m',
+          applied_loads: 'roof_wind_loads',
+          detailing_concerns: 'slender_buckling_pdelta'
+        }
+      }
+    ],
     fields: [
       {
         id: 'member_type',
@@ -260,26 +359,37 @@ export const WORKFLOWS: WorkflowSchema[] = [
       {
         id: 'geometry_spans',
         label: 'What are the member geometry and span lengths?',
-        technicalTerm: 'Cross-section Dimensions & Boundary Conditions',
-        eli5: 'Width, total depth, clear span, and whether supports are pinned, fixed, or continuous.',
-        example: 'b = 300 mm, h = 600 mm, clear span L = 6.5 m, simply supported with fixed left support',
-        type: 'text',
+        technicalTerm: 'Cross-section Dimensions & Boundary Conditions Profile',
+        eli5: 'Choose standard architectural dimensions or custom cross-section spans.',
+        example: 'Standard Beam: b = 300 mm, h = 600 mm, clear span L = 6.0 m, simply supported',
+        type: 'select',
         step: 'fit',
         required: true,
-        placeholder: 'e.g., b = 350 mm, d = 550 mm, span = 7.2 m, effective depth d = 500 mm',
-        promptImpact: 'Sets geometric stiffness and effective depth in moment calculations.'
+        promptImpact: 'Sets geometric stiffness and effective depth in moment calculations.',
+        options: [
+          { label: 'Standard Floor Beam: b = 300 mm, h = 600 mm, clear span L = 6.0 m, simply supported', value: 'beam_300_600_6m', isDefault: true },
+          { label: 'Heavy Transfer Girder: b = 450 mm, h = 900 mm, clear span L = 8.5 m, continuous supports', value: 'beam_450_900_8m5' },
+          { label: 'Square RC Column: 400 mm x 400 mm, unsupported height H = 3.6 m, braced frame', value: 'column_400_400_3m6' },
+          { label: 'Two-Way Flat Slab: Thickness h = 200 mm, panel 6.5 m x 6.5 m, continuous', value: 'slab_200_6m5' },
+          { label: 'Structural Steel Column: W14x90 (HEB 360), unsupported length L = 4.2 m, pinned base', value: 'steel_w14_90_4m' }
+        ]
       },
       {
         id: 'applied_loads',
         label: 'What are the dead, live, and environmental loads?',
-        technicalTerm: 'Unfactored Service Actions & Combinations',
-        eli5: 'List permanent dead load (including self-weight) and imposed live load. Note if wind or seismic loads apply.',
-        example: 'Dead load = 18 kN/m, Live load = 12 kN/m, Wind uplift = 4 kN/m',
-        type: 'textarea',
+        technicalTerm: 'Unfactored Service Actions & Combinations Profile',
+        eli5: 'Choose standard occupancy load combinations or specify custom service loads.',
+        example: 'Commercial Office: Superimposed DL = 2.5 kPa, Live Load = 3.0 kPa, tributary width = 4.0 m',
+        type: 'select',
         step: 'fit',
-        required: false,
-        placeholder: 'e.g., Superimposed DL = 2.5 kPa, Live Load = 3.0 kPa, Span tributary width = 4.0 m',
-        promptImpact: 'Calculates factored ultimate moment (Mu) and factored shear (Vu).'
+        required: true,
+        promptImpact: 'Calculates factored ultimate moment (Mu) and factored shear (Vu).',
+        options: [
+          { label: 'Commercial Office: Superimposed DL = 2.5 kPa, Live Load = 3.0 kPa, tributary width = 4.0 m', value: 'office_commercial_loads', isDefault: true },
+          { label: 'Heavy Storage / Retail: Superimposed DL = 3.5 kPa, Live Load = 5.0 kPa, tributary width = 5.0 m', value: 'heavy_retail_loads' },
+          { label: 'Residential Apartment: Superimposed DL = 1.5 kPa, Live Load = 2.0 kPa, tributary width = 3.5 m', value: 'residential_loads' },
+          { label: 'Roof Terrace with Wind: DL = 2.0 kPa, Live Load = 1.5 kPa, Wind uplift = 1.8 kPa', value: 'roof_wind_loads' }
+        ]
       },
       {
         id: 'detailing_concerns',
@@ -330,13 +440,62 @@ export const WORKFLOWS: WorkflowSchema[] = [
     modality: 'code',
     primaryIntent: 'Operate / maintain',
     aliases: ['kubernetes', 'k8s', 'docker', 'devops', 'helm', 'crashloopbackoff', 'oomkilled', 'ingress', 'sre', 'incident response'],
-    governingStandards: ['CIS Kubernetes Benchmark v1.8', 'CNCF Best Practices', 'Twelve-Factor App'],
     reviewerRole: 'Lead SRE / Platform Architect',
     lastReviewedDate: '2026-03-12',
     missingInputRules: {
       criticalFields: ['k8s_scenario', 'target_environment', 'workload_type'],
       fallbackGuidance: 'If specific log traces or image details are missing, the prompt instructs the AI to generate a diagnostic isolation tree rather than inventing dummy infrastructure.'
     },
+    recipes: [
+      {
+        id: 'k8s_prod_microservice',
+        title: '🚀 Production Microservice (REST + Ingress + TLS)',
+        description: 'Production-ready Deployment, ClusterIP Service, Nginx Ingress, and resource guarantees.',
+        badge: 'Production Manifest',
+        presetAnswers: {
+          k8s_scenario: 'new_deployment',
+          target_environment: 'aws_eks',
+          workload_type: 'stateless_microservice',
+          resource_limits: 'std_microservice_limits',
+          health_probes: 'http_get_standard',
+          ingress_networking: 'nginx_certmanager',
+          secrets_management: 'external_secrets',
+          incident_symptoms: 'no_incident'
+        }
+      },
+      {
+        id: 'k8s_pod_crash_oom',
+        title: '🚨 CrashLoopBackOff & OOMKilled Triage (Exit 137)',
+        description: 'Step-by-step diagnostic runbook to isolate memory leaks and probe failure murders.',
+        badge: 'Incident Runbook',
+        presetAnswers: {
+          k8s_scenario: 'pod_incident',
+          target_environment: 'aws_eks',
+          workload_type: 'stateless_microservice',
+          resource_limits: 'burst_limits',
+          health_probes: 'startup_and_liveness',
+          ingress_networking: 'internal_clusterip',
+          secrets_management: 'k8s_secret',
+          incident_symptoms: 'oomkilled_137'
+        }
+      },
+      {
+        id: 'k8s_zerotrust_tunnel',
+        title: '🔒 Zero-Trust Cloudflare Tunnel API Worker',
+        description: 'Private origin service without public IP exposures or incoming firewall openings.',
+        badge: 'Zero-Trust Network',
+        presetAnswers: {
+          k8s_scenario: 'new_deployment',
+          target_environment: 'self_hosted',
+          workload_type: 'event_worker_queue',
+          resource_limits: 'light_api_limits',
+          health_probes: 'tcp_socket_probe',
+          ingress_networking: 'cloudflare_tunnel',
+          secrets_management: 'external_secrets',
+          incident_symptoms: 'no_incident'
+        }
+      }
+    ],
     fields: [
       {
         id: 'k8s_scenario',
@@ -461,16 +620,23 @@ export const WORKFLOWS: WorkflowSchema[] = [
       },
       {
         id: 'incident_symptoms',
-        label: 'If troubleshooting: paste redacted error logs or symptoms',
-        technicalTerm: 'Kubectl Describe / Logs Diagnostics',
-        eli5: 'Paste output from "kubectl describe pod" or recent logs. Do NOT paste passwords or API keys.',
-        example: 'Back-off restarting failed container: exit code 137 (OOMKilled) after processing 10MB file',
-        type: 'textarea',
+        label: 'If troubleshooting: what error symptom or exit code was observed?',
+        technicalTerm: 'Kubectl Describe / Logs Diagnostic Signature',
+        eli5: 'Select the observed pod failure state or pick greenfield if starting fresh.',
+        example: 'Exit Code 137 (OOMKilled): Container killed due to memory limit breach under load',
+        type: 'select',
         step: 'finetune',
         required: false,
         isAdvanced: true,
-        placeholder: 'e.g., Error: connect ECONNREFUSED 10.96.0.1:443 or CrashLoopBackOff with status code 1',
-        promptImpact: 'Triggers targeted diagnostic root-cause hypothesis generation in the incident response section.'
+        promptImpact: 'Triggers targeted diagnostic root-cause hypothesis generation in the incident response section.',
+        options: [
+          { label: 'Exit Code 137 (OOMKilled): Container killed due to memory limit breach under load', value: 'oomkilled_137', isDefault: true },
+          { label: 'CrashLoopBackOff Exit Code 1: Application failed startup probe or unhandled exception', value: 'crashloop_1' },
+          { label: 'ImagePullBackOff / ErrImagePull: 401 Unauthorized or container registry tag missing', value: 'imagepull_err' },
+          { label: 'Pending Pod: 0/12 nodes available (Insufficient CPU or Memory on cluster)', value: 'pending_resources' },
+          { label: 'Readiness Probe Failed: HTTP 500 returned on /healthz endpoint', value: 'probe_500_err' },
+          { label: 'No incident (Greenfield architecture & deployment)', value: 'no_incident' }
+        ]
       }
     ],
     relatedWorkflows: [
@@ -509,6 +675,53 @@ export const WORKFLOWS: WorkflowSchema[] = [
       criticalFields: ['system_under_test', 'test_levels', 'core_functionality'],
       fallbackGuidance: 'If acceptance criteria are vague, the prompt instructs the AI to generate an exploratory test charter with critical risk heuristics.'
     },
+    recipes: [
+      {
+        id: 'qa_stripe_payments',
+        title: '💳 Stripe Webhook & Payment Idempotency Suite',
+        description: 'E2E checkout test cases with network retry idempotency and webhook verification.',
+        badge: 'Payments QA',
+        presetAnswers: {
+          system_under_test: 'backend_api',
+          test_levels: 'integration_only',
+          test_framework: 'playwright_ts',
+          feature_pattern_preset: 'checkout_payments',
+          mocking_strategy: 'mock_msw_wiremock',
+          core_functionality: 'payment_checkout_flow',
+          edge_case_focus: 'network_jitter_idempotency'
+        }
+      },
+      {
+        id: 'qa_jwt_auth_refresh',
+        title: '🔐 OAuth2 & JWT Token Expiration & Refresh Flow',
+        description: 'Integration and unit tests verifying seamless silent token refresh without logout.',
+        badge: 'Auth & Security',
+        presetAnswers: {
+          system_under_test: 'backend_api',
+          test_levels: 'all_pyramid',
+          test_framework: 'vitest_ts',
+          feature_pattern_preset: 'auth_jwt_session',
+          mocking_strategy: 'testcontainers_docker',
+          core_functionality: 'auth_registration_jwt',
+          edge_case_focus: 'auth_session_expiry'
+        }
+      },
+      {
+        id: 'qa_concurrent_race',
+        title: '⚡ High-Concurrency Click Storm & Race Condition Suite',
+        description: 'Stress test for double-submits, inventory stock over-allocations, and race conditions.',
+        badge: 'Concurrency QA',
+        presetAnswers: {
+          system_under_test: 'fullstack_e2e',
+          test_levels: 'e2e_only',
+          test_framework: 'playwright_ts',
+          feature_pattern_preset: 'crud_data_table',
+          mocking_strategy: 'zero_mocks_staging',
+          core_functionality: 'crud_data_grid',
+          edge_case_focus: 'concurrency_race_conditions'
+        }
+      }
+    ],
     fields: [
       {
         id: 'domain_context',
@@ -611,15 +824,20 @@ export const WORKFLOWS: WorkflowSchema[] = [
       },
       {
         id: 'core_functionality',
-        label: 'Describe the feature requirements or user stories',
-        technicalTerm: 'User Story & Acceptance Criteria',
-        eli5: 'Explain what the user does, what input is provided, and what should happen on success and failure.',
-        example: 'User submits registration with email and password. If email exists, returns 409 Conflict. If password < 8 chars, returns 422 with field error.',
-        type: 'textarea',
+        label: 'What are the user stories and acceptance criteria?',
+        technicalTerm: 'User Story & Acceptance Criteria Specification',
+        eli5: 'Choose a standard test specification or describe custom acceptance criteria.',
+        example: 'User Registration & Auth: Submit email & password, validate complexity, return JWT on 201, return 409 Conflict if email exists',
+        type: 'select',
         step: 'fit',
         required: true,
-        placeholder: 'e.g., Given a logged in user with expired token, when they refresh, they receive new valid JWT without re-login...',
-        promptImpact: 'Serves as the primary source of truth for generating positive, negative, and equivalence boundary tests.'
+        promptImpact: 'Serves as the primary source of truth for generating positive, negative, and equivalence boundary tests.',
+        options: [
+          { label: 'User Registration & Auth: Submit email & password, validate complexity, return JWT on 201, return 409 Conflict if email exists', value: 'auth_registration_jwt', isDefault: true },
+          { label: 'Payment Checkout: Lock cart inventory, submit tokenized payment to Stripe, handle webhook async confirmation, refund on failure', value: 'payment_checkout_flow' },
+          { label: 'Data Grid Filter & Export: Server-side pagination, multi-column sort, filter by date range, export 10k rows to CSV stream', value: 'crud_data_grid' },
+          { label: 'File Upload: Validate MIME type (PDF/PNG only), request pre-signed S3 URL, upload with progress bar, trigger async thumbnailer', value: 'file_upload_s3_flow' }
+        ]
       },
       {
         id: 'edge_case_focus',
@@ -674,6 +892,65 @@ export const WORKFLOWS: WorkflowSchema[] = [
       criticalFields: ['product_subject', 'lighting_style', 'composition_angle'],
       fallbackGuidance: 'If specific surface materials or props are not chosen, defaults to a restrained, elegant neutral studio setting.'
     },
+    recipes: [
+      {
+        id: 'photo_ceramic_dripper',
+        title: '☕ Matte Ceramic Coffee Dripper Catalog',
+        description: 'Clean commercial softbox catalog shot on honed travertine pedestal.',
+        badge: 'Commercial Catalog',
+        presetAnswers: {
+          execution_mode: 'ai_render',
+          product_subject: 'matte_ceramic_dripper',
+          scene_setting: 'travertine_pedestal',
+          camera_gear: 'medium_format',
+          lens_focal_length: '85mm_prime',
+          aperture_depth: 'f2_8_studio',
+          focus_placement: 'focus_label',
+          lighting_style: 'studio_softbox',
+          composition_angle: 'eye_level',
+          aspect_ratio: '4_5',
+          avoid_elements: 'no_text_no_watermarks'
+        }
+      },
+      {
+        id: 'photo_luxury_perfume',
+        title: '🌸 Golden Hour Luxury Perfume Bottle',
+        description: 'Warm natural sunset light, creamy f/1.4 bokeh blur, and fine glass reflections.',
+        badge: 'Luxury Editorial',
+        presetAnswers: {
+          execution_mode: 'ai_render',
+          product_subject: 'amber_perfume_bottle',
+          scene_setting: 'warm_oak_counter',
+          camera_gear: '35mm_fullframe',
+          lens_focal_length: '85mm_prime',
+          aperture_depth: 'f1_4_bokeh',
+          focus_placement: 'focus_label',
+          lighting_style: 'natural_daylight',
+          composition_angle: 'tabletop_45',
+          aspect_ratio: '4_5',
+          avoid_elements: 'no_harsh_reflections'
+        }
+      },
+      {
+        id: 'photo_cyberpunk_keyboard',
+        title: '⌨️ Neon Cyberpunk Mechanical Keyboard',
+        description: 'High-contrast bi-color rim lighting, dramatic dark atmosphere, and crisp switches.',
+        badge: 'Tech / Gaming',
+        presetAnswers: {
+          execution_mode: 'ai_render',
+          product_subject: 'cyberpunk_keyboard',
+          scene_setting: 'dark_matte_desk',
+          camera_gear: 'medium_format',
+          lens_focal_length: '50mm_standard',
+          aperture_depth: 'f2_8_studio',
+          focus_placement: 'focus_front_edge',
+          lighting_style: 'neon_gel',
+          composition_angle: 'low_angle_hero',
+          aspect_ratio: '16_9',
+          avoid_elements: 'no_plastic_glare'
+        }
+      }
+    ],
     fields: [
       {
         id: 'execution_mode',
@@ -694,13 +971,19 @@ export const WORKFLOWS: WorkflowSchema[] = [
         id: 'product_subject',
         label: 'What is the product or subject of the photo?',
         technicalTerm: 'Primary Hero Subject & Materiality',
-        eli5: 'Describe the item: what is it made of, its shape, and what makes it special?',
-        example: 'Minimalist matte ceramic coffee dripper in warm terracotta tone with brass dripper stand',
-        type: 'text',
+        eli5: 'Pick a high-end commercial hero subject or enter custom details.',
+        example: 'Minimalist matte terracotta ceramic coffee dripper on raw brass stand',
+        type: 'select',
         step: 'start',
         required: true,
-        placeholder: 'e.g., Organic cold-pressed olive oil bottle in dark green glass with gold foil label',
-        promptImpact: 'Forms the anchor hero subject in the prompt text.'
+        promptImpact: 'Forms the anchor hero subject in the prompt text.',
+        options: [
+          { label: 'Minimalist matte terracotta ceramic coffee dripper on raw brass stand', value: 'matte_ceramic_dripper', isDefault: true },
+          { label: 'Frosted amber glass luxury perfume bottle with brushed gold magnetic cap', value: 'amber_perfume_bottle' },
+          { label: 'Anodized midnight-blue mechanical keyboard with glowing RGB underglow', value: 'cyberpunk_keyboard' },
+          { label: 'Solitaire platinum diamond ring resting on dark velvet jeweler block', value: 'platinum_diamond_ring' },
+          { label: 'Organic botanical skincare serum dropper bottle with fresh water droplets', value: 'skincare_serum_bottle' }
+        ]
       },
       {
         id: 'scene_setting',
@@ -708,11 +991,16 @@ export const WORKFLOWS: WorkflowSchema[] = [
         technicalTerm: 'Environment, Backdrop & Prop Context',
         eli5: 'A clean travertine stone slab, warm oak countertop, or seamless colored backdrop?',
         example: 'Honed light beige travertine stone slab with a few raw linen folds nearby',
-        type: 'text',
+        type: 'select',
         step: 'start',
         required: true,
-        placeholder: 'e.g., Pale grey textured plaster pedestal with soft architectural shadows',
-        promptImpact: 'Defines the foreground, tabletop, and surrounding spatial environment.'
+        promptImpact: 'Defines the foreground, tabletop, and surrounding spatial environment.',
+        options: [
+          { label: 'Honed light beige travertine stone slab with a few raw linen folds nearby', value: 'travertine_pedestal', isDefault: true },
+          { label: 'Warm natural Scandinavian oak countertop with soft morning greenery blur', value: 'warm_oak_counter' },
+          { label: 'Dark matte graphite tabletop with subtle architectural shadow lines', value: 'dark_matte_desk' },
+          { label: 'Seamless pure white studio infinity cove with soft ground shadow reflection', value: 'seamless_white_cove' }
+        ]
       },
       {
         id: 'camera_gear',
@@ -839,14 +1127,18 @@ export const WORKFLOWS: WorkflowSchema[] = [
       {
         id: 'avoid_elements',
         label: 'What elements must NOT appear in the image?',
-        technicalTerm: 'Negative Prompt & Exclusion Cues',
-        eli5: 'List things to keep out, like artificial glare, extra hands, text overlays, or clutter.',
-        example: 'No text, no watermarks, no distorted handles, no harsh neon reflections, no plastic props',
-        type: 'text',
+        technicalTerm: 'Negative Prompt & Exclusion Cues Profile',
+        eli5: 'Choose a standard professional negative prompt preset to keep out artifacts.',
+        example: 'No text, no brand logos, no watermarks, no distorted human hands, no plastic glare',
+        type: 'select',
         step: 'finetune',
         required: false,
-        placeholder: 'e.g., No text, no logos, no human hands, no plastic clutter, no oversaturated colors',
-        promptImpact: 'Formatted into negative prompting and exclusion constraints.'
+        promptImpact: 'Formatted into negative prompting and exclusion constraints.',
+        options: [
+          { label: 'Clean Studio: No text, no logos, no watermarks, no human hands, no plastic glare', value: 'no_text_no_watermarks', isDefault: true },
+          { label: 'Natural Look: No artificial neon glare, no oversaturated colors, no plastic props', value: 'no_harsh_reflections' },
+          { label: 'Minimalist: No cluttered props, no harsh unsoftened shadows, no blown-out highlights', value: 'no_plastic_glare' }
+        ]
       }
     ],
     relatedWorkflows: [
@@ -883,6 +1175,53 @@ export const WORKFLOWS: WorkflowSchema[] = [
       criticalFields: ['what_to_change', 'what_to_preserve'],
       fallbackGuidance: 'If either the change list or preserve list is empty, PromptLaz requires clarifying boundaries to prevent accidental destruction of the reference image.'
     },
+    recipes: [
+      {
+        id: 'edit_studio_swap',
+        title: '🛍️ Minimalist E-Commerce Studio Background Swap',
+        description: 'Replace amateur backdrop with clean off-white studio and matching ground shadow.',
+        badge: 'Catalog Retouch',
+        presetAnswers: {
+          edit_goal_preset: 'replace_bg_keep_subject',
+          background_preset: 'studio_neutral',
+          camera_depth_match: 'bokeh_blur',
+          what_to_preserve: 'preserve_product_100',
+          what_to_change: 'replace_bg_only',
+          change_intensity: 'bg_replace',
+          lighting_blend: 'diffuse_wrap_light'
+        }
+      },
+      {
+        id: 'edit_lifestyle_relight',
+        title: '🏛️ Luxury Travertine Pedestal & Warm Relighting',
+        description: 'Elevate a product photo onto a stone plinth with directional golden sunlight.',
+        badge: 'Luxury Branding',
+        presetAnswers: {
+          edit_goal_preset: 'change_lighting',
+          background_preset: 'travertine_stone',
+          camera_depth_match: 'bokeh_blur',
+          what_to_preserve: 'preserve_product_100',
+          what_to_change: 'relight_golden_sun',
+          change_intensity: 'bg_replace',
+          lighting_blend: 'warm_rim_light'
+        }
+      },
+      {
+        id: 'edit_portrait_nature',
+        title: '🌳 Lush Outdoor Nature Bokeh Background',
+        description: 'Preserve person face and expression 100% while swapping background to soft foliage.',
+        badge: 'Portrait Retouch',
+        presetAnswers: {
+          edit_goal_preset: 'replace_bg_keep_subject',
+          background_preset: 'outdoor_nature',
+          camera_depth_match: 'bokeh_blur',
+          what_to_preserve: 'preserve_face_identity',
+          what_to_change: 'replace_bg_only',
+          change_intensity: 'bg_replace',
+          lighting_blend: 'warm_rim_light'
+        }
+      }
+    ],
     fields: [
       {
         id: 'edit_goal_preset',
@@ -937,28 +1276,36 @@ export const WORKFLOWS: WorkflowSchema[] = [
         ]
       },
       {
-        id: 'what_to_change',
-        label: 'Additional specific details to CHANGE or ADD (Optional)',
-        technicalTerm: 'Modification Delta Scope',
-        eli5: 'Any specific extra details like clothing color or removing a phone from a table.',
-        example: 'Replace the background with chosen studio setting, change sweater from grey to navy',
-        type: 'textarea',
-        step: 'start',
-        required: false,
-        placeholder: 'e.g., Replace background with an airy Scandinavian kitchen, change sweater color to deep navy',
-        promptImpact: 'Forms the core instruction delta in the modification prompt.'
-      },
-      {
         id: 'what_to_preserve',
         label: 'What MUST STAY EXACTLY AS IT IS?',
         technicalTerm: 'Identity & Geometric Preservation Invariants',
         eli5: 'Specify elements that must not shift: person face features, product logo, garment shape, hand position.',
-        example: 'Keep the person facial features, skin tone, hairstyle, glasses, and natural smile completely identical',
-        type: 'textarea',
+        example: 'Preserve exact product geometry, brand labels, lettering, proportions and material texture with zero distortion',
+        type: 'select',
         step: 'start',
         required: true,
-        placeholder: 'e.g., Preserve the exact product shape, label text, bottle proportions, and brand logo with 100% fidelity',
-        promptImpact: 'Forms the mandatory preservation constraints section.'
+        promptImpact: 'Forms the mandatory preservation constraints section.',
+        options: [
+          { label: 'Preserve exact product geometry, brand labels, lettering, proportions and material texture with zero distortion', value: 'preserve_product_100', isDefault: true },
+          { label: 'Preserve exact person face geometry, skin tone, hairstyle, facial expressions, and natural smile with 100% fidelity', value: 'preserve_face_identity' },
+          { label: 'Preserve garment shape, fabric fold geometry, button positions, and seam alignment', value: 'preserve_clothing_shape' }
+        ]
+      },
+      {
+        id: 'what_to_change',
+        label: 'What is the exact transformation to execute?',
+        technicalTerm: 'Modification Delta Scope',
+        eli5: 'Choose the exact modification instruction for the generative model.',
+        example: 'Replace background only with selected studio setting; cast matching subtle contact shadow on ground',
+        type: 'select',
+        step: 'start',
+        required: true,
+        promptImpact: 'Forms the core instruction delta in the modification prompt.',
+        options: [
+          { label: 'Replace background only with selected studio setting; cast matching subtle contact shadow on ground', value: 'replace_bg_only', isDefault: true },
+          { label: 'Relight scene with warm golden hour sunlight entering from upper left; preserve subject identity', value: 'relight_golden_sun' },
+          { label: 'Remove background clutter, cables, and passersby; reconstruct clean seamless surface', value: 'remove_clutter_cleanup' }
+        ]
       },
       {
         id: 'change_intensity',
@@ -981,12 +1328,16 @@ export const WORKFLOWS: WorkflowSchema[] = [
         label: 'How should the subject blend with the new background?',
         technicalTerm: 'Edge Refinement & Rim Light Integration',
         eli5: 'New backgrounds look fake unless the light falling on the subject matches the new environment.',
-        example: 'Cast realistic soft directional warm light onto subject edges matching new background sun angle',
-        type: 'text',
+        example: 'Clean diffuse high-key catalog wrap-around light with zero harsh color fringing',
+        type: 'select',
         step: 'fit',
         required: false,
-        placeholder: 'e.g., Match color temperature and cast soft shadow on the ground plane',
-        promptImpact: 'Applies photorealistic rim lighting and ambient occlusion instructions.'
+        promptImpact: 'Applies photorealistic rim lighting and ambient occlusion instructions.',
+        options: [
+          { label: 'Clean diffuse high-key catalog wrap-around light with zero harsh color fringing', value: 'diffuse_wrap_light', isDefault: true },
+          { label: 'Warm rim light on silhouette edges matching sunset angle; seamless natural exposure balance', value: 'warm_rim_light' },
+          { label: 'Match color temperature and cast realistic soft directional shadow on ground plane', value: 'ground_shadow_match' }
+        ]
       }
     ],
     relatedWorkflows: [
@@ -1022,6 +1373,59 @@ export const WORKFLOWS: WorkflowSchema[] = [
       criticalFields: ['customer_problem', 'target_user'],
       fallbackGuidance: 'If customer evidence is missing, the prompt generates a Customer Discovery Interview Plan before jumping into feature specifications.'
     },
+    recipes: [
+      {
+        id: 'startup_b2b_saas',
+        title: '🚀 B2B Micro-SaaS for Freelancers (Tiered Subscriptions)',
+        description: 'Targeted workflow tool replacing messy email threads with single-link approval portals.',
+        badge: 'B2B Micro-SaaS',
+        presetAnswers: {
+          business_stage: 'mvp_prd',
+          target_audience_segment: 'b2b_smb',
+          monetization_model: 'tiered_saas',
+          target_user: 'Solo freelance web designers and consultants',
+          customer_problem: 'freelancer_invoice_chasing',
+          proposed_solution: 'single_link_portal',
+          mvp_scoping_rule: 'ruthless_4_week',
+          out_of_scope_cuts: 'no_native_mobile_v1',
+          primary_metric: 'task_completion_rate'
+        }
+      },
+      {
+        id: 'startup_marketplace_mvp',
+        title: '🛒 Two-Sided Local Service Marketplace MVP',
+        description: 'High-conversion booking engine with take-rate transaction model.',
+        badge: 'Marketplace',
+        presetAnswers: {
+          business_stage: 'mvp_prd',
+          target_audience_segment: 'b2c_consumers',
+          monetization_model: 'marketplace_take_rate',
+          target_user: 'Local residential homeowners & vetted independent tradespeople',
+          customer_problem: 'contractor_slow_quotes',
+          proposed_solution: 'instant_checkout_widget',
+          mvp_scoping_rule: 'balanced_8_week',
+          out_of_scope_cuts: 'no_crm_integration',
+          primary_metric: 'time_to_value'
+        }
+      },
+      {
+        id: 'startup_dev_tools',
+        title: '🛠️ Developer Tools API-First Platform',
+        description: 'CLI & SDK platform with usage-based token metering for cloud engineering teams.',
+        badge: 'DevTools & API',
+        presetAnswers: {
+          business_stage: 'mvp_prd',
+          target_audience_segment: 'developers_tech',
+          monetization_model: 'usage_metering',
+          target_user: 'DevOps & Platform SRE engineers managing multi-cluster Kubernetes',
+          customer_problem: 'devops_yaml_boilerplate',
+          proposed_solution: 'cli_automated_linting',
+          mvp_scoping_rule: 'ruthless_4_week',
+          out_of_scope_cuts: 'no_team_workspaces',
+          primary_metric: 'retention_30d'
+        }
+      }
+    ],
     fields: [
       {
         id: 'business_stage',
@@ -1091,24 +1495,34 @@ export const WORKFLOWS: WorkflowSchema[] = [
         label: 'What painful problem are they struggling with today?',
         technicalTerm: 'Core Problem Statement & Existing Workaround',
         eli5: 'What takes them too long, costs money, or causes mistakes? How do they handle it right now?',
-        example: 'They spend 6+ hours weekly chasing clients for content feedback across messy WhatsApp and email threads with lost versions',
-        type: 'textarea',
+        example: 'Freelancers waste 6+ hours weekly chasing invoice payments and client feedback across messy email threads',
+        type: 'select',
         step: 'start',
         required: true,
-        placeholder: 'e.g., Calculating compaction reports requires manually retyping Excel tables into Word templates, causing transposition errors...',
-        promptImpact: 'Forms the Problem Statement and Why Now rationale in the PRD.'
+        promptImpact: 'Forms the Problem Statement and Why Now rationale in the PRD.',
+        options: [
+          { label: 'Freelancers waste 6+ hours weekly chasing invoice payments and feedback across messy email threads', value: 'freelancer_invoice_chasing', isDefault: true },
+          { label: 'DevOps teams spend hours manually writing boilerplate Kubernetes YAML and debugging typos', value: 'devops_yaml_boilerplate' },
+          { label: 'Local service contractors struggle to quote jobs quickly and lose 40% of leads to faster competitors', value: 'contractor_slow_quotes' },
+          { label: 'Online shoppers abandon carts because checkout requires unnecessary account creation and multiple steps', value: 'checkout_abandonment' }
+        ]
       },
       {
         id: 'proposed_solution',
         label: 'What is your proposed solution or core feature?',
         technicalTerm: 'Value Proposition & Solution Hypothesis',
         eli5: 'In 1-2 sentences, what does the software or service actually do to solve that pain?',
-        example: 'A lightweight visual feedback canvas where clients click on a live website to leave pinned comments without making an account',
-        type: 'textarea',
+        example: 'A single-link client approval portal where clients review and approve deliverables with zero sign-up',
+        type: 'select',
         step: 'fit',
         required: true,
-        placeholder: 'e.g., A browser-first prompt builder with domain question banks and missing input checks...',
-        promptImpact: 'Defines the solution overview and core user journeys.'
+        promptImpact: 'Defines the solution overview and core user journeys.',
+        options: [
+          { label: 'A single-link client approval portal where clients review and approve deliverables with zero sign-up', value: 'single_link_portal', isDefault: true },
+          { label: 'A lightweight browser workspace with 1-click domain presets, guided dropdowns, and instant validation', value: 'guided_browser_builder' },
+          { label: 'An automated CLI integration that lints and validates manifests directly against cluster APIs', value: 'cli_automated_linting' },
+          { label: 'A 1-click checkout widget with instant Apple Pay / Google Pay and automatic guest receipt generation', value: 'instant_checkout_widget' }
+        ]
       },
       {
         id: 'mvp_scoping_rule',
@@ -1129,14 +1543,18 @@ export const WORKFLOWS: WorkflowSchema[] = [
       {
         id: 'out_of_scope_cuts',
         label: 'What is strictly OUT OF SCOPE for v1 (to avoid bloat)?',
-        technicalTerm: 'Non-Goals & MVP Feature Boundary',
+        technicalTerm: 'Non-Goals & MVP Feature Boundary Profile',
         eli5: 'Good PRDs declare what will NOT be built for launch (e.g. no mobile app, no custom billing, no team roles).',
-        example: 'No user accounts/passwords, no payment billing in v1, no video comments, no Jira integration',
-        type: 'text',
+        example: 'No native iOS/Android mobile apps (web only), no custom multi-tenancy roles, no AI chatbot in v1',
+        type: 'select',
         step: 'fit',
         required: false,
-        placeholder: 'e.g., No multi-tenancy, no native iOS app, no AI chat assistant in v1',
-        promptImpact: 'Creates an explicit Non-Goals section preventing engineering scope creep.'
+        promptImpact: 'Creates an explicit Non-Goals section preventing engineering scope creep.',
+        options: [
+          { label: 'No native mobile apps (web only), no multi-tenancy roles, no AI chatbot in v1', value: 'no_native_mobile_v1', isDefault: true },
+          { label: 'No self-serve billing in v1 (manual invoicing only), no custom domains, no team workspaces', value: 'no_team_workspaces' },
+          { label: 'No real-time WebSockets in v1 (polling only), no dark mode, no integrations with 3rd-party CRMs', value: 'no_crm_integration' }
+        ]
       },
       {
         id: 'primary_metric',
@@ -1184,12 +1602,63 @@ export const WORKFLOWS: WorkflowSchema[] = [
     modality: 'text',
     primaryIntent: 'Analyse / interpret',
     aliases: ['dcf', 'valuation', 'stock analysis', 'equity research', 'discounted cash flow', 'investing', 'pe ratio', 'financial model'],
+    governingStandards: ['CFA Institute Standards', 'GAAP / IFRS Accounting', 'US SEC Regulation G (Non-GAAP Guidance)'],
     reviewerRole: 'CFA Charterholder / Senior Equity Research Analyst',
     lastReviewedDate: '2026-03-09',
     missingInputRules: {
-      criticalFields: ['ticker_company', 'valuation_method'],
+      criticalFields: ['ticker_company', 'research_objective'],
       fallbackGuidance: 'If specific financial statement numbers are unavailable, the prompt focuses on educational methodology and sensitivity ranges without inventing earnings figures.'
     },
+    recipes: [
+      {
+        id: 'finance_saas_dcf',
+        title: '📊 High-Growth B2B SaaS DCF',
+        description: 'Intrinsic DCF model with 25% revenue CAGR, 10% WACC, and Rule of 40 cash flow reinvestment.',
+        badge: 'Enterprise SaaS',
+        presetAnswers: {
+          research_objective: 'dcf_model',
+          ticker_company: 'msft_tech',
+          company_lifecycle_profile: 'high_growth_saas',
+          valuation_horizon: '5_year_terminal',
+          wacc_discount_rate: 'wacc_9_11',
+          terminal_value_method: 'gordon_growth_2_5',
+          key_assumptions: 'high_growth_25_margin_30',
+          downside_risks: 'margin_compression'
+        }
+      },
+      {
+        id: 'finance_mature_brand',
+        title: '🏢 Blue-Chip Consumer Goods (EV/EBITDA)',
+        description: 'Defensive cash-cow with 12x EV/EBITDA exit multiple check and 8.0% hurdle rate.',
+        badge: 'Blue-Chip Consumer',
+        presetAnswers: {
+          research_objective: 'comps_benchmarking',
+          ticker_company: 'aapl_consumer',
+          company_lifecycle_profile: 'mature_cash_cow',
+          valuation_horizon: '5_year_terminal',
+          wacc_discount_rate: 'wacc_8_9',
+          terminal_value_method: 'exit_multiple_12x',
+          key_assumptions: 'baseline_growth_8_margin_25',
+          downside_risks: 'regulatory_scrutiny'
+        }
+      },
+      {
+        id: 'finance_cyclical_margin',
+        title: '🏭 Industrial / Capital Goods Stress Test',
+        description: 'Cyclical stress test with -5% contraction in early years and supply chain tariff shock.',
+        badge: 'Industrial Cyclical',
+        presetAnswers: {
+          research_objective: 'dcf_model',
+          ticker_company: 'siemens_industrial',
+          company_lifecycle_profile: 'cyclical_industrial',
+          valuation_horizon: '10_year_terminal',
+          wacc_discount_rate: 'wacc_9_11',
+          terminal_value_method: 'dual_terminal_check',
+          key_assumptions: 'stress_negative_5_compress',
+          downside_risks: 'supply_chain_tariffs'
+        }
+      }
+    ],
     fields: [
       {
         id: 'industry_sector',
@@ -1221,15 +1690,22 @@ export const WORKFLOWS: WorkflowSchema[] = [
       },
       {
         id: 'ticker_company',
-        label: 'What is the company name, ticker, and exchange?',
-        technicalTerm: 'Entity Ticker & Primary Listing',
-        eli5: 'Name the company and stock exchange so fiscal years and currency are unambiguous.',
-        example: 'Apple Inc. (AAPL: NASDAQ) or HDFC Bank (HDFCBANK: NSE)',
-        type: 'text',
+        label: 'What is the company name, ticker, and sector benchmark?',
+        technicalTerm: 'Entity Ticker & Primary Listing Benchmark',
+        eli5: 'Pick a standard global benchmark stock or custom entity to set up financial statements.',
+        example: 'Microsoft Corp (MSFT: NASDAQ) — Enterprise Cloud & Software',
+        type: 'select',
         step: 'start',
         required: true,
-        placeholder: 'e.g., Microsoft (MSFT: NASDAQ) or Siemens AG (SIE: ETR)',
-        promptImpact: 'Identifies the business entity and primary reporting currency.'
+        promptImpact: 'Identifies the business entity and primary reporting currency.',
+        options: [
+          { label: 'Microsoft Corp (MSFT: NASDAQ) — Cloud, Enterprise & AI Platforms', value: 'msft_tech', isDefault: true },
+          { label: 'Apple Inc (AAPL: NASDAQ) — Consumer Hardware, Ecosystem & Services', value: 'aapl_consumer' },
+          { label: 'Siemens AG (SIE: ETR) — Industrial Automation, Rail & Energy Infrastructure', value: 'siemens_industrial' },
+          { label: 'ASML Holding (ASML: NASDAQ) — High-NA EUV Semiconductor Equipment Monopoly', value: 'asml_semiconductor' },
+          { label: 'HDFC Bank (HDFCBANK: NSE) — Retail & Corporate Commercial Banking', value: 'hdfc_banking' },
+          { label: 'Custom Global Ticker / Mid-Cap Business (Describe or model by ratios)', value: 'custom_ticker' }
+        ]
       },
       {
         id: 'company_lifecycle_profile',
@@ -1299,15 +1775,20 @@ export const WORKFLOWS: WorkflowSchema[] = [
       },
       {
         id: 'key_assumptions',
-        label: 'What additional revenue or margin assumptions do you have? (Optional)',
+        label: 'What revenue growth & operating margin trajectory should be modeled?',
         technicalTerm: 'Revenue CAGR and Operating Margin Guidance',
-        eli5: 'Enter any specific margin numbers or leave blank for standard industry benchmark modeling.',
-        example: 'WACC = 8.5%, Revenue CAGR = 12%, Terminal growth = 2.5%, Operating margin = 28%',
-        type: 'textarea',
+        eli5: 'Select a standard financial forecast scenario or conservative baseline.',
+        example: 'Baseline Growth: 8% Revenue CAGR, 25% Operating Margin, 8.5% WACC',
+        type: 'select',
         step: 'fit',
         required: false,
-        placeholder: 'e.g., Operating margin expanding from 22% to 28%, CapEx at 5% of sales...',
-        promptImpact: 'Injected into the financial calculation assumptions table.'
+        promptImpact: 'Injected into the financial calculation assumptions table.',
+        options: [
+          { label: 'Baseline Growth: 8% Revenue CAGR, 25% Operating Margin, 8.5% WACC, 2.5% Terminal Growth', value: 'baseline_growth_8_margin_25', isDefault: true },
+          { label: 'High-Growth Expansion: 25% Revenue CAGR, Operating Margin scaling from 18% to 30%, 10% WACC', value: 'high_growth_25_margin_30' },
+          { label: 'Defensive Value: 3% Revenue CAGR, 18% Operating Margin, 7.5% WACC, 2.0% Terminal Growth', value: 'defensive_3_margin_18' },
+          { label: 'Stress-Test Bear Case: -5% Revenue contraction in Years 1-2, 400bps margin compression, 11% WACC', value: 'stress_negative_5_compress' }
+        ]
       },
       {
         id: 'downside_risks',
@@ -1354,12 +1835,54 @@ export const WORKFLOWS: WorkflowSchema[] = [
     modality: 'text',
     primaryIntent: 'Practise / drill',
     aliases: ['study', 'exam', 'quiz', 'flashcards', 'tutor', 'active recall', 'feynman technique', 'revision'],
+    governingStandards: ['Bloom\'s Taxonomy', 'Cognitive Load Theory (Sweller)', 'Spaced Retrieval Practice (Roediger & Karpicke)'],
     reviewerRole: 'Master Educator & Curriculum Specialist',
     lastReviewedDate: '2026-03-15',
     missingInputRules: {
-      criticalFields: ['subject_topic', 'exam_level'],
+      criticalFields: ['study_mode', 'exam_level'],
       fallbackGuidance: 'If the syllabus or difficulty is unspecified, the tutor begins with a 3-question diagnostic baseline quiz.'
     },
+    recipes: [
+      {
+        id: 'tutor_physics_mechanics',
+        title: '⚛️ Classical Mechanics & Newton\'s Laws',
+        description: 'University sophomore-level physics with Socratic derivations and free-body diagram traps.',
+        badge: 'Physics & Dynamics',
+        presetAnswers: {
+          study_mode: 'socratic_quiz',
+          exam_level: 'undergrad_univ',
+          hardest_concept: 'boundary_conditions',
+          question_frequency_mode: 'trap_questions',
+          tone_style: 'rigorous'
+        }
+      },
+      {
+        id: 'tutor_org_chem',
+        title: '🧪 Organic Chemistry SN1 vs SN2',
+        description: 'Mechanism walkthroughs with carbocation stability, polar protic vs aprotic solvent traps.',
+        badge: 'Chemistry Mechanisms',
+        presetAnswers: {
+          study_mode: 'worked_example',
+          exam_level: 'undergrad_univ',
+          hardest_concept: 'stereochem_solvents',
+          question_frequency_mode: 'derivation_breakdown',
+          tone_style: 'patient_analogy'
+        }
+      },
+      {
+        id: 'tutor_fe_exam',
+        title: '🏗️ FE / PE Engineering Licensure Prep',
+        description: 'High-yield exam questions targeting common trick questions in the NCEES reference handbook.',
+        badge: 'FE Licensure Drill',
+        presetAnswers: {
+          study_mode: 'socratic_quiz',
+          exam_level: 'professional_cert',
+          hardest_concept: 'trap_distractors',
+          question_frequency_mode: 'high_yield_patterns',
+          tone_style: 'exam_cram'
+        }
+      }
+    ],
     fields: [
       {
         id: 'study_mode',
@@ -1380,13 +1903,13 @@ export const WORKFLOWS: WorkflowSchema[] = [
       },
       {
         id: 'subject_topic',
-        label: 'What subject and specific topic are you studying?',
+        label: 'What subject and specific topic are you studying? (Optional)',
         technicalTerm: 'Curricular Subject & Specific Topic Focus',
         eli5: 'Choose your domain and subject from the guided hierarchy, or enter custom topics at any level.',
         example: 'Knowledge & science → Physical sciences → Applied Physics & Mechanics → Worked physics derivation',
         type: 'subject_picker',
         step: 'start',
-        required: true,
+        required: false,
         placeholder: 'e.g., Organic Chemistry: SN1 vs SN2 reaction mechanisms and solvent effects',
         promptImpact: 'Forms the topical scope and question bank domain.'
       },
@@ -1409,15 +1932,21 @@ export const WORKFLOWS: WorkflowSchema[] = [
       },
       {
         id: 'hardest_concept',
-        label: 'What is the hardest part of this topic for you?',
-        technicalTerm: 'Student Pain Point & Conceptual Friction',
-        eli5: 'Mention what usually trips you up so the tutor focuses its drills there.',
-        example: 'I get confused deciding whether a polar aprotic solvent favors SN1 or SN2',
-        type: 'text',
+        label: 'What is the hardest conceptual stumbling block for you?',
+        technicalTerm: 'Student Pain Point & Diagnostic Hurdle',
+        eli5: 'Choose the hurdle that usually trips you up so the tutor creates targeted diagnostic traps.',
+        example: 'Setting up boundary conditions and coordinate frames without signs errors',
+        type: 'select',
         step: 'fit',
         required: false,
-        placeholder: 'e.g., Deriving the formulas without memorizing, or identifying which theorem applies',
-        promptImpact: 'Tells the AI to generate targeted diagnostic traps addressing this specific hurdle.'
+        promptImpact: 'Tells the AI to generate targeted diagnostic traps addressing this specific hurdle.',
+        options: [
+          { label: 'Equation Selection: Deciding which governing formula or theorem applies to the problem', value: 'identifying_equations', isDefault: true },
+          { label: 'Coordinate & Boundary Conditions: Setting up signs, free-body frames, and initial constraints', value: 'boundary_conditions' },
+          { label: 'Mechanism & Solvent Traps: Distinguishing reaction pathways based on solvent polarity & stereochemistry', value: 'stereochem_solvents' },
+          { label: 'Deceptive Multiple-Choice Distractors: Spotting traps designed to catch quick calculations', value: 'trap_distractors' },
+          { label: 'Intuitive Conceptual Insight: Understanding physical meaning beyond rote formula memorization', value: 'intuitive_conceptual' }
+        ]
       },
       {
         id: 'question_frequency_mode',
@@ -1480,12 +2009,71 @@ export const WORKFLOWS: WorkflowSchema[] = [
     modality: 'text',
     primaryIntent: 'Create / design',
     aliases: ['universal', 'general prompt', 'any task', 'beginner builder', 'custom prompt', 'help me build a prompt'],
+    governingStandards: ['ISO/IEC 25010 Quality Model', 'Clear Writing & Plain Language Guidelines', 'Zero Hallucination AI Guardrails'],
     reviewerRole: 'PromptLaz Core Systems Architect',
     lastReviewedDate: '2026-03-15',
     missingInputRules: {
       criticalFields: ['user_goal', 'desired_output'],
       fallbackGuidance: 'If the goal is brief, PromptLaz structures the prompt to ask clarifying questions before completing work.'
     },
+    recipes: [
+      {
+        id: 'universal_invoice_demand',
+        title: '✉️ Firm Overdue Invoice Follow-Up Letter',
+        description: 'Professional, assertive email for a 30-day overdue invoice maintaining client relationship.',
+        badge: 'Business Finance',
+        presetAnswers: {
+          common_task_archetype: 'business_correspondence',
+          user_goal: 'overdue_invoice',
+          available_context: 'invoice_30d_late',
+          desired_output: 'text_draft',
+          constraints_rules: 'under_150_words_polite',
+          tone_voice: 'professional'
+        }
+      },
+      {
+        id: 'universal_tech_matrix',
+        title: '⚖️ PostgreSQL vs MongoDB Trade-Off Matrix',
+        description: 'Comprehensive decision matrix comparing relational ACID vs document stores for high-throughput app.',
+        badge: 'Architecture Review',
+        presetAnswers: {
+          common_task_archetype: 'decision_matrix',
+          user_goal: 'database_tradeoffs',
+          available_context: 'saas_scale_200k',
+          desired_output: 'comparison_table',
+          constraints_rules: 'tabular_pros_cons',
+          tone_voice: 'academic'
+        }
+      },
+      {
+        id: 'universal_onboarding_plan',
+        title: '📋 30-60-90 Day Engineering Onboarding Plan',
+        description: 'Structured onboarding milestone guide for a Senior Fullstack Engineer joining an agile team.',
+        badge: 'Engineering Management',
+        presetAnswers: {
+          common_task_archetype: 'tech_architecture_review',
+          user_goal: 'onboarding_roadmap',
+          available_context: 'senior_ic_hire',
+          desired_output: 'checklist',
+          constraints_rules: 'weekly_measurable',
+          tone_voice: 'professional'
+        }
+      },
+      {
+        id: 'universal_incident_rca',
+        title: '🚨 Production Outage 5-Whys Post-Mortem',
+        description: 'Blameless root cause analysis for an unexpected database connection exhaustion incident.',
+        badge: 'DevOps & SRE',
+        presetAnswers: {
+          common_task_archetype: 'troubleshooting_rca',
+          user_goal: 'outage_rca',
+          available_context: 'db_connection_spike',
+          desired_output: 'technical_spec',
+          constraints_rules: 'blameless_action_items',
+          tone_voice: 'executive_bullet'
+        }
+      }
+    ],
     fields: [
       {
         id: 'subject_hierarchy',
@@ -1520,26 +2108,38 @@ export const WORKFLOWS: WorkflowSchema[] = [
       {
         id: 'user_goal',
         label: 'In plain language, what are you trying to accomplish?',
-        technicalTerm: 'Primary Objective',
-        eli5: 'Describe what you need in everyday words. You do not need to know technical jargon.',
-        example: 'I need to write a polite but firm email to a client who is two weeks late paying their invoice',
-        type: 'textarea',
+        technicalTerm: 'Primary Objective Statement',
+        eli5: 'Select what you need done, or pick custom to describe your own task.',
+        example: 'Draft an assertive yet polite overdue payment reminder email to a client',
+        type: 'select',
         step: 'start',
         required: true,
-        placeholder: 'e.g., I want to compare three different database options for our new mobile app, or plan a 3-day team offsite agenda...',
-        promptImpact: 'Defines the primary mission statement of the prompt.'
+        promptImpact: 'Defines the primary mission statement of the prompt.',
+        options: [
+          { label: 'Draft an assertive yet polite overdue payment reminder email to a client', value: 'overdue_invoice', isDefault: true },
+          { label: 'Compare PostgreSQL vs MongoDB trade-offs for high-throughput event logging', value: 'database_tradeoffs' },
+          { label: 'Create a structured 30-60-90 day engineering leadership onboarding roadmap', value: 'onboarding_roadmap' },
+          { label: 'Perform a blameless 5-Whys root cause analysis for an unexpected database outage', value: 'outage_rca' },
+          { label: 'Custom Task / General Inquiry (Provide custom instructions)', value: 'custom_goal_entry' }
+        ]
       },
       {
         id: 'available_context',
         label: 'What background facts, data, or notes do you have?',
         technicalTerm: 'Supplied Context & Prior Art',
-        eli5: 'Share any notes, constraints, numbers, or rules that the AI must follow.',
-        example: 'Invoice #1042 was sent 30 days ago, total is $4,200, contract says 1.5% late fee per month after 14 days overdue',
-        type: 'textarea',
+        eli5: 'Select your situation background so the AI bases answers on realistic context.',
+        example: 'Invoice #1042 was sent 30 days ago, total is $4,500, contract says 1.5% late fee after 14 days',
+        type: 'select',
         step: 'start',
         required: false,
-        placeholder: 'e.g., We have a PostgreSQL database with 200k users, team has 4 engineers, budget is under $500/month...',
-        promptImpact: 'Provides the factual bedrock so the AI does not have to invent details.'
+        promptImpact: 'Provides the factual bedrock so the AI does not have to invent details.',
+        options: [
+          { label: 'Invoice #1042 sent 30 days ago ($4,500 total, 1.5% monthly late fee terms, friendly prior client)', value: 'invoice_30d_late', isDefault: true },
+          { label: 'SaaS app: 200k daily active users, 10M events/day, 4 engineers, $500/month cloud budget', value: 'saas_scale_200k' },
+          { label: 'Senior Fullstack Engineer joining an agile fintech startup using TypeScript, Node, and AWS', value: 'senior_ic_hire' },
+          { label: 'Primary DB connection pool exhausted at 9:00 AM spike, causing 504 errors for 18 minutes', value: 'db_connection_spike' },
+          { label: 'General standard industry baseline facts and standard assumptions', value: 'general_context' }
+        ]
       },
       {
         id: 'desired_output',
@@ -1563,13 +2163,19 @@ export const WORKFLOWS: WorkflowSchema[] = [
         id: 'constraints_rules',
         label: 'Are there things the AI should avoid or strictly follow?',
         technicalTerm: 'Negative Constraints & Style Rules',
-        eli5: 'Word count limits, tone restrictions, things to avoid, or privacy guidelines.',
-        example: 'Keep under 150 words, do not sound aggressive or threatening, maintain cordial relationship for future work',
-        type: 'text',
+        eli5: 'Word count limits, tone restrictions, or strict guidelines.',
+        example: 'Keep under 150 words, do not sound aggressive, maintain cordial relationship for future work',
+        type: 'select',
         step: 'fit',
         required: false,
-        placeholder: 'e.g., Keep under 300 words, no corporate jargon, do not invent statistics',
-        promptImpact: 'Creates negative boundaries and style constraints.'
+        promptImpact: 'Creates negative boundaries and style constraints.',
+        options: [
+          { label: 'Keep under 150 words, maintain cordial relationship, direct call to action', value: 'under_150_words_polite', isDefault: true },
+          { label: 'Present side-by-side comparison table with cost, scalability, complexity, and operational overhead', value: 'tabular_pros_cons' },
+          { label: 'Break down into weekly deliverables with clear measurable definition of done', value: 'weekly_measurable' },
+          { label: 'Strictly blameless language focusing on automation, monitoring, and runbook improvements', value: 'blameless_action_items' },
+          { label: 'No corporate jargon, avoid clichés, format with clear bullet points and action items', value: 'no_jargon_bullets' }
+        ]
       },
       {
         id: 'tone_voice',

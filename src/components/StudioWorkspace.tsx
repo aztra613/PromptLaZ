@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useId, useRef } from 'react';
-import { WorkflowSchema, TargetTool, LocalDraft } from '../types';
+import { WorkflowSchema, WorkflowRecipe, TargetTool, LocalDraft } from '../types';
 import { buildPrompt, saveLocalDraft, isLocalDraftsEnabled, downloadFile } from '../utils/promptBuilder';
 import { 
   Copy, Check, Download, Bookmark, RefreshCw, Edit3, Eye, 
@@ -26,6 +26,7 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
   // Mode: Beginner vs Expert
   const [isExpertMode, setIsExpertMode] = useState(false);
   const [activeStep, setActiveStep] = useState<'start' | 'fit' | 'finetune'>('start');
+  const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
   
   // Form Answers
   const [answers, setAnswers] = useState<Record<string, any>>(() => {
@@ -39,6 +40,34 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
     });
     return defaults;
   });
+
+  // Reset or load defaults when switching workflows
+  useEffect(() => {
+    setSelectedRecipeId(null);
+    if (!initialDraftAnswers) {
+      const defaults: Record<string, any> = {};
+      workflow.fields.forEach(f => {
+        if (f.options) {
+          const defOpt = f.options.find(o => o.isDefault);
+          if (defOpt) defaults[f.id] = defOpt.value;
+        }
+      });
+      setAnswers(defaults);
+      setManualPromptText(null);
+      setHasEditConflict(false);
+    }
+  }, [workflow.id]);
+
+  const handleSelectRecipe = (recipe: WorkflowRecipe) => {
+    setSelectedRecipeId(recipe.id);
+    setAnswers(prev => ({
+      ...prev,
+      ...recipe.presetAnswers
+    }));
+    setManualPromptText(null);
+    setHasEditConflict(false);
+    setIsManualEditing(false);
+  };
 
   // Reference image preview (client-side in-memory only)
   const [referenceImageUrl, setReferenceImageUrl] = useState<string | null>(null);
@@ -311,6 +340,72 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
         
         {/* LEFT COLUMN: GUIDED FORM WORKBENCH (7 cols ~58%) */}
         <div className="lg:col-span-7 space-y-6">
+
+          {/* Wikipedia Encyclopedia Recipe Blueprints (1-Click Load) */}
+          {workflow.recipes && workflow.recipes.length > 0 && (
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-50/90 via-white to-amber-50/60 dark:from-slate-900/90 dark:via-slate-800/80 dark:to-indigo-950/40 border border-indigo-100 dark:border-indigo-900/40 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-xl">📖</span>
+                  <div>
+                    <h2 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2 flex-wrap">
+                      <span>Wikipedia Recipe Blueprints</span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                        1-Click Ready • Zero Typing
+                      </span>
+                    </h2>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      Pick a real-world scenario to populate all technical dropdowns automatically:
+                    </p>
+                  </div>
+                </div>
+                <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500 hidden sm:inline">
+                  {workflow.recipes.length} verified blueprints
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                {workflow.recipes.map((recipe) => {
+                  const isSelected = selectedRecipeId === recipe.id;
+                  return (
+                    <button
+                      key={recipe.id}
+                      type="button"
+                      onClick={() => handleSelectRecipe(recipe)}
+                      className={`p-3 rounded-xl text-left transition-all border flex flex-col justify-between ${
+                        isSelected
+                          ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm ring-2 ring-indigo-400/40'
+                          : 'bg-white/90 dark:bg-slate-800/90 hover:bg-indigo-50/60 dark:hover:bg-slate-700/60 text-slate-800 dark:text-slate-200 border-slate-200/80 dark:border-slate-700'
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-1 mb-1.5">
+                          <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
+                            isSelected 
+                              ? 'bg-indigo-700 text-indigo-100'
+                              : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+                          }`}>
+                            {recipe.badge}
+                          </span>
+                          {isSelected && (
+                            <span className="text-[9px] font-extrabold uppercase bg-white text-indigo-700 px-1.5 py-0.5 rounded-full">
+                              Active
+                            </span>
+                          )}
+                        </div>
+                        <h3 className={`text-xs font-bold leading-snug line-clamp-2 ${isSelected ? 'text-white' : 'text-slate-900 dark:text-slate-100'}`}>
+                          {recipe.title}
+                        </h3>
+                      </div>
+                      <p className={`text-[11px] leading-tight line-clamp-2 mt-2 ${isSelected ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'}`}>
+                        {recipe.description}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Step Tabs */}
           <div className="flex items-center border-b border-[#D9DFEA] dark:border-[#334155] gap-2 pb-1 overflow-x-auto custom-scrollbar">

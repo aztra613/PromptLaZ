@@ -138,6 +138,14 @@ export interface VerificationCheck {
   category: 'units' | 'assumptions' | 'standards' | 'evidence' | 'limitations';
 }
 
+export interface WorkflowRecipe {
+  id: string;
+  title: string;
+  description: string;
+  badge?: string;
+  presetAnswers: Record<string, any>;
+}
+
 export interface WorkflowSchema {
   id: string;
   title: string;
@@ -158,6 +166,7 @@ export interface WorkflowSchema {
   governingStandards?: string[];
   reviewerRole?: string;
   lastReviewedDate?: string;
+  recipes?: WorkflowRecipe[];
   fields: QuestionField[];
   relatedWorkflows: WorkflowRelation[];
   verificationChecks: VerificationCheck[];
