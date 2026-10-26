@@ -262,7 +262,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
                           className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-semibold inline-flex items-center gap-1.5"
                         >
                           <Wand2 className="w-3.5 h-3.5" />
-                          Build with Universal Prompt Studio (39 Domains)
+                          Build with Universal Prompt Studio (54 Domains)
                         </button>
                       </div>
                     )}
@@ -294,7 +294,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
                   className="h-12 px-5 rounded-xl border border-transparent hover:border-[#D9DFEA] dark:hover:border-[#334155] text-[#596579] dark:text-[#94A3B8] hover:text-[#172033] dark:hover:text-white font-semibold text-sm transition-colors flex items-center justify-center gap-1.5"
                 >
                   <BookOpen className="w-4 h-4" />
-                  Explore All 39 Domains
+                  Explore All 54 Domains
                 </button>
               </div>
 
@@ -684,7 +684,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
                   <Layers className="w-6 h-6" />
                 </div>
                 <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
-                  39 Domains · 211 Disciplines
+                  54 Domains · 298 Disciplines
                 </span>
               </div>
 

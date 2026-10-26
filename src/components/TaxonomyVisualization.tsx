@@ -345,7 +345,7 @@ export const TaxonomyVisualization: React.FC<TaxonomyVisualizationProps> = ({
         .attr('dy', '1.2em')
         .attr('fill', '#94A3B8')
         .attr('font-size', '9px')
-        .text('39 Domains');
+        .text('54 Domains');
     }
   }, [hierarchyData, vizType, searchFilter, isDark]);
 

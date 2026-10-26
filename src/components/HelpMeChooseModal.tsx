@@ -302,7 +302,7 @@ export const HelpMeChooseModal: React.FC<HelpMeChooseModalProps> = ({
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider">
-                  Browse by Subject Portals (39 Domains)
+                  Browse by Subject Portals (54 Domains)
                 </span>
                 <span className="text-xs text-slate-500">
                   Select an area to explore
@@ -414,7 +414,7 @@ export const HelpMeChooseModal: React.FC<HelpMeChooseModalProps> = ({
         <div className="p-4 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500">
           <div className="flex items-center gap-1.5">
             <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-            <span>Covers all 39 PRD domain families with 211 subdisciplines</span>
+            <span>Covers all 54 PRD domain families with 298 subdisciplines</span>
           </div>
           <button
             onClick={onClose}

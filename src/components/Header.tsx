@@ -61,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
             }`}
           >
             <BookOpen className="w-4 h-4" />
-            Explore Atlas (39 Domains)
+            Explore Atlas (54 Domains)
           </button>
 
           <button
@@ -156,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => { onNavigate('atlas'); setMobileMenuOpen(false); }}
             className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-[#172033] dark:text-[#F1F5F9] hover:bg-[#F7F8FC] dark:hover:bg-[#1E293B] flex items-center justify-between"
           >
-            <span>Explore Atlas (39 Domains)</span>
+            <span>Explore Atlas (54 Domains)</span>
             <span className="text-xs text-[#4F46E5] dark:text-[#818CF8] font-semibold">Browse</span>
           </button>
           <button
