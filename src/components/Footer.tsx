@@ -3,10 +3,11 @@ import { Compass, Shield, Lock, AlertTriangle, CheckCircle2 } from 'lucide-react
 
 interface FooterProps {
   onNavigate: (view: 'landing' | 'studio' | 'atlas', workflowId?: string) => void;
-  onOpenPolicy: (tab: 'safety' | 'privacy' | 'boundaries') => void;
+  onOpenPolicy: (tab: any) => void;
+  onNavigatePolicy?: (tab: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPolicy }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPolicy, onNavigatePolicy }) => {
   return (
     <footer className="w-full bg-[#182742] dark:bg-[#070D1A] text-white border-t border-[#233554] dark:border-[#1E293B] mt-24">
       {/* Notice & Trust Strip */}
@@ -148,13 +149,38 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPolicy }) => {
           </div>
         </div>
 
-        {/* Bottom Legal Notice */}
-        <div className="mt-12 pt-6 border-t border-[#233554] flex flex-col sm:flex-row items-center justify-between text-xs text-[#64748B] gap-4">
-          <p>
-            PromptLaz helps you prepare better prompts. It does not guarantee the output of external AI tools or replace certified professional engineering, financial, or legal judgment.
-          </p>
-          <div className="shrink-0 text-[#94A3B8]">
-            No login · Browser-local · Free to use
+        {/* Bottom Legal Notice matching Aztras AI Tech Solutions Standard */}
+        <div className="mt-12 pt-6 border-t border-[#233554] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-[#94A3B8]">
+          <div>
+            <p>
+              Product of <strong className="text-white font-semibold">Aztras AI Tech Solutions</strong>, Chennai, India.
+            </p>
+            <p className="mt-1 text-[#64748B]">
+              © 2026 Aztras AI Tech Solutions. All rights reserved.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-start md:items-end gap-2">
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-slate-300">
+              <button onClick={() => onNavigatePolicy ? onNavigatePolicy('privacy') : onOpenPolicy('privacy')} className="hover:text-white transition-colors">Privacy</button>
+              <span className="text-slate-600">·</span>
+              <button onClick={() => onNavigatePolicy ? onNavigatePolicy('terms') : onOpenPolicy('terms')} className="hover:text-white transition-colors">Terms</button>
+              <span className="text-slate-600">·</span>
+              <button onClick={() => onNavigatePolicy ? onNavigatePolicy('cookies') : onOpenPolicy('cookies')} className="hover:text-white transition-colors">Cookies</button>
+              <span className="text-slate-600">·</span>
+              <button onClick={() => onNavigatePolicy ? onNavigatePolicy('disclaimer') : onOpenPolicy('disclaimer')} className="hover:text-white transition-colors">Disclaimer</button>
+              <span className="text-slate-600">·</span>
+              <button onClick={() => onNavigatePolicy ? onNavigatePolicy('contact') : onOpenPolicy('contact')} className="hover:text-white transition-colors">Contact</button>
+              <span className="text-slate-600">·</span>
+              <button onClick={() => onNavigatePolicy ? onNavigatePolicy('licenses') : onOpenPolicy('licenses')} className="hover:text-white transition-colors">Licenses</button>
+              <span className="text-slate-600">·</span>
+              <button onClick={() => onNavigatePolicy ? onNavigatePolicy('accessibility') : onOpenPolicy('accessibility')} className="hover:text-white transition-colors">Accessibility</button>
+              <span className="text-slate-600">·</span>
+              <button onClick={() => onNavigatePolicy ? onNavigatePolicy('security') : onOpenPolicy('security')} className="hover:text-white transition-colors">Security</button>
+            </div>
+            <p className="text-[11px] text-[#64748B] max-w-xl text-left md:text-right">
+              Independent static-first AI prompt engineering & domain atlas platform. Users are solely responsible for copyright compliance and lawful use.
+            </p>
           </div>
         </div>
       </div>

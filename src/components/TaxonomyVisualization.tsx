@@ -28,7 +28,7 @@ export interface TaxonomyHierarchyNode {
 }
 
 interface TaxonomyVisualizationProps {
-  onSelectWorkflow: (workflowId: string) => void;
+  onSelectWorkflow: (workflowId: string, initialAnswers?: Record<string, any>) => void;
   onOpenUniversal: () => void;
   activeFilterGroup?: 'All' | DomainGroup;
   searchFilter?: string;
@@ -536,7 +536,11 @@ export const TaxonomyVisualization: React.FC<TaxonomyVisualizationProps> = ({
                         className="text-xs p-2 rounded-lg bg-[#FAFBFD] dark:bg-[#0F172A] border border-[#E2E8F0] dark:border-[#334155] text-[#1E293B] dark:text-[#CBD5E1] hover:border-[#4F46E5] dark:hover:border-[#818CF8] hover:text-[#4F46E5] dark:hover:text-[#818CF8] cursor-pointer transition-colors"
                         onClick={() => {
                           if (selectedNode.workflowId) {
-                            onSelectWorkflow(selectedNode.workflowId);
+                            onSelectWorkflow(selectedNode.workflowId, {
+                              task_objective: t,
+                              task_focus: t,
+                              user_goal: t
+                            });
                           } else {
                             onOpenUniversal();
                           }

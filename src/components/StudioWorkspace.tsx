@@ -33,7 +33,7 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
   // Mode: Beginner vs Expert
   const [isExpertMode, setIsExpertMode] = useState(false);
   const [activeStep, setActiveStep] = useState<'start' | 'fit' | 'finetune'>('start');
-  const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
+  const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(initialDraftAnswers?._recipeId || null);
   const [selectedDomainCategory, setSelectedDomainCategory] = useState<string>('all');
 
   const filteredWorkflows = WORKFLOWS.filter((w) => {
@@ -51,7 +51,10 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
         w.id.includes('creative') ||
         w.domainId.includes('creative') ||
         w.id.includes('photo') ||
-        w.id.includes('uiux')
+        w.id.includes('uiux') ||
+        w.domainId.includes('arts_') ||
+        w.domainId.includes('film_') ||
+        w.domainId.includes('music_')
       );
     }
     if (selectedDomainCategory === 'economy') {
@@ -69,7 +72,6 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
   
   // Form Answers
   const [answers, setAnswers] = useState<Record<string, any>>(() => {
-    if (initialDraftAnswers) return initialDraftAnswers;
     const defaults: Record<string, any> = {};
     workflow.fields.forEach(f => {
       if (f.options) {
@@ -77,13 +79,14 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
         if (defOpt) defaults[f.id] = defOpt.value;
       }
     });
+    if (initialDraftAnswers) return { ...defaults, ...initialDraftAnswers };
     return defaults;
   });
 
   // Reset or load defaults when switching workflows
   useEffect(() => {
-    setSelectedRecipeId(null);
     if (!initialDraftAnswers) {
+      setSelectedRecipeId(null);
       const defaults: Record<string, any> = {};
       workflow.fields.forEach(f => {
         if (f.options) {
@@ -94,8 +97,10 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
       setAnswers(defaults);
       setManualPromptText(null);
       setHasEditConflict(false);
+    } else {
+      setSelectedRecipeId(initialDraftAnswers._recipeId || null);
     }
-  }, [workflow.id]);
+  }, [workflow.id, initialDraftAnswers]);
 
   const handleSelectRecipe = (recipe: WorkflowRecipe) => {
     setSelectedRecipeId(recipe.id);

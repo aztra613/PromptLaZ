@@ -1,6 +1,7 @@
 import { WorkflowSchema } from '../types';
 import { ENCYCLOPEDIA_WORKFLOWS } from './workflows-encyclopedia';
 import { FOUNDER_WORKFLOWS } from './workflows-founder';
+import { ALL_DOMAINS_WORKFLOWS } from './workflows-all-domains';
 
 const CORE_WORKFLOWS: WorkflowSchema[] = [
   // 1. CIVIL ENGINEERING: SOIL MECHANICS & COMPACTION / SETTLEMENT
@@ -2506,5 +2507,6 @@ const CORE_WORKFLOWS: WorkflowSchema[] = [
 export const WORKFLOWS: WorkflowSchema[] = [
   ...CORE_WORKFLOWS,
   ...FOUNDER_WORKFLOWS,
-  ...ENCYCLOPEDIA_WORKFLOWS
+  ...ENCYCLOPEDIA_WORKFLOWS,
+  ...ALL_DOMAINS_WORKFLOWS
 ];

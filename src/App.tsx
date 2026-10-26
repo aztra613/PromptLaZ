@@ -15,11 +15,13 @@ import { getLocalDrafts } from './utils/promptBuilder';
 import { ThemeProvider } from './context/ThemeContext';
 import { LocalizationProvider } from './context/LocalizationContext';
 import { LocalizationBar } from './components/LocalizationBar';
+import { LegalPolicyPage, PolicyTab } from './components/LegalPolicyPage';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'landing' | 'studio' | 'atlas'>('landing');
+  const [currentView, setCurrentView] = useState<'landing' | 'studio' | 'atlas' | 'policy'>('landing');
   const [activeWorkflowId, setActiveWorkflowId] = useState<string>('civil_soil_mechanics');
   const [draftsCount, setDraftsCount] = useState<number>(0);
+  const [activePolicyTab, setActivePolicyTab] = useState<PolicyTab>('privacy');
 
   // Modals
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -39,23 +41,50 @@ export default function App() {
 
   useEffect(() => {
     refreshDraftsCount();
+
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+      const validPolicies: PolicyTab[] = ['privacy', 'terms', 'cookies', 'disclaimer', 'contact', 'licenses', 'accessibility', 'security'];
+      if (validPolicies.includes(hash as PolicyTab)) {
+        setActivePolicyTab(hash as PolicyTab);
+        setCurrentView('policy');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   // Find active workflow
   const activeWorkflow = WORKFLOWS.find(w => w.id === activeWorkflowId) || WORKFLOWS[0];
 
-  const handleNavigate = (view: 'landing' | 'studio' | 'atlas', workflowId?: string) => {
+  const handleNavigate = (view: 'landing' | 'studio' | 'atlas' | 'policy', workflowId?: string) => {
     if (workflowId) {
       setActiveWorkflowId(workflowId);
       setResumedAnswers(undefined);
+    }
+    if (view !== 'policy' && window.location.hash) {
+      window.history.pushState(null, '', window.location.pathname + window.location.search);
     }
     setCurrentView(view);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSelectWorkflow = (workflowId: string) => {
+  const handleNavigatePolicy = (tab: PolicyTab) => {
+    setActivePolicyTab(tab);
+    setCurrentView('policy');
+    window.location.hash = `#${tab}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectWorkflow = (workflowId: string, initialAnswers?: Record<string, any>) => {
     setActiveWorkflowId(workflowId);
-    setResumedAnswers(undefined);
+    setResumedAnswers(initialAnswers);
+    if (window.location.hash) {
+      window.history.pushState(null, '', window.location.pathname + window.location.search);
+    }
     setCurrentView('studio');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -118,12 +147,21 @@ export default function App() {
               onOpenUniversal={() => handleSelectWorkflow('universal_builder')}
             />
           )}
+
+          {currentView === 'policy' && (
+            <LegalPolicyPage
+              activeTab={activePolicyTab}
+              onBack={() => handleNavigate('landing')}
+              onTabChange={handleNavigatePolicy}
+            />
+          )}
         </main>
 
         {/* Universal Footer */}
         <Footer
           onNavigate={handleNavigate}
           onOpenPolicy={handleOpenPolicy}
+          onNavigatePolicy={handleNavigatePolicy}
         />
 
         {/* Modals */}

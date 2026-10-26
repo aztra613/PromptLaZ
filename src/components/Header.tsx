@@ -3,8 +3,8 @@ import { Compass, BookOpen, ShieldCheck, Bookmark, Sparkles, Menu, X, ArrowRight
 import { useTheme } from '../context/ThemeContext';
 
 interface HeaderProps {
-  currentView: 'landing' | 'studio' | 'atlas';
-  onNavigate: (view: 'landing' | 'studio' | 'atlas', workflowId?: string) => void;
+  currentView: 'landing' | 'studio' | 'atlas' | 'policy';
+  onNavigate: (view: 'landing' | 'studio' | 'atlas' | 'policy', workflowId?: string) => void;
   onOpenDrafts: () => void;
   onOpenPolicy: (tab: 'safety' | 'privacy' | 'boundaries') => void;
   onOpenInstallApp?: () => void;

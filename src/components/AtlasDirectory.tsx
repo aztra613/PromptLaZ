@@ -12,7 +12,7 @@ import { TaxonomyVisualization } from './TaxonomyVisualization';
 import { SITUATION_PHRASES } from '../utils/fuzzySearch';
 
 interface AtlasDirectoryProps {
-  onSelectWorkflow: (workflowId: string) => void;
+  onSelectWorkflow: (workflowId: string, initialAnswers?: Record<string, any>) => void;
   onOpenUniversal: () => void;
 }
 
@@ -342,13 +342,36 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
                           <div
                             key={tIdx}
                             onClick={() => {
-                              if (domainWorkflows.length > 0) {
-                                onSelectWorkflow(domainWorkflows[0].id);
+                              // Find matching workflow in domain:
+                              const targetWf = domainWorkflows.find(w => 
+                                w.recipes?.some(r => r.presetAnswers?.task_objective === task || r.title.toLowerCase().includes(task.toLowerCase()))
+                              ) || domainWorkflows.find(w => 
+                                w.discipline.toLowerCase().includes(sub.name.toLowerCase()) || w.title.toLowerCase().includes(sub.name.toLowerCase())
+                              ) || domainWorkflows[0];
+
+                              if (targetWf) {
+                                const matchingRecipe = targetWf.recipes?.find(r => 
+                                  r.presetAnswers?.task_objective === task || 
+                                  r.title.toLowerCase().includes(task.toLowerCase())
+                                );
+
+                                const initialAnswers: Record<string, any> = matchingRecipe
+                                  ? { ...matchingRecipe.presetAnswers, _recipeId: matchingRecipe.id }
+                                  : {
+                                      task_objective: task,
+                                      task_focus: task,
+                                      user_goal: `${task} (${sub.name})`,
+                                      technical_scope: sub.id,
+                                      discipline_context: sub.name
+                                    };
+
+                                onSelectWorkflow(targetWf.id, initialAnswers);
                               } else {
                                 onOpenUniversal();
                               }
                             }}
                             className="text-[11px] text-[#4F46E5] dark:text-[#818CF8] hover:underline cursor-pointer flex items-center gap-1 truncate"
+                            title={`Build prompt for: ${task}`}
                           >
                             <span>•</span>
                             <span className="truncate">{task}</span>

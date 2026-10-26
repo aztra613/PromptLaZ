@@ -13,7 +13,7 @@ import { DomainGroup } from '../types';
 interface HelpMeChooseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectWorkflow: (workflowId: string) => void;
+  onSelectWorkflow: (workflowId: string, initialAnswers?: Record<string, any>) => void;
 }
 
 const PORTALS: { group: DomainGroup; label: string; icon: any; count: number; desc: string; sample: string }[] = [
@@ -94,8 +94,8 @@ export const HelpMeChooseModal: React.FC<HelpMeChooseModalProps> = ({
   };
 
   // Quick select
-  const handleSelectRoute = (workflowId: string) => {
-    onSelectWorkflow(workflowId);
+  const handleSelectRoute = (workflowId: string, initialAnswers?: Record<string, any>) => {
+    onSelectWorkflow(workflowId, initialAnswers);
     onClose();
   };
 
@@ -245,12 +245,17 @@ export const HelpMeChooseModal: React.FC<HelpMeChooseModalProps> = ({
                     }
 
                     if (res.type === 'situation' && res.situationPhrase) {
+                      const domainWf = res.workflow || WORKFLOWS.find(w => w.domainId === res.domain.id);
                       return (
                         <button
                           key={i}
                           onClick={() => {
-                            if (res.workflow) {
-                              handleSelectRoute(res.workflow.id);
+                            if (domainWf) {
+                              handleSelectRoute(domainWf.id, {
+                                task_objective: res.situationPhrase,
+                                task_focus: res.situationPhrase,
+                                user_goal: res.situationPhrase
+                              });
                             } else {
                               handleSelectUniversal();
                             }
@@ -273,10 +278,24 @@ export const HelpMeChooseModal: React.FC<HelpMeChooseModalProps> = ({
                       );
                     }
 
+                    const domainWf = res.workflow || WORKFLOWS.find(w => w.domainId === res.domain.id);
                     return (
                       <button
                         key={i}
-                        onClick={handleSelectUniversal}
+                        onClick={() => {
+                          if (domainWf) {
+                            handleSelectRoute(
+                              domainWf.id,
+                              res.subdiscipline ? {
+                                technical_scope: res.subdiscipline.id,
+                                task_objective: res.matchedOn || res.subdiscipline.sampleTasks?.[0],
+                                discipline_context: res.subdiscipline.name
+                              } : undefined
+                            );
+                          } else {
+                            handleSelectUniversal();
+                          }
+                        }}
                         className="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center justify-between group"
                       >
                         <div>

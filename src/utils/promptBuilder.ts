@@ -75,19 +75,21 @@ export function buildPrompt(
   }
 
   // 2. Base Role & Objective Section
-  let roleTitle = 'Specialist Subject Expert';
-  if (workflow.domainId === 'civil_built') {
-    roleTitle = 'Senior Geotechnical / Structural Civil Engineer';
-  } else if (workflow.domainId === 'computing_software') {
-    roleTitle = 'Principal Systems Engineer & SRE Specialist';
-  } else if (workflow.domainId === 'arts_design_media') {
-    roleTitle = 'Lead Commercial Art Director & Studio Photographer';
-  } else if (workflow.domainId === 'business_entrepreneurship') {
-    roleTitle = 'Principal Product Manager & Venture Strategist';
-  } else if (workflow.domainId === 'finance_markets') {
-    roleTitle = 'Senior Financial Analyst & Corporate Valuation Specialist';
-  } else if (workflow.domainId === 'education_exams') {
-    roleTitle = 'Master Socratic Educator & Pedagogical Specialist';
+  let roleTitle = workflow.reviewerRole || 'Specialist Subject Expert';
+  if (!workflow.reviewerRole) {
+    if (workflow.domainId === 'civil_built') {
+      roleTitle = 'Senior Geotechnical / Structural Civil Engineer';
+    } else if (workflow.domainId === 'computing_software') {
+      roleTitle = 'Principal Systems Engineer & SRE Specialist';
+    } else if (workflow.domainId === 'arts_design_media') {
+      roleTitle = 'Lead Commercial Art Director & Studio Photographer';
+    } else if (workflow.domainId === 'business_entrepreneurship') {
+      roleTitle = 'Principal Product Manager & Venture Strategist';
+    } else if (workflow.domainId === 'finance_markets') {
+      roleTitle = 'Senior Financial Analyst & Corporate Valuation Specialist';
+    } else if (workflow.domainId === 'education_exams') {
+      roleTitle = 'Master Socratic Educator & Pedagogical Specialist';
+    }
   }
 
   let toolPrefix = '';
@@ -113,7 +115,9 @@ export function buildPrompt(
 
   // 3. Task Context & Mission
   let taskObjective = workflow.outcome;
-  if (answers.task_focus) {
+  if (answers.task_objective) {
+    taskObjective = `Primary Objective: ${answers.task_objective}. ${workflow.outcome}`;
+  } else if (answers.task_focus) {
     taskObjective = `Focus on: ${answers.task_focus}. ${workflow.outcome}`;
   } else if (answers.subject_topic) {
     const subTopic = typeof answers.subject_topic === 'object'
