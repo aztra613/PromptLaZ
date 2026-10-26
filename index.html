@@ -2,11 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
     <title>PromptLaz Prompt Studio — Know what to ask. Build better prompts.</title>
     <meta name="description" content="Explore a guided Atlas of 54 subject domains and build clear, high-precision AI prompts through simple, explained forms with live missing-input checks." />
     <meta name="author" content="PromptLaz" />
     <meta name="theme-color" content="#070e28" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PromptLaz" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="PromptLaz" />
+    <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href="https://promptlaz.pages.dev/" />
 
     <!-- Favicon & PWA Icons from PromptLaz Favicon Pack -->
@@ -18,6 +24,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/manifest+json" href="/manifest.json" />
 
     <!-- Open Graph (WhatsApp, Facebook, LinkedIn, Discord, Slack) -->
     <meta property="og:type" content="website" />
@@ -62,7 +69,7 @@
         "priceCurrency": "USD"
       },
       "featureList": [
-        "39 domain family taxonomy with 211 subdisciplines",
+        "54 domain family taxonomy with 298 subdisciplines",
         "Interactive live prompt preview and missing-input checks",
         "Wikipedia-style prompt inspiration and situation matching",
         "Local private drafts with zero cloud tracking"
@@ -73,5 +80,16 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then((reg) => {
+            console.log('[PWA] Service Worker registered in scope:', reg.scope);
+          }).catch((err) => {
+            console.warn('[PWA] Service Worker registration failed:', err);
+          });
+        });
+      }
+    </script>
   </body>
 </html>

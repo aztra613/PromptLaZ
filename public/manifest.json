@@ -1,0 +1,63 @@
+{
+  "name": "PromptLaz Prompt Studio — Know what to ask. Build better prompts.",
+  "short_name": "PromptLaz",
+  "description": "Interactive AI Prompt Engineering Studio covering 54 domain families with real-time prompt assembly, ELI5 guidance, and missing-input verification checks.",
+  "id": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#070E28",
+  "theme_color": "#070E28",
+  "categories": ["productivity", "utilities", "developer tools", "education", "business"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/brand-mark-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Universal Builder",
+      "short_name": "Studio",
+      "description": "Start building a prompt for any task or situation",
+      "url": "/?view=studio&workflow=universal_builder",
+      "icons": [{ "src": "/pwa-icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Explore Atlas",
+      "short_name": "Atlas",
+      "description": "Browse all 54 global domain families",
+      "url": "/?view=atlas",
+      "icons": [{ "src": "/pwa-icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

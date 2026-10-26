@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, BookOpen, ShieldCheck, Bookmark, Sparkles, Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
+import { Compass, BookOpen, ShieldCheck, Bookmark, Sparkles, Menu, X, ArrowRight, Sun, Moon, Download } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 interface HeaderProps {
@@ -7,6 +7,7 @@ interface HeaderProps {
   onNavigate: (view: 'landing' | 'studio' | 'atlas', workflowId?: string) => void;
   onOpenDrafts: () => void;
   onOpenPolicy: (tab: 'safety' | 'privacy' | 'boundaries') => void;
+  onOpenInstallApp?: () => void;
   draftsCount: number;
 }
 
@@ -15,6 +16,7 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigate,
   onOpenDrafts,
   onOpenPolicy,
+  onOpenInstallApp,
   draftsCount
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -109,22 +111,44 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         </nav>
 
-        {/* Primary CTA */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* Primary CTA & PWA Install */}
+        <div className="hidden md:flex items-center gap-2.5">
+          {onOpenInstallApp && (
+            <button
+              onClick={onOpenInstallApp}
+              className="h-10 px-3.5 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/80 dark:bg-indigo-950/60 hover:bg-indigo-100 text-indigo-700 dark:text-indigo-300 text-xs font-bold shadow-2xs flex items-center gap-1.5 transition-all"
+              title="Install PromptLaz app on your device"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Install App</span>
+            </button>
+          )}
+
           <button
             onClick={() => onNavigate('studio', 'universal_builder')}
-            className="h-11 px-5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] dark:bg-[#6366F1] dark:hover:bg-[#4F46E5] text-white text-sm font-semibold shadow-xs flex items-center gap-2 transition-all active:scale-[0.98] focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2"
+            className="h-10 px-5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] dark:bg-[#6366F1] dark:hover:bg-[#4F46E5] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center gap-2 transition-all active:scale-[0.98] focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2"
           >
             Build a prompt
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Mobile Hamburger Button */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Mobile Hamburger & Actions Button */}
+        <div className="flex md:hidden items-center gap-1.5">
+          {onOpenInstallApp && (
+            <button
+              onClick={onOpenInstallApp}
+              className="p-2 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/50"
+              title="Install PromptLaz App"
+              aria-label="Install PromptLaz App"
+            >
+              <Download className="w-5 h-5" />
+            </button>
+          )}
+
           <button
             onClick={onOpenDrafts}
-            className="p-2 rounded-lg text-[#596579] hover:bg-[#F7F8FC] relative"
+            className="p-2 rounded-lg text-[#596579] dark:text-[#94A3B8] hover:bg-[#F7F8FC] dark:hover:bg-[#1E293B] relative"
             aria-label="View saved drafts"
           >
             <Bookmark className="w-5 h-5" />
@@ -135,7 +159,7 @@ export const Header: React.FC<HeaderProps> = ({
           
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg text-[#172033] hover:bg-[#F7F8FC]"
+            className="p-2 rounded-lg text-[#172033] dark:text-[#F1F5F9] hover:bg-[#F7F8FC] dark:hover:bg-[#1E293B]"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6 text-[#172033] dark:text-[#F1F5F9]" /> : <Menu className="w-6 h-6 text-[#172033] dark:text-[#F1F5F9]" />}
@@ -188,6 +212,18 @@ export const Header: React.FC<HeaderProps> = ({
               {isDark ? 'Dark Mode' : 'Light Mode'}
             </span>
           </button>
+          {onOpenInstallApp && (
+            <button
+              onClick={() => { onOpenInstallApp(); setMobileMenuOpen(false); }}
+              className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-950/40 hover:bg-emerald-100 flex items-center justify-between border border-emerald-200 dark:border-emerald-800"
+            >
+              <div className="flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                <span>Install PromptLaz App (PWA)</span>
+              </div>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500 text-white">Free</span>
+            </button>
+          )}
           <div className="pt-2">
             <button
               onClick={() => { onNavigate('studio', 'civil_soil_mechanics'); setMobileMenuOpen(false); }}

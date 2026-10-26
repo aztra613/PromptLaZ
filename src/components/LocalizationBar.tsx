@@ -60,7 +60,7 @@ export const LocalizationBar: React.FC = () => {
 
             {openDropdown === 'region' && (
               <div 
-                className="absolute right-0 mt-1 w-64 bg-slate-900 border border-indigo-700/60 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95"
+                className="absolute right-0 mt-1 w-64 max-w-[calc(100vw-2rem)] bg-slate-900 border border-indigo-700/60 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95"
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-indigo-400 border-b border-slate-800 mb-1">
@@ -219,7 +219,7 @@ export const LocalizationBar: React.FC = () => {
 
             {openDropdown === 'simplicity' && (
               <div 
-                className="absolute right-0 mt-1 w-64 bg-slate-900 border border-indigo-700/60 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in"
+                className="absolute right-0 mt-1 w-64 max-w-[calc(100vw-2rem)] bg-slate-900 border border-indigo-700/60 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in"
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <div className="px-1.5 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-400 border-b border-slate-800 mb-1">

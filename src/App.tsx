@@ -8,6 +8,7 @@ import { HelpMeChooseModal } from './components/HelpMeChooseModal';
 import { ResponseCheckerModal } from './components/ResponseCheckerModal';
 import { LocalDraftsModal } from './components/LocalDraftsModal';
 import { PolicyModal } from './components/PolicyModal';
+import { InstallAppModal } from './components/InstallAppModal';
 import { WORKFLOWS } from './data/workflows';
 import { LocalDraft } from './types';
 import { getLocalDrafts } from './utils/promptBuilder';
@@ -26,6 +27,7 @@ export default function App() {
   const [draftsModalOpen, setDraftsModalOpen] = useState(false);
   const [policyModalOpen, setPolicyModalOpen] = useState(false);
   const [policyModalTab, setPolicyModalTab] = useState<'safety' | 'privacy' | 'boundaries'>('safety');
+  const [installModalOpen, setInstallModalOpen] = useState(false);
 
   // Active Draft to resume (if any)
   const [resumedAnswers, setResumedAnswers] = useState<Record<string, any> | undefined>(undefined);
@@ -84,6 +86,7 @@ export default function App() {
             onNavigate={handleNavigate}
             onOpenDrafts={() => setDraftsModalOpen(true)}
             onOpenPolicy={handleOpenPolicy}
+            onOpenInstallApp={() => setInstallModalOpen(true)}
             draftsCount={draftsCount}
           />
 
@@ -149,6 +152,11 @@ export default function App() {
           isOpen={policyModalOpen}
           onClose={() => setPolicyModalOpen(false)}
           defaultTab={policyModalTab}
+        />
+
+        <InstallAppModal
+          isOpen={installModalOpen}
+          onClose={() => setInstallModalOpen(false)}
         />
         </div>
       </LocalizationProvider>

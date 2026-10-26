@@ -5,7 +5,8 @@ import { buildPrompt, saveLocalDraft, isLocalDraftsEnabled, downloadFile } from 
 import { 
   Copy, Check, Download, Bookmark, RefreshCw, Edit3, Eye, 
   AlertTriangle, ShieldCheck, HelpCircle, ArrowRight, ChevronDown, 
-  ChevronUp, Upload, Trash2, CheckCircle2, Sparkles, FileText, CheckSquare
+  ChevronUp, Upload, Trash2, CheckCircle2, Sparkles, FileText, CheckSquare,
+  SlidersHorizontal
 } from 'lucide-react';
 import { HierarchicalSubjectPicker } from './HierarchicalSubjectPicker';
 import { SearchableSelect } from './SearchableSelect';
@@ -26,6 +27,9 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
   onOpenDraftsModal,
   initialDraftAnswers
 }) => {
+  // Mobile/Tablet View Tab: 'form' (workbench) vs 'preview' (live prompt)
+  const [mobileViewTab, setMobileViewTab] = useState<'form' | 'preview'>('form');
+
   // Mode: Beginner vs Expert
   const [isExpertMode, setIsExpertMode] = useState(false);
   const [activeStep, setActiveStep] = useState<'start' | 'fit' | 'finetune'>('start');
@@ -283,7 +287,7 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-24 lg:pb-12">
       {/* Quick Domain Switcher Presets */}
       <div className="mb-6 bg-white dark:bg-[#1E293B] p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
@@ -442,11 +446,39 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
         </div>
       </div>
 
+      {/* Mobile & Tablet Mode Switcher (< lg screens) */}
+      <div className="lg:hidden flex items-center p-1 bg-slate-200/90 dark:bg-slate-800/90 rounded-2xl mb-6 backdrop-blur-md sticky top-[76px] z-20 shadow-xs border border-slate-300 dark:border-slate-700">
+        <button
+          type="button"
+          onClick={() => setMobileViewTab('form')}
+          className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+            mobileViewTab === 'form'
+              ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+          }`}
+        >
+          <SlidersHorizontal className="w-3.5 h-3.5" />
+          <span>Form Inputs ({formCompleteness.percent}%)</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileViewTab('preview')}
+          className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+            mobileViewTab === 'preview'
+              ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+          }`}
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Live Prompt ({qualityScore.score}/100)</span>
+        </button>
+      </div>
+
       {/* Main Two-Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* LEFT COLUMN: GUIDED FORM WORKBENCH (7 cols ~58%) */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className={`lg:col-span-7 space-y-6 ${mobileViewTab === 'preview' ? 'hidden lg:block' : 'block'}`}>
 
           {/* Wikipedia Encyclopedia Recipe Blueprints (1-Click Load) */}
           {workflow.recipes && workflow.recipes.length > 0 && (
@@ -844,7 +876,19 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
         </div>
 
         {/* RIGHT COLUMN: STICKY LIVE PROMPT PREVIEW (5 cols ~42%) */}
-        <div className="lg:col-span-5 sticky top-[92px] space-y-4">
+        <div className={`lg:col-span-5 sticky top-[92px] space-y-4 ${mobileViewTab === 'form' ? 'hidden lg:block' : 'block'}`}>
+          {/* Mobile Return to Form Header */}
+          <div className="lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileViewTab('form')}
+              className="w-full py-2.5 px-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 font-bold text-xs flex items-center justify-center gap-2 hover:bg-indigo-100 transition-colors shadow-2xs"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <span>← Back to Form Inputs ({formCompleteness.missingCount} optional remaining)</span>
+            </button>
+          </div>
+
           <div className="bg-white dark:bg-[#1E293B] rounded-2xl border border-[#D9DFEA] dark:border-[#334155] shadow-xs overflow-hidden flex flex-col">
             
             {/* Preview Header */}
@@ -1069,6 +1113,44 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Mobile Floating Quick Action Bar (< lg screens) */}
+      {mobileViewTab === 'form' && (
+        <div className="lg:hidden fixed bottom-3 left-3 right-3 z-30 flex items-center justify-between gap-2 p-2.5 rounded-2xl bg-[#0F172A]/95 text-white border border-indigo-500/40 shadow-2xl backdrop-blur-md animate-in slide-in-from-bottom-3">
+          <div className="flex items-center gap-2 pl-2">
+            <div className={`w-2.5 h-2.5 rounded-full ${qualityScore.status === 'ready' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+            <div className="flex flex-col text-left">
+              <span className="text-xs font-bold text-white">
+                {formCompleteness.percent}% Ready
+              </span>
+              <span className="text-[10px] text-slate-400">
+                {qualityScore.score}/100 quality
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileViewTab('preview');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-indigo-300 border border-slate-700 flex items-center gap-1.5 transition-colors"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>Preview</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleCopyPrompt}
+              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white shadow-md shadow-indigo-500/20 flex items-center gap-1.5 active:scale-95 transition-all"
+            >
+              {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copied ? 'Copied!' : 'Copy Prompt'}</span>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
