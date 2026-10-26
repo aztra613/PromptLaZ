@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useId, useRef } from 'react';
 import { WorkflowSchema, WorkflowRecipe, TargetTool, LocalDraft } from '../types';
 import { WORKFLOWS } from '../data/workflows';
-import { buildPrompt, saveLocalDraft, isLocalDraftsEnabled, downloadFile } from '../utils/promptBuilder';
+import { buildPrompt, saveLocalDraft, isLocalDraftsEnabled, downloadFile, isValueEmpty } from '../utils/promptBuilder';
 import { 
   Copy, Check, Download, Bookmark, RefreshCw, Edit3, Eye, 
   AlertTriangle, ShieldCheck, HelpCircle, ArrowRight, ChevronDown, 
@@ -139,6 +139,14 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
     simplicityMode
   });
   const displayedPromptText = manualPromptText !== null ? manualPromptText : assembled.fullText;
+
+  // Calculate real field completion and readiness metrics
+  const totalFields = workflow.fields ? workflow.fields.length : 0;
+  const answeredFields = workflow.fields ? workflow.fields.filter(f => !isValueEmpty(answers[f.id])).length : 0;
+  const completionPercent = totalFields > 0 ? Math.round((answeredFields / totalFields) * 100) : 100;
+  const readinessScore = assembled.readinessScore || completionPercent;
+  const remainingFields = Math.max(0, totalFields - answeredFields);
+  const isReady = !assembled.missingCriticalFields || assembled.missingCriticalFields.length === 0;
 
   // Handle input changes
   const handleAnswerChange = (fieldId: string, val: any) => {
@@ -458,7 +466,7 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
           }`}
         >
           <SlidersHorizontal className="w-3.5 h-3.5" />
-          <span>Form Inputs ({formCompleteness.percent}%)</span>
+          <span>Form Inputs ({completionPercent}%)</span>
         </button>
         <button
           type="button"
@@ -470,7 +478,7 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
           }`}
         >
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Live Prompt ({qualityScore.score}/100)</span>
+          <span>Live Prompt ({readinessScore}/100)</span>
         </button>
       </div>
 
@@ -885,7 +893,7 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
               className="w-full py-2.5 px-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 font-bold text-xs flex items-center justify-center gap-2 hover:bg-indigo-100 transition-colors shadow-2xs"
             >
               <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span>← Back to Form Inputs ({formCompleteness.missingCount} optional remaining)</span>
+              <span>← Back to Form Inputs ({remainingFields} optional remaining)</span>
             </button>
           </div>
 
@@ -1118,13 +1126,13 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
       {mobileViewTab === 'form' && (
         <div className="lg:hidden fixed bottom-3 left-3 right-3 z-30 flex items-center justify-between gap-2 p-2.5 rounded-2xl bg-[#0F172A]/95 text-white border border-indigo-500/40 shadow-2xl backdrop-blur-md animate-in slide-in-from-bottom-3">
           <div className="flex items-center gap-2 pl-2">
-            <div className={`w-2.5 h-2.5 rounded-full ${qualityScore.status === 'ready' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+            <div className={`w-2.5 h-2.5 rounded-full ${isReady ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
             <div className="flex flex-col text-left">
               <span className="text-xs font-bold text-white">
-                {formCompleteness.percent}% Ready
+                {completionPercent}% Ready
               </span>
               <span className="text-[10px] text-slate-400">
-                {qualityScore.score}/100 quality
+                {readinessScore}/100 quality
               </span>
             </div>
           </div>
@@ -1142,7 +1150,7 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
             </button>
             <button
               type="button"
-              onClick={handleCopyPrompt}
+              onClick={handleCopy}
               className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white shadow-md shadow-indigo-500/20 flex items-center gap-1.5 active:scale-95 transition-all"
             >
               {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
