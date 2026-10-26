@@ -1941,12 +1941,67 @@ const CORE_WORKFLOWS: WorkflowSchema[] = [
         required: true,
         promptImpact: 'Identifies the business entity and primary reporting currency.',
         options: [
-          { label: 'Microsoft Corp (MSFT: NASDAQ) — Cloud, Enterprise & AI Platforms', value: 'msft_tech', isDefault: true },
-          { label: 'Apple Inc (AAPL: NASDAQ) — Consumer Hardware, Ecosystem & Services', value: 'aapl_consumer' },
-          { label: 'Siemens AG (SIE: ETR) — Industrial Automation, Rail & Energy Infrastructure', value: 'siemens_industrial' },
-          { label: 'ASML Holding (ASML: NASDAQ) — High-NA EUV Semiconductor Equipment Monopoly', value: 'asml_semiconductor' },
-          { label: 'HDFC Bank (HDFCBANK: NSE) — Retail & Corporate Commercial Banking', value: 'hdfc_banking' },
-          { label: 'Custom Global Ticker / Mid-Cap Business (Describe or model by ratios)', value: 'custom_ticker' }
+          // Technology & AI Leaders (US & Global)
+          { label: 'Microsoft Corp (MSFT: NASDAQ) — Cloud, Enterprise & AI Platforms', value: 'msft_tech', group: 'Tech & AI Giants (US)', badge: 'MSFT', isDefault: true },
+          { label: 'Apple Inc (AAPL: NASDAQ) — Consumer Hardware, Ecosystem & Services', value: 'aapl_consumer', group: 'Tech & AI Giants (US)', badge: 'AAPL' },
+          { label: 'NVIDIA Corp (NVDA: NASDAQ) — AI Accelerators, Datacenter GPUs & CUDA', value: 'nvda_ai', group: 'Tech & AI Giants (US)', badge: 'NVDA' },
+          { label: 'Alphabet Inc (GOOGL: NASDAQ) — Search, YouTube, Android & Google Cloud', value: 'googl_search', group: 'Tech & AI Giants (US)', badge: 'GOOGL' },
+          { label: 'Amazon.com Inc (AMZN: NASDAQ) — AWS Cloud, Global E-Commerce & Prime', value: 'amzn_cloud', group: 'Tech & AI Giants (US)', badge: 'AMZN' },
+          { label: 'Meta Platforms (META: NASDAQ) — Social Media, Llama AI, WhatsApp & Ads', value: 'meta_social', group: 'Tech & AI Giants (US)', badge: 'META' },
+          { label: 'Tesla Inc (TSLA: NASDAQ) — Electric Vehicles, FSD & Megapack Energy', value: 'tsla_ev', group: 'Tech & AI Giants (US)', badge: 'TSLA' },
+          { label: 'Oracle Corp (ORCL: NYSE) — Autonomous Database & OCI Cloud Infrastructure', value: 'orcl_cloud', group: 'Tech & AI Giants (US)', badge: 'ORCL' },
+          { label: 'Salesforce Inc (CRM: NYSE) — Enterprise CRM & Autonomous Agentforce', value: 'crm_saas', group: 'Tech & AI Giants (US)', badge: 'CRM' },
+          
+          // Semiconductors & Hardware
+          { label: 'ASML Holding (ASML: NASDAQ / AMS) — Extreme Ultraviolet (EUV) Lithography', value: 'asml_semiconductor', group: 'Semiconductors & DeepTech', badge: 'ASML' },
+          { label: 'TSMC (TSM: NYSE / 2330: TWSE) — Global Leading Foundry & 3nm/2nm Wafers', value: 'tsm_foundry', group: 'Semiconductors & DeepTech', badge: 'TSM' },
+          { label: 'Broadcom Inc (AVGO: NASDAQ) — Custom AI ASICs & Data Center Networking', value: 'avgo_networking', group: 'Semiconductors & DeepTech', badge: 'AVGO' },
+          { label: 'Qualcomm Inc (QCOM: NASDAQ) — Snapdragon Mobile Compute & Automotive', value: 'qcom_wireless', group: 'Semiconductors & DeepTech', badge: 'QCOM' },
+          { label: 'Advanced Micro Devices (AMD: NASDAQ) — EPYC Server CPUs & Instinct GPUs', value: 'amd_datacenter', group: 'Semiconductors & DeepTech', badge: 'AMD' },
+
+          // Indian Blue Chips & Market Leaders
+          { label: 'Reliance Industries (RELIANCE: NSE) — Telecom (Jio), Retail & Green Energy', value: 'reliance_conglom', group: 'India Blue Chips (NSE/BSE)', badge: 'RELIANCE' },
+          { label: 'Tata Consultancy Services (TCS: NSE) — Global Enterprise IT Consulting', value: 'tcs_it', group: 'India Blue Chips (NSE/BSE)', badge: 'TCS' },
+          { label: 'HDFC Bank Ltd (HDFCBANK: NSE) — Commercial & Retail Banking Leader', value: 'hdfc_banking', group: 'India Blue Chips (NSE/BSE)', badge: 'HDFCBANK' },
+          { label: 'Infosys Ltd (INFY: NSE / NYSE) — Enterprise Digital Transformation & Cloud', value: 'infy_it', group: 'India Blue Chips (NSE/BSE)', badge: 'INFY' },
+          { label: 'ICICI Bank Ltd (ICICIBANK: NSE) — Private Banking, Lending & Wealth Management', value: 'icici_bank', group: 'India Blue Chips (NSE/BSE)', badge: 'ICICIBANK' },
+          { label: 'Larsen & Toubro (LT: NSE) — Heavy Civil Engineering, EPC & Defense Systems', value: 'lt_engineering', group: 'India Blue Chips (NSE/BSE)', badge: 'LT' },
+          { label: 'Tata Motors Ltd (TATAMOTORS: NSE) — Commercial Vehicles, EV Mobility & JLR', value: 'tatamotors_auto', group: 'India Blue Chips (NSE/BSE)', badge: 'TATAMOTORS' },
+          { label: 'Bharti Airtel Ltd (BHARTIARTL: NSE) — Pan-India Telecom, 5G & Cloud Services', value: 'airtel_telecom', group: 'India Blue Chips (NSE/BSE)', badge: 'BHARTIARTL' },
+          { label: 'ITC Ltd (ITC: NSE) — FMCG, Agri-Business, Paperboards & Hospitality', value: 'itc_fmcg', group: 'India Blue Chips (NSE/BSE)', badge: 'ITC' },
+          { label: 'State Bank of India (SBIN: NSE) — India Largest Public Sector Commercial Bank', value: 'sbi_bank', group: 'India Blue Chips (NSE/BSE)', badge: 'SBIN' },
+          { label: 'Sun Pharmaceutical (SUNPHARMA: NSE) — Specialty Formulation & Generic Pharma', value: 'sunpharma_pharma', group: 'India Blue Chips (NSE/BSE)', badge: 'SUNPHARMA' },
+
+          // European Industrials, Luxury & Pharma
+          { label: 'Siemens AG (SIE: ETR) — Industrial Automation, Rail & Digital Factory', value: 'siemens_industrial', group: 'European Leaders (DAX / CAC / SMI)', badge: 'SIE' },
+          { label: 'LVMH Moët Hennessy (MC: EPA) — Prestige Luxury Fashion, Jewelry & Wines', value: 'lvmh_luxury', group: 'European Leaders (DAX / CAC / SMI)', badge: 'MC' },
+          { label: 'SAP SE (SAP: ETR) — Enterprise S/4HANA Cloud & Business Software', value: 'sap_software', group: 'European Leaders (DAX / CAC / SMI)', badge: 'SAP' },
+          { label: 'Novo Nordisk (NOVO-B: CPH / NVO) — Diabetes Care, GLP-1 Therapeutics', value: 'novo_pharma', group: 'European Leaders (DAX / CAC / SMI)', badge: 'NOVO-B' },
+          { label: 'Schneider Electric (SU: EPA) — Global Energy Management & Data Center Power', value: 'schneider_energy', group: 'European Leaders (DAX / CAC / SMI)', badge: 'SU' },
+          { label: 'Airbus SE (AIR: EPA) — Commercial Aircraft Manufacturing & Defense', value: 'airbus_aero', group: 'European Leaders (DAX / CAC / SMI)', badge: 'AIR' },
+
+          // Global Automotive & Retail Leaders
+          { label: 'Toyota Motor Corp (7203: TYO / TM) — Global Hybrid Powertrains & Vehicles', value: 'toyota_auto', group: 'Auto & Consumer Giants', badge: '7203.T' },
+          { label: 'Walmart Inc (WMT: NYSE) — Global Retail & E-Commerce Supercenters', value: 'walmart_retail', group: 'Auto & Consumer Giants', badge: 'WMT' },
+          { label: 'Costco Wholesale (COST: NASDAQ) — Global Membership Warehouse Clubs', value: 'costco_retail', group: 'Auto & Consumer Giants', badge: 'COST' },
+          { label: 'Coca-Cola Co (KO: NYSE) — Global Non-Alcoholic Beverage Brand Portfolio', value: 'coca_cola_bev', group: 'Auto & Consumer Giants', badge: 'KO' },
+          { label: 'McDonald\'s Corp (MCD: NYSE) — Global Quick-Service Restaurant Franchise', value: 'mcdonalds_qsr', group: 'Auto & Consumer Giants', badge: 'MCD' },
+          { label: 'BYD Company (1211: HKG) — Blade Battery Tech & Mass-Market EV Mobility', value: 'byd_ev', group: 'Auto & Consumer Giants', badge: '1211.HK' },
+
+          // Energy, Resources & Mining
+          { label: 'Saudi Aramco (2222: TADAWUL) — Upstream Oil Extraction & Petrochemicals', value: 'aramco_energy', group: 'Energy & Natural Resources', badge: '2222' },
+          { label: 'ExxonMobil Corp (XOM: NYSE) — Integrated Energy, LNG & Chemical Refining', value: 'exxon_energy', group: 'Energy & Natural Resources', badge: 'XOM' },
+          { label: 'Shell plc (SHEL: LSE) — Integrated Gas, Deepwater & Energy Trading', value: 'shell_energy', group: 'Energy & Natural Resources', badge: 'SHEL' },
+          { label: 'BHP Group (BHP: ASX) — Copper, Iron Ore, Nickel & Potash Mining', value: 'bhp_mining', group: 'Energy & Natural Resources', badge: 'BHP' },
+
+          // Global Banks & Wall Street
+          { label: 'JPMorgan Chase & Co (JPM: NYSE) — Universal Banking & Global Capital Markets', value: 'jpmorgan_bank', group: 'Financial Services & Banking', badge: 'JPM' },
+          { label: 'Goldman Sachs Group (GS: NYSE) — Global Investment Banking & Advisory', value: 'goldman_bank', group: 'Financial Services & Banking', badge: 'GS' },
+          { label: 'Berkshire Hathaway (BRK.B: NYSE) — Insurance Underwriting & Infrastructure Holding', value: 'berkshire_hold', group: 'Financial Services & Banking', badge: 'BRK.B' },
+          { label: 'BlackRock Inc (BLK: NYSE) — Global Asset Management & Aladdin Risk Platform', value: 'blackrock_asset', group: 'Financial Services & Banking', badge: 'BLK' },
+
+          // Custom Write-in
+          { label: 'Custom Global Ticker / Mid-Cap Business (Describe or model by custom ratios)', value: 'custom_ticker', group: 'Custom Entity', badge: 'CUSTOM' }
         ]
       },
       {

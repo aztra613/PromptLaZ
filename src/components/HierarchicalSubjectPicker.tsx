@@ -388,14 +388,81 @@ export const HierarchicalSubjectPicker: React.FC<HierarchicalSubjectPickerProps>
     }));
   }, [currentDomain]);
 
-  // Task options
+  // Task options with 360° real-world scenario coverage
   const taskOptions: ComboboxOption[] = useMemo(() => {
     if (!currentSubdiscipline) return [];
-    return currentSubdiscipline.sampleTasks.map(t => ({
+
+    const curatedTasks: ComboboxOption[] = currentSubdiscipline.sampleTasks.map(t => ({
       value: t,
       label: t,
-      subtitle: `Sample prompt task in ${currentSubdiscipline.name}`
+      subtitle: `Verified domain task in ${currentSubdiscipline.name}`,
+      badge: 'Curated',
+      badgeColor: 'emerald' as const
     }));
+
+    // 360° Real-World Industry Scenarios for every subdiscipline
+    const subName = currentSubdiscipline.name;
+    const scenarios: ComboboxOption[] = [
+      {
+        value: `${subName}: Detailed Technical Calculation & Design Brief`,
+        label: `📐 Technical Calculation & Design Brief (${subName})`,
+        subtitle: `Rigorous numerical derivations, governing formulas, and input data validation.`,
+        badge: 'Calculations',
+        badgeColor: 'indigo' as const
+      },
+      {
+        value: `${subName}: Quality Assurance & Regulatory Code Compliance Audit`,
+        label: `✅ Quality Assurance & Code Compliance Audit (${subName})`,
+        subtitle: `Standards compliance review (US/EU/IS/Global codes) and defect prevention checks.`,
+        badge: 'Compliance',
+        badgeColor: 'indigo' as const
+      },
+      {
+        value: `${subName}: Root Cause Failure Analysis (RCA) & Diagnostic Protocol`,
+        label: `🔍 Root Cause Analysis (RCA) & Diagnostics (${subName})`,
+        subtitle: `Systematic diagnostic framework to trace unexpected failures or performance deviations.`,
+        badge: 'Diagnostics',
+        badgeColor: 'indigo' as const
+      },
+      {
+        value: `${subName}: Standard Operating Procedure (SOP) & Step-by-Step Execution Guide`,
+        label: `📋 Standard Operating Procedure (SOP) & Execution Guide (${subName})`,
+        subtitle: `Field-tested implementation manual with step-by-step milestones and safety stops.`,
+        badge: 'SOP',
+        badgeColor: 'indigo' as const
+      },
+      {
+        value: `${subName}: Comparative Trade-off & Benchmark Evaluation Matrix`,
+        label: `⚖️ Comparative Trade-off & Method Evaluation Matrix (${subName})`,
+        subtitle: `Multi-criteria decision analysis comparing alternative architectures, materials, or vendors.`,
+        badge: 'Trade-off',
+        badgeColor: 'indigo' as const
+      },
+      {
+        value: `${subName}: Executive Decision Memo & Capital Allocation / ROI Brief`,
+        label: `💼 Executive Decision Brief & Risk-Adjusted ROI (${subName})`,
+        subtitle: `Strategic executive summary outlining capital requirements, risks, and timeline.`,
+        badge: 'Strategy',
+        badgeColor: 'indigo' as const
+      },
+      {
+        value: `${subName}: Explain Like I'm 12 (ELI5) Socratic Concept Breakdown`,
+        label: `👶 Intuitive Concept Breakdown & Socratic Explainer (ELI5)`,
+        subtitle: `Zero-jargon conceptual explainer using intuitive physical analogies and step-by-step logic.`,
+        badge: 'ELI5',
+        badgeColor: 'indigo' as const
+      }
+    ];
+
+    // Combine and deduplicate
+    const combined = [...curatedTasks];
+    scenarios.forEach(s => {
+      if (!combined.some(c => c.value.toLowerCase() === s.value.toLowerCase())) {
+        combined.push(s);
+      }
+    });
+
+    return combined;
   }, [currentSubdiscipline]);
 
   return (

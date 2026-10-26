@@ -8,6 +8,7 @@ import {
   ChevronUp, Upload, Trash2, CheckCircle2, Sparkles, FileText, CheckSquare
 } from 'lucide-react';
 import { HierarchicalSubjectPicker } from './HierarchicalSubjectPicker';
+import { SearchableSelect } from './SearchableSelect';
 import { useLocalization } from '../context/LocalizationContext';
 
 interface StudioWorkspaceProps {
@@ -250,8 +251,39 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
     return true;
   });
 
+  const handleCategoryClick = (catId: string) => {
+    setSelectedDomainCategory(catId);
+    if (catId === 'all') return;
+    const matches = WORKFLOWS.filter((w) => {
+      if (catId === 'founder') return w.id.startsWith('founder_') || w.id.startsWith('business_');
+      if (catId === 'tech') return w.group === 'Technology & engineering';
+      if (catId === 'science') return w.group === 'Knowledge & science';
+      if (catId === 'creative') {
+        return (
+          w.id.includes('creative') ||
+          w.domainId.includes('creative') ||
+          w.id.includes('photo') ||
+          w.id.includes('uiux')
+        );
+      }
+      if (catId === 'economy') return w.group === 'Economy & work' && !w.id.startsWith('founder_');
+      if (catId === 'life') {
+        return (
+          w.group === 'Health, food & living things' ||
+          w.group === 'Society, law & culture' ||
+          w.group === 'Personal life & situations'
+        );
+      }
+      return true;
+    });
+    // If the active workflow is not in the clicked category, auto-switch to the first matching workflow!
+    if (matches.length > 0 && !matches.some(m => m.id === workflow.id)) {
+      onNavigateToWorkflow(matches[0].id);
+    }
+  };
+
   return (
-    <div className="max-w-[1240px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
       {/* Quick Domain Switcher Presets */}
       <div className="mb-6 bg-white dark:bg-[#1E293B] p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
@@ -299,7 +331,7 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
             <button
               key={cat.id}
               type="button"
-              onClick={() => setSelectedDomainCategory(cat.id)}
+              onClick={() => handleCategoryClick(cat.id)}
               className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all shrink-0 ${
                 selectedDomainCategory === cat.id
                   ? 'bg-indigo-600 text-white shadow-xs'
@@ -648,17 +680,14 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
                     )}
 
                     {field.type === 'select' && (
-                      <select
-                        value={value}
-                        onChange={(e) => handleAnswerChange(field.id, e.target.value)}
-                        className="w-full h-11 px-3 text-xs font-medium rounded-xl border border-[#D9DFEA] dark:border-[#334155] bg-[#F7F8FC] dark:bg-[#0F172A] text-[#172033] dark:text-[#F1F5F9] focus:bg-white dark:focus:bg-[#0B1120] focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20 focus:outline-hidden"
-                      >
-                        {field.options?.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
+                      <SearchableSelect
+                        id={`field-${field.id}`}
+                        value={value || ''}
+                        onChange={(val) => handleAnswerChange(field.id, val)}
+                        options={field.options || []}
+                        placeholder={field.example || field.label}
+                        allowCustom={true}
+                      />
                     )}
 
                     {field.type === 'radio' && (

@@ -87,6 +87,8 @@ export interface QuestionOption {
   value: string;
   description?: string;
   isDefault?: boolean;
+  group?: string;
+  badge?: string;
 }
 
 export interface SubjectPickerValue {

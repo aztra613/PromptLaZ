@@ -404,7 +404,20 @@ export const DOMAIN_FAMILIES: DomainFamily[] = [
     aliases: ['finance', 'accounting', 'investing', 'stocks', 'valuation', 'dcf', 'bookkeeping', 'options', 'banking', 'insurance', 'tax', 'taxation', 'GST', 'VAT', 'audit', 'financial statements', 'balance sheet', 'income statement', 'cash flow', 'budget', 'payroll', 'invoice', 'accounts payable', 'accounts receivable', 'reconciliation', 'treasury', 'forex', 'mutual fund', 'ETF', 'bonds', 'credit', 'loan', 'mortgage', 'premium', 'claims', 'underwriting', 'personal finance', 'savings', 'retirement', 'pension'],
     iconName: 'TrendingUp',
     subdisciplines: [
-      { id: 'fm-valuation', name: 'Equity Research & Valuation', summary: 'DCF assumptions, trading comps, margin of safety, 10-K analysis', sampleTasks: ['Discounted Cash Flow (DCF) framework prompt', 'Competitor multiple benchmarking checklist', 'Annual report analysis framework', 'Sector valuation comparison brief'], coverageState: 'published_workflow', workflowsCount: 3 },
+      { id: 'fm-valuation', name: 'Equity Research & Valuation', summary: 'DCF assumptions, trading comps, margin of safety, 10-K analysis', sampleTasks: [
+        'Discounted Cash Flow (DCF) intrinsic value model with 3-scenario sensitivity table',
+        'Competitor multiple benchmarking checklist (EV/EBITDA, P/E, P/S, EV/FCF)',
+        'Annual 10-K / Annual report forensic accounting audit & footnotes scrutiny',
+        'Sector valuation comparison brief across US, European & Indian peer stocks',
+        'Mergers & Acquisitions (M&A) accretion / dilution & synergy valuation brief',
+        'Leveraged Buyout (LBO) debt schedule and hurdle rate return analysis',
+        'Sum-of-the-Parts (SOTP) conglomerate valuation for multi-segment firms',
+        'Working Capital & Cash Conversion Cycle (CCC) optimization framework',
+        'Earnings call transcript sentiment analysis & guidance variance breakdown',
+        'Credit rating & debt covenant stress testing under macro recession shocks',
+        'Cap table waterfall & dilution analysis for Seed to Series C venture rounds',
+        'Dividend Discount Model (DDM) for commercial banks & regulated utilities'
+      ], coverageState: 'published_workflow', workflowsCount: 3 },
       { id: 'fm-options', name: 'Options & Derivatives Education', summary: 'Greeks (Delta, Theta), payoff diagrams, risk boundaries (No trade execution)', sampleTasks: ['Covered call payoff diagram educational brief', 'Implied volatility skew explainer', 'Options strategy comparison for hedging', 'Greeks sensitivity analysis exercise'], coverageState: 'starter_ready', workflowsCount: 2 },
       { id: 'fm-accounting', name: 'Accounting & Bookkeeping Review', summary: 'Balance sheet reconciliation, double entry, cash flow statements, journal entries', sampleTasks: ['Monthly accrual vs cash reconciliation brief', 'Cost center allocation framework', 'Journal entry verification checklist', 'Financial statement preparation guide'], coverageState: 'starter_ready', workflowsCount: 2 },
       { id: 'fm-banking', name: 'Banking Operations & Treasury', summary: 'Cash management, credit analysis, loan processing, trade finance, KYC/AML', sampleTasks: ['Credit analysis assessment framework', 'KYC document verification checklist', 'Cash management optimization brief', 'Trade finance letter of credit guide'], coverageState: 'explainer_ready', workflowsCount: 1 },
