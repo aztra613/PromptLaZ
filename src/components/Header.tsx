@@ -112,7 +112,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Primary CTA */}
         <div className="hidden md:flex items-center gap-3">
           <button
-            onClick={() => onNavigate('studio', 'civil_soil_mechanics')}
+            onClick={() => onNavigate('studio', 'universal_builder')}
             className="h-11 px-5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] dark:bg-[#6366F1] dark:hover:bg-[#4F46E5] text-white text-sm font-semibold shadow-xs flex items-center gap-2 transition-all active:scale-[0.98] focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2"
           >
             Build a prompt

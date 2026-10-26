@@ -44,13 +44,21 @@ export function formatSubjectPicker(val: SubjectPickerValue): string {
   return lines.length > 0 ? lines.join('\n  - ') : 'None specified';
 }
 
+export interface PromptLocalizationOptions {
+  region?: string;
+  currency?: string;
+  unitSystem?: 'metric' | 'imperial';
+  simplicityMode?: 'eli5' | 'standard' | 'expert';
+}
+
 /**
  * Builds a deterministic, structured prompt from a workflow schema and user form answers.
  */
 export function buildPrompt(
   workflow: WorkflowSchema,
   answers: Record<string, any>,
-  targetTool: TargetTool = 'general'
+  targetTool: TargetTool = 'general',
+  localization?: PromptLocalizationOptions
 ): AssembledPrompt {
   const sections: PromptSection[] = [];
   const missingCriticalFields: string[] = [];
@@ -175,13 +183,43 @@ export function buildPrompt(
   // 5. Constraints, Governing Codes & Guardrails
   const constraints: string[] = [];
 
+  // Regional Governing Standards from Localization
+  if (localization?.region && localization.region !== 'global') {
+    const regionNames: Record<string, string> = {
+      us: 'United States (ACI 318, AISC 360, ASCE 7-22, IBC, US GAAP)',
+      eu: 'European Union (Eurocodes EN 1990-1999, IFRS, IEC 60364)',
+      uk: 'United Kingdom (BS EN Eurocodes + UK National Annex, UK GAAP / IFRS)',
+      in: 'India (IS 456:2000, IS 800:2007, NBC 2016, IRC, Ind AS)',
+      au: 'Australia / New Zealand (AS 3600, AS 4100, NCC, AASB / IFRS)',
+      gulf: 'Middle East & Gulf (SBC, Dubai Building Code, ACI/Eurocode Hot Weather, IFRS)'
+    };
+    if (regionNames[localization.region]) {
+      constraints.push(`- Regional Regulatory Jurisdiction: Align calculation methodology, design codes, and safety factors with ${regionNames[localization.region]}.`);
+    }
+  }
+
   if (workflow.governingStandards && workflow.governingStandards.length > 0) {
     constraints.push(`- Comply strictly with applicable design codes and standards: ${workflow.governingStandards.join(', ')}.`);
   }
 
-  if (answers.unit_system) {
-    const unitLabel = answers.unit_system === 'si_metric' ? 'SI Metric (kN/m³, mm, kPa, °C)' : 'Imperial / US Customary (pcf, psi, inches, °F)';
-    constraints.push(`- Maintain strict dimensional unit consistency in ${unitLabel}. Show explicit units beside every number.`);
+  // Currency Constraint
+  if (localization?.currency) {
+    constraints.push(`- Currency Specification: Present all financial valuations, costs, budgets, and estimates in ${localization.currency}.`);
+  }
+
+  // Dimensional Unit System
+  const effectiveUnits = answers.unit_system || localization?.unitSystem;
+  if (effectiveUnits) {
+    const isMetric = effectiveUnits === 'si_metric' || effectiveUnits === 'metric';
+    const unitLabel = isMetric ? 'SI Metric (m, mm, kg, kN/m³, kPa, °C)' : 'Imperial / US Customary (ft, in, lbs, pcf, psi, °F)';
+    constraints.push(`- Dimensional Units: Maintain strict dimensional consistency in ${unitLabel}. Explicitly show unit labels beside every calculated or estimated quantity.`);
+  }
+
+  // Simplicity Mode / ELI5 Rule
+  if (localization?.simplicityMode === 'eli5') {
+    constraints.push('- Simplicity Level (Explain Like I\'m 12 / ELI5): Frame the explanation so an intuitive 12-year-old or someone completely new to the topic can understand. Use intuitive physical analogies, eliminate academic jargon, explain the "why" behind each step, and define any technical term immediately in plain words.');
+  } else if (localization?.simplicityMode === 'expert') {
+    constraints.push('- Expert Rigour: Provide rigorous technical derivations, citation of specific code clauses/sections, sensitivity analysis parameters, and formal engineering/mathematical methodology.');
   }
 
   if (workflow.riskClass === 'R2') {

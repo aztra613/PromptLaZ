@@ -8,6 +8,7 @@ import {
   ChevronUp, Upload, Trash2, CheckCircle2, Sparkles, FileText, CheckSquare
 } from 'lucide-react';
 import { HierarchicalSubjectPicker } from './HierarchicalSubjectPicker';
+import { useLocalization } from '../context/LocalizationContext';
 
 interface StudioWorkspaceProps {
   workflow: WorkflowSchema;
@@ -123,9 +124,15 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
 
   // Mobile preview drawer
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
+  const { region, currency, unitSystem, simplicityMode } = useLocalization();
 
-  // Build the deterministic prompt
-  const assembled = buildPrompt(workflow, answers, targetTool);
+  // Build the deterministic prompt with active global localization preferences
+  const assembled = buildPrompt(workflow, answers, targetTool, {
+    region,
+    currency,
+    unitSystem,
+    simplicityMode
+  });
   const displayedPromptText = manualPromptText !== null ? manualPromptText : assembled.fullText;
 
   // Handle input changes

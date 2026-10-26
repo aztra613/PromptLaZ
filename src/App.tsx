@@ -12,6 +12,8 @@ import { WORKFLOWS } from './data/workflows';
 import { LocalDraft } from './types';
 import { getLocalDrafts } from './utils/promptBuilder';
 import { ThemeProvider } from './context/ThemeContext';
+import { LocalizationProvider } from './context/LocalizationContext';
+import { LocalizationBar } from './components/LocalizationBar';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'landing' | 'studio' | 'atlas'>('landing');
@@ -71,15 +73,19 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen flex flex-col bg-[#F7F8FC] dark:bg-[#0B1120] text-[#172033] dark:text-[#F1F5F9] selection:bg-[#EEF2FF] dark:selection:bg-[#312E81] selection:text-[#4F46E5] dark:selection:text-[#C7D2FE] transition-colors">
-        {/* Universal Header */}
-        <Header
-          currentView={currentView}
-          onNavigate={handleNavigate}
-          onOpenDrafts={() => setDraftsModalOpen(true)}
-          onOpenPolicy={handleOpenPolicy}
-          draftsCount={draftsCount}
-        />
+      <LocalizationProvider>
+        <div className="min-h-screen flex flex-col bg-[#F7F8FC] dark:bg-[#0B1120] text-[#172033] dark:text-[#F1F5F9] selection:bg-[#EEF2FF] dark:selection:bg-[#312E81] selection:text-[#4F46E5] dark:selection:text-[#C7D2FE] transition-colors">
+          {/* Global Standards, Currency & Units Bar */}
+          <LocalizationBar />
+
+          {/* Universal Header */}
+          <Header
+            currentView={currentView}
+            onNavigate={handleNavigate}
+            onOpenDrafts={() => setDraftsModalOpen(true)}
+            onOpenPolicy={handleOpenPolicy}
+            draftsCount={draftsCount}
+          />
 
         {/* Main View Router */}
         <main className="flex-1">
@@ -144,7 +150,8 @@ export default function App() {
           onClose={() => setPolicyModalOpen(false)}
           defaultTab={policyModalTab}
         />
-      </div>
+        </div>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }
