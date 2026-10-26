@@ -1,6 +1,8 @@
 import { WorkflowSchema } from '../types';
+import { ENCYCLOPEDIA_WORKFLOWS } from './workflows-encyclopedia';
+import { FOUNDER_WORKFLOWS } from './workflows-founder';
 
-export const WORKFLOWS: WorkflowSchema[] = [
+const CORE_WORKFLOWS: WorkflowSchema[] = [
   // 1. CIVIL ENGINEERING: SOIL MECHANICS & COMPACTION / SETTLEMENT
   {
     id: 'civil_soil_mechanics',
@@ -2204,4 +2206,10 @@ export const WORKFLOWS: WorkflowSchema[] = [
       { id: 'vc_privacy', title: 'No Private Secrets', description: 'Double check that personal passwords, credit card numbers, or internal credentials were not pasted.', category: 'limitations' }
     ]
   }
+];
+
+export const WORKFLOWS: WorkflowSchema[] = [
+  ...CORE_WORKFLOWS,
+  ...FOUNDER_WORKFLOWS,
+  ...ENCYCLOPEDIA_WORKFLOWS
 ];

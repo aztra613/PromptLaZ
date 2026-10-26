@@ -84,9 +84,13 @@ export function buildPrompt(
 
   let toolPrefix = '';
   if (targetTool === 'claude') {
-    toolPrefix = 'You are a meticulous, evidence-based technical assistant. ';
+    toolPrefix = 'You are a meticulous, evidence-based technical assistant. Enclose key sections in clean Markdown and XML tags where appropriate. ';
   } else if (targetTool === 'chatgpt') {
     toolPrefix = 'Act as an expert advisor. Provide structured, step-by-step guidance. ';
+  } else if (targetTool === 'perplexity') {
+    toolPrefix = 'You are an authoritative research engine. Search recent web sources, verify primary evidence, cite dates and sources, and prioritize factual precision over speculation. ';
+  } else if (targetTool === 'deepseek') {
+    toolPrefix = 'You are a rigorous analytical engine. Perform deliberate chain-of-thought deduction, state premises explicitly, and verify reasoning step-by-step. ';
   } else if (targetTool === 'gemini') {
     toolPrefix = 'Provide a comprehensive, logically verified analysis. ';
   } else if (targetTool === 'cursor') {
@@ -191,6 +195,10 @@ export function buildPrompt(
 
   if (answers.constraints_rules) {
     constraints.push(`- Negative Constraints: ${answers.constraints_rules}`);
+  }
+
+  if (answers.reddit_guardrails || answers.reddit_anti_fluff || answers.anti_fluff_constraint) {
+    constraints.push('- Negative Constraints & Anti-Fluff (Reddit Production Standard): Do NOT use corporate AI clichés (such as "delve", "testament", "tapestry", "beacon of", "revolutionize", "in conclusion"). Never open with conversational filler ("Certainly!", "Sure! Here is the..."). Begin directly with the deliverable.');
   }
 
   if (constraints.length > 0) {

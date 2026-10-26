@@ -56,6 +56,8 @@ export type TargetTool =
   | 'chatgpt'
   | 'claude'
   | 'gemini'
+  | 'perplexity'
+  | 'deepseek'
   | 'midjourney'
   | 'flux'
   | 'cursor';
