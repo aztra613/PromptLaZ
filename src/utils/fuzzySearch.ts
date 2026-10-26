@@ -152,6 +152,83 @@ export const SITUATION_PHRASES: SituationPhrase[] = [
   { phrase: 'planning a vacation', domainId: 'travel_places', subdisciplineId: 'tp-itin' },
   { phrase: 'visa application help', domainId: 'travel_places', subdisciplineId: 'tp-visa' },
   { phrase: 'moving to another country', domainId: 'travel_places', subdisciplineId: 'tp-business' },
+
+  // ─── NEW: 15 previously uncovered domains ───────────────────
+
+  // Mathematics & Statistics
+  { phrase: 'solve a differential equation', domainId: 'math_stats', subdisciplineId: 'ms-calc' },
+  { phrase: 'hypothesis test interpretation', domainId: 'math_stats', subdisciplineId: 'ms-prob' },
+  { phrase: 'regression model not fitting', domainId: 'math_stats', subdisciplineId: 'ms-applied' },
+
+  // Physical Sciences
+  { phrase: 'balance a chemical equation', domainId: 'physical_sciences', subdisciplineId: 'ps-chem' },
+  { phrase: 'free body diagram', domainId: 'physical_sciences', subdisciplineId: 'ps-phys' },
+  { phrase: 'calculate refraction of light', domainId: 'physical_sciences', subdisciplineId: 'ps-optics' },
+
+  // Life Sciences
+  { phrase: 'how does CRISPR work', domainId: 'life_sciences', subdisciplineId: 'ls-cell' },
+  { phrase: 'species biodiversity index', domainId: 'life_sciences', subdisciplineId: 'ls-eco' },
+  { phrase: 'antibiotic resistance mechanism', domainId: 'life_sciences', subdisciplineId: 'ls-micro' },
+
+  // Earth, Climate & Space
+  { phrase: 'reading a weather radar', domainId: 'earth_climate', subdisciplineId: 'ec-meteo' },
+  { phrase: 'earthquake risk assessment', domainId: 'earth_climate', subdisciplineId: 'ec-geo' },
+  { phrase: 'carbon footprint calculation', domainId: 'earth_climate', subdisciplineId: 'ec-carbon' },
+
+  // Social Sciences
+  { phrase: 'survey questionnaire design', domainId: 'social_sciences', subdisciplineId: 'ss-methods' },
+  { phrase: 'microeconomics supply demand', domainId: 'social_sciences', subdisciplineId: 'ss-econ' },
+  { phrase: 'voter turnout analysis', domainId: 'social_sciences', subdisciplineId: 'ss-polisci' },
+
+  // Humanities
+  { phrase: 'primary source analysis', domainId: 'humanities', subdisciplineId: 'hm-history' },
+  { phrase: 'literary criticism essay', domainId: 'humanities', subdisciplineId: 'hm-lit' },
+  { phrase: 'understanding logical fallacies', domainId: 'humanities', subdisciplineId: 'hm-philo' },
+
+  // Research & Knowledge Work
+  { phrase: 'writing a literature review', domainId: 'research_methods', subdisciplineId: 'rm-litrev' },
+  { phrase: 'systematic review protocol', domainId: 'research_methods', subdisciplineId: 'rm-sysrev' },
+  { phrase: 'how to cite sources properly', domainId: 'research_methods', subdisciplineId: 'rm-cite' },
+
+  // Chemical & Process Engineering
+  { phrase: 'distillation column design', domainId: 'chemical_process', subdisciplineId: 'cp-unit' },
+  { phrase: 'mineral ore processing', domainId: 'chemical_process', subdisciplineId: 'cp-mining' },
+  { phrase: 'batch reactor yield optimisation', domainId: 'chemical_process', subdisciplineId: 'cp-reactor' },
+
+  // AI, Data Science & Analytics
+  { phrase: 'model accuracy is poor', domainId: 'ai_data_analytics', subdisciplineId: 'ad-ml' },
+  { phrase: 'how to clean messy data', domainId: 'ai_data_analytics', subdisciplineId: 'ad-wrangle' },
+  { phrase: 'build a recommendation engine', domainId: 'ai_data_analytics', subdisciplineId: 'ad-ml' },
+
+  // IoT, Robotics & Embedded
+  { phrase: 'sensor readings are noisy', domainId: 'iot_robotics', subdisciplineId: 'ir-sensors' },
+  { phrase: 'program an Arduino', domainId: 'iot_robotics', subdisciplineId: 'ir-embedded' },
+  { phrase: 'robot path planning', domainId: 'iot_robotics', subdisciplineId: 'ir-robot' },
+
+  // Transport, Aviation & Defence
+  { phrase: 'flight route optimisation', domainId: 'transport_aerospace', subdisciplineId: 'ta-aviation' },
+  { phrase: 'vehicle fleet management', domainId: 'transport_aerospace', subdisciplineId: 'ta-fleet' },
+  { phrase: 'satellite orbit calculation', domainId: 'transport_aerospace', subdisciplineId: 'ta-space' },
+
+  // Food, Culinary & Hospitality
+  { phrase: 'restaurant HACCP plan', domainId: 'food_culinary', subdisciplineId: 'fc-safety' },
+  { phrase: 'recipe costing spreadsheet', domainId: 'food_culinary', subdisciplineId: 'fc-mgmt' },
+  { phrase: 'food allergen labelling', domainId: 'food_culinary', subdisciplineId: 'fc-safety' },
+
+  // Environment & Sustainability
+  { phrase: 'environmental impact assessment', domainId: 'environment_sustainability', subdisciplineId: 'es-eia' },
+  { phrase: 'waste recycling programme', domainId: 'environment_sustainability', subdisciplineId: 'es-waste' },
+  { phrase: 'ESG reporting requirements', domainId: 'environment_sustainability', subdisciplineId: 'es-esg' },
+
+  // Religion & Philosophy
+  { phrase: 'comparative religion study', domainId: 'religion_philosophy', subdisciplineId: 'rp-comp' },
+  { phrase: 'ethics dilemma analysis', domainId: 'religion_philosophy', subdisciplineId: 'rp-ethics' },
+  { phrase: 'theology research paper', domainId: 'religion_philosophy', subdisciplineId: 'rp-theo' },
+
+  // Sports, Games & Recreation
+  { phrase: 'training periodisation plan', domainId: 'sports_games', subdisciplineId: 'sg-training' },
+  { phrase: 'esports team strategy', domainId: 'sports_games', subdisciplineId: 'sg-esport' },
+  { phrase: 'coaching session drill design', domainId: 'sports_games', subdisciplineId: 'sg-coaching' },
 ];
 
 

@@ -16,8 +16,8 @@ export const FOUNDER_WORKFLOWS: WorkflowSchema[] = [
   {
     id: 'founder_market_discovery',
     title: 'Founder AI: Market Research & Customer Discovery',
-    domainId: 'founder_sales_marketing',
-    domainName: 'Founder AI Playbook: Sales & Marketing',
+    domainId: 'marketing_sales',
+    domainName: 'Marketing, sales and e-commerce',
     group: 'Economy & work',
     discipline: 'Founder Market Validation & ICP Strategy',
     summary: 'Diagnose market bottlenecks, formulate Ideal Customer Profiles (ICP), build customer discovery interview scripts, and generate competitor intelligence matrices.',
@@ -206,8 +206,8 @@ export const FOUNDER_WORKFLOWS: WorkflowSchema[] = [
   {
     id: 'founder_finance_cashflow',
     title: 'Founder AI: Cash Flow, Invoicing & Receivables Defense',
-    domainId: 'founder_finance_cashflow',
-    domainName: 'Founder AI Playbook: Finance & Cash Flow',
+    domainId: 'finance_markets',
+    domainName: 'Finance, accounting, banking and insurance',
     group: 'Economy & work',
     discipline: 'Working Capital Management & Receivables Defense',
     summary: 'Protect cash runway, build firm overdue invoice follow-up sequences, model 13-week cash burn scenarios, and reconcile GST/Tally accounting disputes.',
@@ -374,8 +374,8 @@ export const FOUNDER_WORKFLOWS: WorkflowSchema[] = [
   {
     id: 'founder_operations_erp',
     title: 'Founder AI: Operations, ERP & Supply Chain Automation',
-    domainId: 'founder_operations_erp',
-    domainName: 'Founder AI Playbook: Operations & Systems',
+    domainId: 'operations_supplychain',
+    domainName: 'Operations, manufacturing and supply chain',
     group: 'Economy & work',
     discipline: 'Operations Scaling & Process Automation',
     summary: 'Standardize operations with Standard Operating Procedures (SOPs), optimize inventory reorder levels, eliminate manual spreadsheet data entry, and establish vendor SLAs.',
@@ -543,8 +543,8 @@ export const FOUNDER_WORKFLOWS: WorkflowSchema[] = [
   {
     id: 'founder_people_recruitment',
     title: 'Founder AI: Recruitment, Job Descriptions & Team KPIs',
-    domainId: 'founder_people_leadership',
-    domainName: 'Founder AI Playbook: People & Leadership',
+    domainId: 'careers_workplace',
+    domainName: 'Careers, HR and workplace',
     group: 'Economy & work',
     discipline: 'Founder Hiring, Scorecards & Performance Management',
     summary: 'Write high-conversion job descriptions with clear outcomes, design structured behavioral interview rubrics, create 30-60-90 day onboarding plans, and set measurable team KPIs.',

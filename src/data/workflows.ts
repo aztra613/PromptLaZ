@@ -300,6 +300,20 @@ const CORE_WORKFLOWS: WorkflowSchema[] = [
           applied_loads: 'roof_wind_loads',
           detailing_concerns: 'slender_buckling_pdelta'
         }
+      },
+      {
+        id: 'concrete_mix_qa',
+        title: '🧱 Concrete Mix Design & 28-Day Strength QA (IS 10262 / EN 206)',
+        description: 'Target mean strength, w/c ratio, slump retention, and cube test compliance.',
+        badge: 'Mix Design & QA',
+        presetAnswers: {
+          member_type: 'rc_beam',
+          governing_code: 'is_456_2000',
+          material_specification: 'c30_37_fe500',
+          geometry_spans: 'beam_300_600_6m',
+          applied_loads: 'office_commercial_loads',
+          detailing_concerns: 'severe_marine_cover'
+        }
       }
     ],
     fields: [
@@ -1348,6 +1362,232 @@ const CORE_WORKFLOWS: WorkflowSchema[] = [
     verificationChecks: [
       { id: 'vc_conflict', title: 'Preserve vs Change Conflict', description: 'Ensure the change list and preserve list do not contradict (e.g. changing face vs preserving face).', category: 'evidence' },
       { id: 'vc_privacy', title: 'Local Preview Privacy', description: 'Uploaded reference photos stay strictly in the browser memory as local object URLs with zero server transmission.', category: 'limitations' }
+    ]
+  },
+
+  // 6b. ARTS, DESIGN & MEDIA: VIDEOGRAPHY & CINEMATOGRAPHY SHOOT BRIEF
+  {
+    id: 'creative_video_production',
+    title: 'Video Production & Cinematography Shoot Brief',
+    domainId: 'arts_design_media',
+    domainName: 'Arts, design, media and entertainment',
+    group: 'Creative & media',
+    discipline: 'Cinematography & Video Production',
+    summary: 'Plan cinematic video shoots, YouTube studio setups, or slow-motion action captures with exact frame rates, shutter angles, camera movement, and lighting briefs.',
+    outcome: 'A professional Director of Photography (DP) shoot brief, camera technical sheet, and lighting setup plan ready for production or generative video models (Sora, Runway Gen-3, Luma).',
+    skillLevel: 'Practitioner',
+    riskClass: 'R0',
+    contentTier: 'T1',
+    coverageState: 'published_workflow',
+    deliverableType: 'Cinematography Technical Sheet & Lighting Brief',
+    modality: 'image',
+    primaryIntent: 'Create / design',
+    aliases: ['video', 'filmmaking', 'cinematography', 'frame rate', 'shutter angle', 'b-roll', 'youtube studio', 'sora', 'runway', 'luma'],
+    governingStandards: ['ASC American Society of Cinematographers Manual', 'SMPTE Video Standards', 'EBU R128 Loudness'],
+    reviewerRole: 'Director of Photography (DP / ASC)',
+    lastReviewedDate: '2026-04-12',
+    missingInputRules: {
+      criticalFields: ['video_format', 'frame_rate_shutter'],
+      fallbackGuidance: 'When specific camera bodies or codecs are unspecified, the prompt defaults to standard 4K 24fps cinema benchmarks.'
+    },
+    recipes: [
+      {
+        id: 'cinematic_broll_24fps',
+        title: '🎬 4K 24fps Cinematic B-Roll Sequence',
+        description: 'Classic cinema look with 180° shutter angle (1/48s), smooth gimbal dolly move, and Log color profile.',
+        badge: 'Cinematic B-Roll',
+        presetAnswers: {
+          video_format: 'cinematic_broll',
+          camera_sensor: 'cinema_fullframe_fx3',
+          frame_rate_shutter: '24fps_180_deg',
+          lens_focal_length: '35mm_cine_prime',
+          camera_movement: 'smooth_dolly_push',
+          lighting_setup: 'cinematic_three_point',
+          audio_strategy: 'ambient_stereo_pair',
+          color_codec: 'prores_422_log'
+        }
+      },
+      {
+        id: 'youtube_studio_talkinghead',
+        title: '🎙️ 4K 60fps YouTube / Podcast Studio Setup',
+        description: 'Crisp eye-level talking head with shallow depth-of-field, key light softbox, and directional XLR broadcast audio.',
+        badge: 'YouTube Studio',
+        presetAnswers: {
+          video_format: 'youtube_talking_head',
+          camera_sensor: 'mirrorless_hybrid_a7iv',
+          frame_rate_shutter: '60fps_1_120s',
+          lens_focal_length: '50mm_portrait_prime',
+          camera_movement: 'locked_tripod_eyelevel',
+          lighting_setup: 'highkey_softbox_key',
+          audio_strategy: 'directional_xlr_shotgun',
+          color_codec: 'rec709_standard'
+        }
+      },
+      {
+        id: 'slowmo_action_120fps',
+        title: '⚡ 120fps High-Speed Action Slow-Motion',
+        description: 'Buttery 5x slow-motion action shot with fast 1/240s shutter speed to freeze droplet or athletic motion.',
+        badge: 'High-Speed Action',
+        presetAnswers: {
+          video_format: 'highspeed_action',
+          camera_sensor: 'cinema_fullframe_fx3',
+          frame_rate_shutter: '120fps_1_240s',
+          lens_focal_length: '24mm_wide_cine',
+          camera_movement: 'dynamic_tracking_lead',
+          lighting_setup: 'high_output_continuous_led',
+          audio_strategy: 'foley_sound_design',
+          color_codec: 'prores_422_log'
+        }
+      }
+    ],
+    fields: [
+      {
+        id: 'video_format',
+        label: 'What is the video format and production goal?',
+        technicalTerm: 'Production Genre & Video Format',
+        eli5: 'Are you shooting a cinematic B-roll clip, a YouTube talking-head video, or a high-speed action scene?',
+        example: 'Cinematic B-roll sequence for commercial product ad',
+        type: 'select',
+        step: 'start',
+        required: true,
+        promptImpact: 'Establishes pacing, camera language, and lighting tone.',
+        options: [
+          { label: 'Cinematic Commercial B-Roll (Mood, aesthetic atmosphere, visual storytelling)', value: 'cinematic_broll', isDefault: true },
+          { label: 'YouTube / Podcast Studio Talking Head (High clarity, professional presenter, clean audio)', value: 'youtube_talking_head' },
+          { label: 'High-Speed Action / Sports Slow-Motion (Freezing fast motion with buttery smoothness)', value: 'highspeed_action' },
+          { label: 'Documentary / Run-and-Gun Street Scene (Organic realism, natural lighting)', value: 'documentary_run_gun' }
+        ]
+      },
+      {
+        id: 'camera_sensor',
+        label: 'What camera system or sensor format will be used?',
+        technicalTerm: 'Camera Rig & Sensor Architecture',
+        eli5: 'Full-frame cinema cameras give rich shallow depth of field; mirrorless hybrids are versatile; smartphones use computational stabilization.',
+        example: 'Full-Frame Cinema Camera (Sony FX3 / Canon C70)',
+        type: 'select',
+        step: 'start',
+        required: true,
+        promptImpact: 'Defines optical crop factor, dynamic range, and low-light performance.',
+        options: [
+          { label: 'Full-Frame Cinema Camera (Sony FX3 / Canon C70 / ARRI Mini LF — 14+ stops dynamic range)', value: 'cinema_fullframe_fx3', isDefault: true },
+          { label: 'Professional Mirrorless Hybrid (Sony A7 IV / Canon R6 II — crisp 4K 10-bit)', value: 'mirrorless_hybrid_a7iv' },
+          { label: 'Super35 Film Camera (RED Komodo / Blackmagic Pocket 6K — classic film cadence)', value: 'super35_red' },
+          { label: 'Smartphone Pro Cinema Rig (iPhone 16 Pro ProRes Log on motorized gimbal)', value: 'mobile_prores_rig' }
+        ]
+      },
+      {
+        id: 'frame_rate_shutter',
+        label: 'What frame rate and shutter angle / speed should be set?',
+        technicalTerm: 'Timebase & 180-Degree Shutter Rule',
+        eli5: '24fps with 180° shutter (1/48s) gives the natural cinematic motion blur humans expect in movies; 60fps feels hyper-smooth; 120fps allows 5x slow motion.',
+        example: '24fps with 180° shutter angle (1/48s exposure)',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Dictates motion cadence, natural motion blur, and temporal resolution.',
+        options: [
+          { label: '24 fps with 180° Shutter Angle (1/48s shutter — Hollywood cinematic standard)', value: '24fps_180_deg', isDefault: true },
+          { label: '30 fps (1/60s shutter — Broadcast TV and standard web video)', value: '30fps_broadcast' },
+          { label: '60 fps (1/120s shutter — Smooth motion or 2.5x slow-motion conform)', value: '60fps_1_120s' },
+          { label: '120 fps (1/240s shutter — Buttery 5x high-speed slow-motion action)', value: '120fps_1_240s' }
+        ]
+      },
+      {
+        id: 'lens_focal_length',
+        label: 'What lens and focal length will frame the scene?',
+        technicalTerm: 'Optics, Focal Length & Distortion Profile',
+        eli5: '35mm is wide and immersive; 50mm feels natural; 85mm provides flattering portraits and creamy background separation.',
+        example: '35mm T1.5 Cine Prime lens for atmospheric coverage',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Controls perspective compression, background blur, and spatial immersion.',
+        options: [
+          { label: '35mm Cine Prime (Wide-standard, captures subject within spatial environment)', value: '35mm_cine_prime', isDefault: true },
+          { label: '50mm Portrait Prime (Natural human-eye perspective, zero optical distortion)', value: '50mm_portrait_prime' },
+          { label: '85mm Telephoto Prime (Extreme background compression and creamy bokeh)', value: '85mm_telephoto_prime' },
+          { label: '24mm Ultra-Wide Cine (Expansive cinematic vista, dynamic action presence)', value: '24mm_wide_cine' },
+          { label: '28-70mm f/2.0 Zoom (Versatile commercial run-and-gun framing)', value: '28_70mm_zoom' }
+        ]
+      },
+      {
+        id: 'camera_movement',
+        label: 'How does the camera move during the shot?',
+        technicalTerm: 'Camera Dynamics & Rig Support',
+        eli5: 'Is the camera locked on a heavy tripod, gliding smoothly on a dolly/gimbal, or handheld for raw energy?',
+        example: 'Slow motorized dolly push-in toward the subject',
+        type: 'select',
+        step: 'fit',
+        required: true,
+        promptImpact: 'Instructs camera operators or generative AI models (Sora/Runway) on motion direction.',
+        options: [
+          { label: 'Slow Dolly Push-In (Gradually intensifies focus on subject, builds drama)', value: 'smooth_dolly_push', isDefault: true },
+          { label: 'Locked-Off Sturdy Tripod (Static, rock-solid framing with zero jitter)', value: 'locked_tripod_eyelevel' },
+          { label: 'Motorized Gimbal Orbit / Parallax Arc (Smooth 360-degree floating movement)', value: 'gimbal_orbit_arc' },
+          { label: 'Dynamic Lead Tracking Shot (Moves backward matching subject forward walking pace)', value: 'dynamic_tracking_lead' },
+          { label: 'Handheld Kinetic Camera (Organic breathing motion, documentary authenticity)', value: 'handheld_kinetic' }
+        ]
+      },
+      {
+        id: 'lighting_setup',
+        label: 'What is the lighting design and atmosphere?',
+        technicalTerm: 'Lighting Ratio & Key-to-Fill Contrast',
+        eli5: '3-point lighting provides clear separation; chiaroscuro is moody with deep shadows; softbox high-key is bright and clean.',
+        example: 'Cinematic 3-point lighting with warm key and cool rim light',
+        type: 'select',
+        step: 'finetune',
+        required: false,
+        promptImpact: 'Defines contrast ratio, mood, shadow falloff, and color temperatures.',
+        options: [
+          { label: 'Cinematic 3-Point Lighting (Key softbox at 45°, gentle bounce fill, cool hair rim)', value: 'cinematic_three_point', isDefault: true },
+          { label: 'High-Key Commercial Softbox (Even, shadowless, clean bright look for studio)', value: 'highkey_softbox_key' },
+          { label: 'Dramatic Low-Key Chiaroscuro (Single motivated source, deep moody shadows)', value: 'lowkey_chiaroscuro' },
+          { label: 'High-Output Continuous LED Rig (5600K daylight-balanced for high-speed flicker-free)', value: 'high_output_continuous_led' },
+          { label: 'Golden Hour Natural Backlight (Sun behind subject, warm lens flare and bounce)', value: 'golden_hour_backlight' }
+        ]
+      },
+      {
+        id: 'audio_strategy',
+        label: 'What is the audio capture strategy?',
+        technicalTerm: 'Audio Transducer & Sound Architecture',
+        eli5: 'Shotgun mic captures targeted voice; lavalier clips to clothing; ambient stereo captures room vibe.',
+        example: 'Directional XLR shotgun microphone boomed overhead just outside frame',
+        type: 'select',
+        step: 'finetune',
+        required: false,
+        promptImpact: 'Specifies microphone type, placement, and noise-floor handling in the brief.',
+        options: [
+          { label: 'Overhead Boomed Shotgun Mic (Sennheiser MKH416 / Rode NTG3 — natural studio voice)', value: 'directional_xlr_shotgun', isDefault: true },
+          { label: 'Wireless Dual-Lavalier Transmitters (Discreet lapel clip for moving speaker)', value: 'wireless_lavalier' },
+          { label: 'Ambient Stereo Pair (XY configuration capturing spatial room reverberation)', value: 'ambient_stereo_pair' },
+          { label: 'MOS / Foley & Sound Design Only (No sync dialogue; sound created in post)', value: 'foley_sound_design' }
+        ]
+      },
+      {
+        id: 'color_codec',
+        label: 'What recording codec and color profile should be targeted?',
+        technicalTerm: 'Chroma Subsampling, Color Space & Codec',
+        eli5: '10-bit Log enables professional color grading in DaVinci Resolve without color banding; Rec.709 is ready to edit immediately.',
+        example: 'Apple ProRes 422 HQ 10-bit Log color profile',
+        type: 'select',
+        step: 'finetune',
+        required: false,
+        promptImpact: 'Dictates bit depth, dynamic range latitude, and color grading instructions.',
+        options: [
+          { label: '10-Bit Log / Apple ProRes 422 HQ (Maximum grading latitude, zero compression artifacts)', value: 'prores_422_log', isDefault: true },
+          { label: 'Rec.709 Standard Profile (Natural ready-to-publish colors, zero grading needed)', value: 'rec709_standard' },
+          { label: '12-Bit RAW Cinema DNG / BRAW (Full sensor readout for feature film post-production)', value: 'raw_12bit_cinema' }
+        ]
+      }
+    ],
+    relatedWorkflows: [
+      { type: 'companion', workflowId: 'creative_product_photography', title: 'Commercial Studio Product Photography', description: 'Explore still photography counterpart.' },
+      { type: 'companion', workflowId: 'creative_image_edit', title: 'Photo Retouching & AI Inpainting', description: 'Explore image editing workflows.' }
+    ],
+    verificationChecks: [
+      { id: 'vc_180_rule', title: '180° Shutter Rule Consistency', description: 'Verify shutter speed is approximately 1/(2 * frame_rate) to maintain natural motion cadence.', category: 'standards' },
+      { id: 'vc_audio_sync', title: 'Sync Audio Check', description: 'Ensure the audio capture plan accounts for room echo and acoustic treatment.', category: 'evidence' },
+      { id: 'vc_storage_bitrate', title: 'Bitrate & Storage Capacity', description: 'Check that 4K 10-bit ProRes data rates (approx 1 GB per minute) are planned for.', category: 'limitations' }
     ]
   },
 

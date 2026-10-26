@@ -1,0 +1,233 @@
+PROMPTLAZ GLOBAL ATLAS — REPOSITORY-GROUNDED GAP RESEARCH & TAXONOMY EXPANSION
+Version 1.0 | Research-first, evidence-led, additive to the supplied application
+
+## YOUR JOB
+
+You have been given the current PromptLaz application ZIP (named `PromptLaZ-main.zip`), the current PRD v1.5 markdown file inside it, and a separate master brief about building a global domain atlas and beginner-friendly prompt dropdowns.
+
+Do not start by writing another generic proposal. **Inspect the actual repository, audit what already exists, research the missing areas, and return concrete assets that can be integrated into this project.**
+
+PromptLaz is meant to be an Atlas of human knowledge and work for creating prompts. Users may know the outcome they want but not the discipline, subdiscipline, technical words, parameters, documents, or questions that matter. The interface should guide them through understandable choices and show the prompt assembling live.
+
+A photographer may know they want a blurred portrait background without knowing which aperture to choose. A videographer may not know which frame rate, shutter angle, focal length, focus, codec or audio capture settings matter. A civil engineer may need concrete tests, soil mechanics, steel structures, structural analysis or fluid mechanics. Electrical engineers may need power systems, protection, electronics or telecom/RF. IT professionals may need software testing, networking, servers, data analysis, DevOps, cloud, cybersecurity or UI/UX. An accounting employee may need reconciliation, tax-document preparation or audit documentation. A factory worker may need paper/pulp process, process control or product quality. Users from other domains must receive the same treatment.
+
+Experienced users must be able to select the known options and also enter custom details. Beginners must be able to use guided choices without having to invent technical terms first.
+
+Your target is not a long list of categories. It is **a maintainable, source-backed knowledge system that powers useful choices, task-specific questions, and live prompt assembly**.
+
+Do not claim that you can analyse literally the entire internet. Conduct systematic, wide-reaching research across credible web sources; document scope, evidence, gaps and limitations; keep the taxonomy extensible.
+
+## PART 1 — REPOSITORY FORENSICS FIRST (MANDATORY)
+
+Before researching new domains, inspect the ZIP itself. Do not rely on guesses from the PRD or this prompt. Recalculate the inventory from the actual files.
+
+Inspect at minimum:
+- `src/data/taxonomy.ts`
+- `src/data/workflows.ts`
+- `src/data/workflows-founder.ts`
+- `src/data/workflows-encyclopedia.ts`
+- `src/types/index.ts`
+- `src/components/HierarchicalSubjectPicker.tsx`
+- `src/components/SearchableCombobox.tsx`
+- `src/components/HelpMeChooseModal.tsx`
+- `src/components/AtlasDirectory.tsx`
+- `src/components/StudioWorkspace.tsx`
+- `src/utils/fuzzySearch.ts`
+- `src/utils/promptBuilder.ts`
+- `src/App.tsx`
+- `index.html`, `README.md`, `package.json`, `metadata.json`
+- the bundled PRD and all existing taxonomy/asset README files
+
+Verify the current baseline, including (but not assuming these figures are still accurate):
+- 39 domain families
+- 211 subdiscipline entries
+- 801 sample-task labels
+- 29 workflow schemas
+- 190 workflow question fields
+- custom “Other” options and additional details
+- static situation phrases / fuzzy-search coverage
+- workflow-to-taxonomy links and coverage states
+
+Produce a source-derived inventory with file paths and exact counts.
+
+Answer these questions explicitly:
+1. What is already functional in the UI?
+2. Which dropdown levels exist and how are they filtered?
+3. Where can users enter custom terms? Can custom entries coexist with known parent choices and survive draft save/restore?
+4. Which task options have only a label versus a proper explanation, examples, metadata and a linked question bank?
+5. Which taxonomies have actual workflow schemas and which are only ideas/sample-task labels?
+6. Do counts such as `workflowsCount` agree with real workflow records and explicit IDs?
+7. Are any workflow IDs disconnected from canonical taxonomy IDs?
+8. Is “I'm not sure / Help me choose” based on simple phrase matching or actual language-model classification?
+9. Are status labels such as `starter_ready`, `explainer_ready`, `published_workflow` consistent and truthful?
+10. What metadata, tests, provenance, and schema validation already exist?
+11. Are there brand, README, manifest, package or asset duplicates that should be recorded as secondary hygiene gaps?
+
+Do not propose rebuilding a component that already works unless the code audit shows a concrete defect. Preserve existing good functionality.
+
+## PART 2 — CREATE A GAP REGISTER, NOT A DUPLICATE TAXONOMY
+
+Compare the actual source inventory against the product requirements below. Every proposed addition must be classified as one of:
+- already represented adequately;
+- represented only as a high-level taxonomy node;
+- represented as a sample task but with no specialized question bank;
+- represented by a workflow but with incomplete depth;
+- absent and recommended for research;
+- not appropriate for a PromptLaz prompt workflow or blocked by policy/safety.
+
+For every alleged gap, cite the exact existing file/ID before recommending a new record. Avoid duplicates created by synonyms or alternate spellings. Separate true omissions from items that are already present but need richer explanations, sources or workflow links.
+
+Create a CSV or equivalent register with:
+`gap_id, domain_id, domain_label, candidate_node, entity_type, current_state, source_files_or_ids, missing_capability, user_value, research_priority, source_ids, confidence, suggested_next_action, status`.
+
+Use priorities:
+- **P0:** taxonomy/data-model issue blocking trustworthy expansion or user discovery.
+- **P1:** high-value missing domain branches or specialist workflows.
+- **P2:** broader coverage, regional aliases, long-tail specialisms and maintenance improvement.
+
+## PART 3 — RESEARCH THE KNOWLEDGE LANDSCAPE
+
+Use web research and primary/authoritative sources. Research in layers: industry → occupation/role → discipline → subdiscipline → concept/tool/method/parameter → task → inputs → deliverable → quality checks.
+
+Use multiple reference systems because no single source captures the whole problem:
+- O*NET and O*NET-SOC as one US-based source for occupations, skills, work activities, technology skills and task statements.
+- ESCO as a multilingual European source of occupation, skill and knowledge concepts, preferred/non-preferred terms and relationships.
+- UN ISIC and relevant national industry classifications to understand economic sectors and industry sub-branches.
+- UNESCO/OECD fields-of-research classifications for academic and scientific disciplines.
+- Professional engineering/scientific bodies, university curricula, regulator websites, official standards catalogues, vendor documentation, technical handbooks, job descriptions, task manuals and reputable practitioner sources for specific technical detail.
+- Additional regional sources for global breadth. Include India-specific occupational/industry terminology where useful, but do not treat India or any single jurisdiction as the whole world.
+- Credible practitioner communities may help discover common real-world wording and pain points; do not treat anecdotal community content as an authority for standards or safety.
+
+For every research source, record title, publisher, URL, date accessed, source type, region/jurisdiction, what finding it supports, confidence and limits. Do not fabricate citations and do not claim a page supports more than it does. Respect licenses/copyright; summarize concepts rather than copying protected source material.
+
+## PART 4 — DOMAIN AREAS TO AUDIT AND EXPAND
+
+Use these as minimum gap-check seeds, not a closed whitelist. Discover additional domains and subdomains independently.
+
+### A. Photography, image-making and video production
+Map genres (portrait, landscape, street, wildlife, sports, event, wedding, product, food, architecture, macro, scientific imaging and more), jobs/roles, camera systems and workflow types.
+
+Photography concepts should include, where relevant: focal length in mm, lens type, sensor format, aperture/f-number, shutter speed, ISO, exposure compensation, metering, exposure mode, focus mode/area/subject tracking, distance, depth of field, background blur/bokeh, perspective, white balance, lighting direction/quality, flash, modifiers, composition, RAW/JPEG, resolution, aspect ratio, editing, colour space and output. Ask only task-relevant parameters and explain them in plain language.
+
+Videography/cinematography needs its own workflow families, not just a “video production” taxonomy label. Research production goal, script/story, shot type/size, shot list, camera movement, lens/focal length, aperture, ISO, frame rate, shutter speed/shutter angle, focus, exposure, lighting, stabilisation, audio/microphones, sampling/bit-depth, codec/container, chroma subsampling, colour profiles/log, grading, editing, subtitles, music rights and platform delivery. Separate live-action video, interview, event, documentary, short-form social, advertising, product video, tutorial, film/cinematic scene, animation/motion graphics and other distinct types as evidence supports.
+
+### B. Civil engineering and built environment
+Research soil mechanics/geotechnical, foundations, consolidation/settlement, compaction, Atterberg limits, sieve analysis, permeability, shear strength, bearing capacity, retaining walls, slope stability; concrete technology, mix design, slump, cube/cylinder strength, curing, durability, reinforced/prestressed concrete; structural analysis, loads, beams, columns, slabs, steel members, buckling, connections/bolts/welds, seismic/wind considerations; fluid mechanics, hydraulics, pipe networks, pumps, open-channel flow and hydrology; highways/pavements/traffic; surveying/GIS/BIM/CAD; water/wastewater/environment; construction methods, QA/QC, quantity surveying, BOQs, estimates, rate analysis, procurement, contracts, project planning, safety, inspections, reports and facilities/real-estate interfaces.
+
+### C. Electrical, electronics, energy and communications
+Research power generation/transmission/distribution, load flow, fault analysis, protection coordination, transformers, motors/drives, power quality, wiring/installations, earthing, switchgear, renewables/storage, power electronics, analog/digital circuits, PCB, embedded systems, controls/instrumentation, PLC/SCADA, RF, antennas, fibre, telecom networks, mobile/wireless, optical links, signal processing, test/commissioning/maintenance and safety.
+
+### D. Mechanical, industrial, chemical, materials and manufacturing
+Research fluid mechanics, thermodynamics, heat transfer, HVAC, turbomachinery, machine design, stress/fatigue, vibration, automotive/EV, aerospace/marine, CAD/CAE/FEA/CFD, manufacturing, machining/CNC, welding, fabrication, additive manufacturing, process engineering, chemical/petrochemical plants, mining, metallurgy, pulp/paper, converting, packaging, polymers, ceramics, textiles, plant operation, reliability, process safety, quality and production systems.
+
+### E. Information technology
+Research software engineering, frontend/backend/mobile, architecture, APIs, debugging, code review, unit/integration/API/E2E/regression/performance/accessibility/security testing, QA automation, networking, DNS/routing/switching/VPN/firewalls/load balancing, Linux/Windows servers, cloud infrastructure, databases/SQL/migrations/indexing/replication/backups, DevOps/SRE/platform/CI-CD/IaC/Kubernetes/containers, monitoring/observability/incident response, data analytics and visualization, spreadsheets/BI, data engineering, AI/ML/LLMs/MLOps, cybersecurity, identity/access, IT support, enterprise systems/ERP/CRM/ITSM, and UI/UX/product design. Continue to other IT and computing fields found during research.
+
+### F. Other domains — global scope
+Audit and expand natural/formal/social sciences, healthcare education and public health, nutrition/fitness, agriculture/forestry/fisheries, environment/climate, business/startups/product, finance/accounting/banking/insurance/tax, digital marketing/SEO/PPC/social/email/analytics, sales/customer support, real estate/property/facilities, administration/back-office, paperwork/document operations, HR/recruitment, procurement/logistics/retail/hospitality, education/exams/research, law/government/public services, language/writing/translation, design/media/music/arts, games/sports, skilled trades/maintenance, daily life, hobbies and emerging interdisciplinary fields. Add branches not mentioned here.
+
+For broad business or industrial categories, go down to concrete work processes, not only sector names. For example, “paper and pulp” should be separable into appropriate subbranches such as pulp processing, paper machine/quality, coating, converting, packaging and maintenance if supported by sources. “Finance” must separate bookkeeping/reconciliation, tax paperwork, banking operations, insurance claims, investing education, financial analysis and compliance documents where appropriate. “Digital marketing” must separate SEO, paid ads, email/lifecycle, organic social, campaign measurement, landing pages and conversion optimisation where justified.
+
+## PART 5 — MAKE THE CHOICES TEACH, WITHOUT OVERLOADING THE USER
+
+The user experience must preserve:
+- searchable dropdowns;
+- a progressive hierarchy that filters children based on parent choices;
+- an explicit “Other / enter my own” choice at each relevant level;
+- known parent selections combined with user-entered custom child/task/details;
+- “I'm not sure — help me choose” paths for novices;
+- direct search for experts;
+- live prompt preview;
+- local draft save/restore and copy/export;
+- clear, truthful taxonomy/workflow maturity badges.
+
+For each selectable option, write concise novice-facing content:
+- `label`
+- `shortDescription`
+- `chooseWhen`
+- `example`
+- `aliases`
+- `technicalTerms` (optional)
+- `relatedNodeIds`
+- `relatedWorkflowIds`
+- `coverageStatus`
+- `sourceIds`
+- `reviewStatus`
+
+For tasks with specialist parameters, add context-specific question-bank blueprints. Do not attach every parameter to every task. Use progressive disclosure:
+- beginner path: goal, situation, known information, desired output;
+- practitioner path: relevant domain parameters, methods, constraints and data;
+- expert path: advanced settings and standards that matter to the chosen task.
+
+Use a question `importance` such as `required`, `optional`, `expert`; include `dependsOn`/conditional rules where appropriate. Every question should explain what it means and why the answer matters. Unknown answers must be handled explicitly. Never invent consequential measurements or standards.
+
+When a user chooses “Other”, retain selected parents and custom child/task text simultaneously. Keep an unclassified custom term usable without marking it as reviewed. Allow users to suggest a missing topic for future editorial review, but do not silently publish user-entered terms into the authoritative taxonomy.
+
+## PART 6 — REQUIRED OUTPUT ASSETS
+
+Create these deliverables, not just a narrative:
+1. `repository_inventory.md` — exact source-derived inventory and architecture map.
+2. `gap_analysis.md` — prioritised gap report with exact existing file/ID evidence.
+3. `domain_coverage_register.csv` — one row per current domain, plus discovered omissions or a separate additions tab/file.
+4. `research_sources.csv` — citations/provenance for all research sources.
+5. `taxonomy_additions.json` — additive proposed nodes only, with stable IDs and references.
+6. `task_candidates.json` — task objects with explanations, aliases, examples and their coverage state.
+7. `question_bank_blueprints.json` — conditional field blueprints for priority missing workflows; do not mark them as implemented.
+8. `taxonomy_schema_vNext.json` — proposed validated schema/migration map that does not break the current app abruptly.
+9. `workflow_linkage_audit.csv` — task/subdiscipline IDs linked to actual workflow IDs; list orphans and count discrepancies.
+10. `ux_change_spec.md` — exact UI behaviour for child filtering, task descriptions, custom entry, novice help, status labels, empty results and mobile.
+11. `implementation_plan.md` — files to change, dependency order, acceptance tests and rollback approach.
+12. `README.md` — how to use the outputs, what is researched versus proposed, and known limitations.
+
+If the tool supports code/file creation, package everything in one ZIP. Validate JSON against a formal JSON Schema, validate all IDs and relationships, and run available application checks. If build dependencies cannot be installed, say so—do not claim the app passed.
+
+### Output data model expectations
+Use stable IDs and typed nodes. Suggested entity types include:
+`domain_family`, `industry`, `discipline`, `subdiscipline`, `occupation_role`, `task`, `concept`, `method`, `tool_or_equipment`, `parameter`, `input_data`, `standard_or_framework`, `jurisdiction`, `deliverable`, `quality_check`, `workflow`.
+
+Use relationship tables or IDs to support cross-domain links. Do not make one parent field the only possible relationship for interdisciplinary subjects. Avoid using a label as a primary key. Include aliases, regional terms and disambiguation notes where relevant.
+
+Suggested content lifecycle:
+`discovered` → `taxonomy_mapped` → `question_bank_drafted` → `workflow_implemented` → `tested` → `expert_reviewed` → `published`.
+
+A record in JSON is not automatically published.
+
+## PART 7 — VALIDATION AND ACCEPTANCE TESTS
+
+Demonstrate, using the actual proposed taxonomy data, how the following users discover the right workflow:
+1. A beginner wants a portrait with a blurred background but does not know aperture.
+2. A videographer is creating a product video and needs help discovering relevant shot, camera, sound and delivery choices.
+3. A civil engineer wants to interpret a concrete cube/cylinder test.
+4. A mechanical engineer wants to analyse pressure loss in a pipe.
+5. An electrical engineer is checking a protection/voltage-drop issue.
+6. A telecommunications engineer is planning an RF or fibre link.
+7. An IT engineer is troubleshooting a slow website or service.
+8. A QA engineer is creating an API and regression test plan.
+9. A data analyst is cleaning inconsistent spreadsheet records.
+10. An accounts employee needs to reconcile unmatched transactions.
+11. A small business wants to create a digital marketing campaign.
+12. A property manager is responding to a tenant maintenance complaint.
+13. A paper/pulp manufacturing engineer is investigating a product-quality problem.
+14. A student wants to learn a concept but does not know the formal topic name.
+15. A user has a legitimate topic absent from the taxonomy and enters it manually.
+
+For each, show the real dropdown path, plain-language explanation, custom-entry behaviour where relevant, task-specific follow-up questions, resulting prompt ingredients, missing-input response and actual coverage/review state.
+
+Reject the design if any of the following occur:
+- a novice must know specialist terminology to begin;
+- “Other” replaces the whole known path rather than supplementing it;
+- sample-task labels are represented as complete workflows without a schema;
+- a taxonomy branch is marked published without the required tests/review;
+- counts are fabricated or not derived from linked records;
+- sources cannot be traced;
+- high-consequence fields invent measurements, standards or conclusions.
+
+## PART 8 — EXECUTION RULES
+
+Work in multiple passes. First inventory and compare. Next research priority gaps. Then produce the evidence register and proposed taxonomy additions. Finally validate data and deliver an implementation plan.
+
+Do not replace the existing 39-domain data blindly. Preserve stable IDs and existing useful content. Use a diff/merge strategy. Keep existing workflow schemas unless a concrete, documented issue warrants changing them. Add, deprecate or correct only with explicit rationale.
+
+Keep the global taxonomy broad but the actual dropdown simple: show only relevant next choices and give the user a short explanation for each. Coverage growth should be iterative and auditable.
+
+Start by reading the actual ZIP. Your first deliverable must be a repository inventory and gap register. Then do the web research specifically needed to close those gaps. Finish with downloadable structured data and an explicit report of what is verified, what is merely proposed and what still needs domain-expert review.

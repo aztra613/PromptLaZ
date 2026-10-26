@@ -1,7 +1,10 @@
 {
-  "name": "react-example",
+  "name": "promptlaz-prompt-studio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.5.0",
+  "description": "Cross-disciplinary prompt builder with 39 domain families, 211 branches and 30 guided workflows",
+  "author": "PromptLaz",
+  "homepage": "https://promptlaz.pages.dev/",
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",

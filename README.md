@@ -1,20 +1,86 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+
+# PromptLaz Prompt Studio
+
+**Know what to ask. Build better prompts.**
+
+🌐 **Live:** [promptlaz.pages.dev](https://promptlaz.pages.dev/)
+
 </div>
 
-# Run and deploy your AI Studio app
+## What is PromptLaz?
 
-This contains everything you need to run your app locally.
+PromptLaz is a **cross-disciplinary, beginner-friendly prompt builder** that helps anyone—even those with zero domain knowledge—craft expert-level prompts for ChatGPT, Claude, Perplexity, DeepSeek and other LLMs.
 
-View your app in AI Studio: https://ai.studio/apps/14dbc781-59a9-4a95-9fee-a2c2fb34defd
+Instead of staring at a blank text box, users pick from **guided dropdowns and forms** that translate complex professional concepts into plain English. Every field comes with ELI5 explanations, technical term labels, and 1-click recipe presets.
+
+## Coverage
+
+| Metric | Count |
+|---|---|
+| Domain families | 39 |
+| Subject branches | 211 |
+| Situation phrases | 143 |
+| Detailed workflow schemas | 30 |
+| 1-click recipes | 70+ |
+| Sample task suggestions | 801 |
+
+### Featured Workflow Domains
+
+- 📸 **Photography** — Aperture, lens, lighting, sensor format
+- 🎬 **Video & Cinematography** — Frame rate, shutter angle, camera movement, codec
+- 🏗️ **Civil & Structural** — Soil compaction, RC beam checks, concrete mix QA
+- ☸️ **DevOps & K8s** — Crashing pods, manifests, incident triage
+- 💻 **Software QA** — Playwright, Jest, test strategy
+- 📈 **Finance & Valuation** — DCF, equity research, cash flow
+- 🚀 **Startup & MVP** — PRD spec, market validation
+- 🎓 **Exam Tutoring** — Active recall, Socratic method
+- 🌐 **Universal Builder** — Any domain, any task
+
+## Tech Stack
+
+- **React 19** + TypeScript
+- **Vite 8** (Rolldown bundler)
+- **Lucide React** icons
+- Vanilla CSS (no Tailwind)
+- Local-first: no backend, no API keys required to build prompts
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
+**Prerequisites:** Node.js 18+
 
+```bash
+npm install
+npm run dev
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+The app starts at `http://localhost:3000/`.
+
+## Build for Production
+
+```bash
+npm run build
+```
+
+Output is in `dist/`. Deploy to Cloudflare Pages, Vercel, Netlify or any static host.
+
+## Project Structure
+
+```
+src/
+├── components/     # React UI components (Studio, Atlas, Picker, etc.)
+├── data/
+│   ├── taxonomy.ts            # 39 domain families × 211 branches
+│   ├── workflows.ts           # Core workflow schemas
+│   ├── workflows-founder.ts   # Founder Playbook workflows
+│   └── workflows-encyclopedia.ts  # Encyclopedia workflows
+├── types/          # TypeScript interfaces
+├── utils/
+│   ├── promptBuilder.ts   # Prompt assembly engine
+│   └── fuzzySearch.ts     # Situation phrase matching (143 phrases)
+└── context/        # Theme provider
+```
+
+## License
+
+Proprietary — © PromptLaz 2026

@@ -35,6 +35,7 @@ const WRITERS_BLOCK_PILLS = [
   { label: '🧪 Chemistry reaction kinetics', domainId: 'physical_sciences', subId: 'ps-chem', task: 'Mechanism synthesis plan' },
   { label: '📊 DCF equity valuation', domainId: 'finance_markets', subId: 'fm-valuation', task: 'Discounted Cash Flow (DCF) framework prompt' },
   { label: '🚀 Startup MVP PRD', domainId: 'business_entrepreneurship', subId: 'be-prd', task: 'Production-ready MVP PRD specification prompt' },
+  { label: '🎬 4K Cinematography & video shoot', domainId: 'arts_entertainment', subId: 'ae-film', task: '4K 24fps Cinematic B-roll shoot & lighting prompt' },
   { label: '🎓 Active recall exam tutor', domainId: 'education_exams', subId: 'ee-tutor', task: 'Active recall diagnostic exam prep tutor' },
   { label: '🏡 Property management & lease', domainId: 'realestate_housing', subId: 'rh-manage', task: 'Residential tenancy agreement review checklist' },
   { label: '🥩 Restaurant HACCP food safety', domainId: 'food_culinary', subId: 'fc-safety', task: 'HACCP critical control point plan outline' }
@@ -460,7 +461,7 @@ export const HierarchicalSubjectPicker: React.FC<HierarchicalSubjectPickerProps>
           <span className="font-semibold flex items-center gap-1">
             <Sparkles className="w-3 h-3 text-indigo-500" /> Quick Starters (Click any to auto-fill taxonomy):
           </span>
-          <span className="text-[10px]">39 domains · 211 disciplines ready</span>
+          <span className="text-[10px] text-slate-400 dark:text-slate-500">39 domain families · 211 subject branches · 30 workflows</span>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {WRITERS_BLOCK_PILLS.map((pill, idx) => (
