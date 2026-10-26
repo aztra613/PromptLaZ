@@ -18,12 +18,12 @@ Instead of staring at a blank text box, users pick from **guided dropdowns and f
 
 | Metric | Count |
 |---|---|
-| Domain families | 39 |
-| Subject branches | 211 |
+| Domain families | 54 |
+| Subject branches | 298 |
 | Situation phrases | 143 |
 | Detailed workflow schemas | 30 |
 | 1-click recipes | 70+ |
-| Sample task suggestions | 801 |
+| Sample task suggestions | 1,190 |
 
 ### Featured Workflow Domains
 
@@ -70,7 +70,7 @@ Output is in `dist/`. Deploy to Cloudflare Pages, Vercel, Netlify or any static 
 src/
 ├── components/     # React UI components (Studio, Atlas, Picker, etc.)
 ├── data/
-│   ├── taxonomy.ts            # 39 domain families × 211 branches
+│   ├── taxonomy.ts            # 54 domain families × 298 branches
 │   ├── workflows.ts           # Core workflow schemas
 │   ├── workflows-founder.ts   # Founder Playbook workflows
 │   └── workflows-encyclopedia.ts  # Encyclopedia workflows

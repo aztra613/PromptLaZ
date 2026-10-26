@@ -67,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPolicy }) => {
             <ul className="space-y-2 text-xs text-[#94A3B8]">
               <li>
                 <button onClick={() => onNavigate('atlas')} className="hover:text-white transition-colors">
-                  All 39 Domain Families
+                  All 54 Domain Families
                 </button>
               </li>
               <li>

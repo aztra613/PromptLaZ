@@ -127,7 +127,7 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
           Explore the PromptLaz Atlas
         </h1>
         <p className="text-sm sm:text-base text-[#596579] dark:text-[#94A3B8] max-w-3xl leading-relaxed">
-          The connected directory of 39 domain families and {totalSubdisciplines} subdisciplines. Every major field has a canonical node, question bank, and an honest status. Select any published workflow or launch a guided starter.
+          The connected directory of 54 domain families and {totalSubdisciplines} subdisciplines. Every major field has a canonical node, question bank, and an honest status. Select any published workflow or launch a guided starter.
         </p>
       </div>
 
@@ -206,7 +206,7 @@ export const AtlasDirectory: React.FC<AtlasDirectoryProps> = ({
         {/* Secondary toggles */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-[#596579] dark:text-[#94A3B8] pt-2 border-t border-[#F1F4F9] dark:border-[#334155] gap-3">
           <span>
-            Showing <strong className="text-[#172033] dark:text-[#F1F5F9]">{filteredDomains.length}</strong> of 39 domain families
+            Showing <strong className="text-[#172033] dark:text-[#F1F5F9]">{filteredDomains.length}</strong> of {DOMAIN_FAMILIES.length} domain families
             {searchQuery && <span className="ml-1 text-indigo-600 dark:text-indigo-400">(Global search active)</span>}
           </span>
           <div className="flex items-center gap-2.5 flex-wrap">

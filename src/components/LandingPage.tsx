@@ -764,7 +764,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
               Find the right starting point.
             </h2>
             <p className="text-xs sm:text-sm text-[#94A3B8]">
-              Search across 39 domain families, tasks, standard acronyms, or plain-language situations.
+              Search across 54 domain families, tasks, standard acronyms, or plain-language situations.
             </p>
           </div>
 
@@ -831,7 +831,7 @@ Avoid: text, watermarks, plastic props, or artificial glare.`;
               onClick={onExploreAtlas}
               className="text-xs font-semibold text-[#A5B4FC] hover:underline"
             >
-              Browse all 39 domain families in the A–Z Directory →
+              Browse all 54 domain families in the A–Z Directory →
             </button>
           </div>
         </div>

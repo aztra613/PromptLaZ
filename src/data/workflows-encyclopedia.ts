@@ -1,6 +1,6 @@
 /**
  * PromptLaz — World Knowledge Encyclopedia Workflows
- * These workflows expand PromptLaz coverage to ALL 39 domain families.
+ * These workflows expand PromptLaz coverage to ALL 54 domain families.
  * Each workflow provides 100% dropdown point-and-click prompt building
  * with 1-click Wikipedia Recipe Blueprints and ELI5 guidance.
  */

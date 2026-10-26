@@ -2376,7 +2376,7 @@ const CORE_WORKFLOWS: WorkflowSchema[] = [
         id: 'subject_hierarchy',
         label: 'Optional: Choose domain & task from Atlas directory',
         technicalTerm: 'Taxonomy Classification & Domain Hierarchy',
-        eli5: 'Optional: If you want structured taxonomy guidance, select from the 39-domain hierarchy below, or describe your task in everyday words in the next field.',
+        eli5: 'Optional: If you want structured taxonomy guidance, select from the 54-domain hierarchy below, or describe your task in everyday words in the next field.',
         example: 'Technology & engineering → Computing and software → DevOps, SRE & Cloud Native',
         type: 'subject_picker',
         step: 'start',
