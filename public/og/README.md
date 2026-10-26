@@ -1,4 +1,4 @@
-# PromptLas Social / OG Asset Kit
+# PromptLaz Social / OG Asset Kit
 
 Brand idea: **Know what to ask. Build better prompts.**
 
